@@ -24,8 +24,8 @@
 - (void)createResultEventWithString:(NSString *)eventDescription {
     Event *event = [Event new];
     event.eventDescription = eventDescription;
-    NSString *moveForward = @"Move foward.";
-    NSString *moveBackward = @"Move backward.";
+    NSString *moveForward = @"Move forward";
+    NSString *moveBackward = @"Move backward";
     NSArray *choices = [NSArray arrayWithObjects:moveForward, moveBackward, nil];
     event.choices = choices;
     if (self.results == nil) {
