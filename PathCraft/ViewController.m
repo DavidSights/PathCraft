@@ -48,12 +48,10 @@
 
 - (Event *)getInitialEvent {
     
-    
     Event *initialEvent = [Event new];
     
     NSMutableArray *initialChoices = [NSMutableArray arrayWithObjects:@"Move Forward", nil];
     if ([self.environment.environmentDescription isEqualToString:@"Forest"]) {
-        NSLog(@"in forest");
         [initialChoices addObject:@"Gather Wood"];
     } else if ([self.environment.environmentDescription isEqualToString:@"Mountain"]) {
         if ([ViewController rollDieWithSides:6] >= 5) {
@@ -79,14 +77,15 @@
     if ([self.choiceButton.titleLabel.text isEqualToString:@"Move Backwards"]) {
         [self moveBack];
     } else if ([self.choiceButton.titleLabel.text isEqualToString:@"Fight"]) {
-//        [self fight];
-        [self advance];
+        [self fight];
+    } else if ([self.choiceButton.titleLabel.text isEqualToString:@"Flee"]) {
+        [self flee];
     } else if ([self.choiceButton.titleLabel.text isEqualToString:@"Gather Wood"]) {
-        [self gatherWood];
+        [self gatherMaterial: @"Wood"];
     } else if ([self.choiceButton.titleLabel.text isEqualToString:@"Gather Metal"]) {
-        [self gatherMetal];
+        [self gatherMaterial: @"Metal"];
     } else if ([self.choiceButton.titleLabel.text isEqualToString:@"Gather Meat"]) {
-        [self gatherMeat];
+        [self gatherMaterial: @"Meat"];
     } else {
         [self advance];
     }
@@ -125,8 +124,6 @@
 }
 
 - (void) populateEventDisplay:(Event *)event {
-    NSLog(@"popEventDisplay");
-    [self logEvent:event];
     self.descriptionTextField.text = event.eventDescription;
     self.currentAvailableChoices = [self currentAvailableChoicesForEvent: event];
     [self.choiceButton setTitle: self.currentAvailableChoices[0] forState:UIControlStateNormal];
@@ -135,19 +132,18 @@
 
 #pragma mark - Handle Events
 
-- (void) logEvent:(Event *)event {
-    NSLog(@"%@", event.eventDescription);
-}
-
 - (BOOL) eventIsEligible: (Event *) event {
     // Check whether event is eligible to be the next event
-    NSLog(@"event.eventDescription:%@",event.eventDescription);
     if ([event isEqual:self.currentEvent]) {
         return NO;
     } else if (event.isUnique && event.hasOccurred) {
         return NO;
     }
     return YES;
+}
+
+- (void) refreshEvent {
+    [self populateEventDisplay:self.currentEvent];
 }
 
 - (void) advance {
@@ -182,23 +178,45 @@
     // Fifty percent chance of dying ...
     BOOL victory = [ViewController isRollSuccessfulWithNumberOfDice:1 sides:2 bonus:0 againstTarget:2];
     if (victory) {
-        NSLog(@"Victory");
-        [self advance];
+        NSLog(@"VICTORY");
+        Event *victoryEvent = [[self.currentEvent results] objectAtIndex:0];
+        self.currentEvent = victoryEvent;
+        self.currentEvent.hasOccurred = YES;
+        [self populateEventDisplay: self.currentEvent];
+        [self.eventHistory addObject:self.currentEvent];
     } else {
-        NSLog(@"You suck.");
-        [self advance];
+        NSLog(@"DEFEAT");
+        Event *defeatEvent = [[self.currentEvent results] objectAtIndex:0];
+        self.currentEvent = defeatEvent;
+        self.currentEvent.hasOccurred = YES;
+        [self populateEventDisplay: self.currentEvent];
+        [self.eventHistory addObject:self.currentEvent];
     }
 }
-- (void) gatherWood {
-    [self.inventory.materials setValue:@YES forKey:@"Wood"];
+
+- (void) flee {
+    // Flee is the same as fight for the moment... change this. :) --MJ
+    BOOL victory = [ViewController isRollSuccessfulWithNumberOfDice:1 sides:2 bonus:0 againstTarget:2];
+    if (victory) {
+        NSLog(@"VICTORY");
+        Event *victoryEvent = [[self.currentEvent results] objectAtIndex:0];
+        self.currentEvent = victoryEvent;
+        self.currentEvent.hasOccurred = YES;
+        [self populateEventDisplay: self.currentEvent];
+        [self.eventHistory addObject:self.currentEvent];
+    } else {
+        NSLog(@"DEFEAT");
+        Event *defeatEvent = [[self.currentEvent results] objectAtIndex:0];
+        self.currentEvent = defeatEvent;
+        self.currentEvent.hasOccurred = YES;
+        [self populateEventDisplay: self.currentEvent];
+        [self.eventHistory addObject:self.currentEvent];
+    }
 }
 
-- (void) gatherMetal {
-    [self.inventory.materials setValue:@YES forKey:@"Metal"];
-}
-
-- (void) gatherMeat {
-    [self.inventory.materials setValue:@YES forKey:@"Meat"];
+- (void)gatherMaterial:(NSString *)material {
+    [self.inventory.materials setValue:@YES forKey:material];
+    [self refreshEvent];
 }
 
 # pragma mark - Utilty
