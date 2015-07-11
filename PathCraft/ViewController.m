@@ -10,6 +10,7 @@
 #import "Environment.h"
 #import "Event.h"
 #import "ForrestEnviroment.h"
+#import "Inventory.h"
 
 @interface ViewController ()
 
@@ -21,6 +22,7 @@
 @property NSArray *currentAvailableChoices;
 @property NSArray *events;
 @property NSMutableArray *eventHistory;
+@property Inventory *inventory;
 
 @end
 
@@ -30,8 +32,9 @@
     [super viewDidLoad];
     
     ForrestEnviroment *forrest = [ForrestEnviroment new];
-    
     self.events = forrest.events;
+    
+    self.inventory = [Inventory new];
     
     Event *initialEvent = [self getInitialEvent];
     
@@ -74,7 +77,22 @@
 #pragma mark - Update Views
 
 - (NSArray *) currentAvailableChoicesForEvent : (Event *) event {
-    return [event.choices copy];
+    NSMutableArray *currentAvailableChoices = [NSMutableArray new];
+    NSArray *allChoices = event.choices;
+    for (int i = 0; i < allChoices.count; i += 1) {
+        BOOL addChoice = YES;
+        NSString *choice = allChoices[i];
+        if (([choice isEqualToString:@"Gather Wood"] && [self.inventory hasWood]) ||
+            ([choice isEqualToString:@"Gather Metal"] && [self.inventory hasMetal]) ||
+            ([choice isEqualToString:@"Gather Meat"] && [self.inventory hasMeat])) {
+            addChoice = NO;
+        }
+        if (addChoice) {
+            [currentAvailableChoices addObject:choice];
+        }
+    }
+    
+    return currentAvailableChoices;
 }
 
 - (void) updateChoice {
@@ -160,6 +178,17 @@
         [self populateEventDisplay: self.currentEvent];
         [self.eventHistory addObject:self.currentEvent];
     }
+}
+- (void) gatherWood {
+    [self.inventory.materials setValue:@YES forKey:@"Wood"];
+}
+
+- (void) gatherMetal {
+    [self.inventory.materials setValue:@YES forKey:@"Metal"];
+}
+
+- (void) gatherMeat {
+    [self.inventory.materials setValue:@YES forKey:@"Meat"];
 }
 
 # pragma mark - Utilty
