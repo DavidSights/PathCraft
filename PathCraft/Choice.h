@@ -11,8 +11,9 @@
 @interface Choice : Environment
 
 @property NSString *choiceDescription;
-@property NSMutableArray *results;
+@property NSMutableArray *resultEvents;
 
+- (instancetype) initWithChoiceDescription:(NSString *)choiceDescription;
 - (void) createResultWithString:(NSString *)resultDescription;
 
 @end

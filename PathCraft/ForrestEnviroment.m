@@ -8,6 +8,7 @@
 
 #import "ForrestEnviroment.h"
 #import "Event.h"
+#import "Choice.h"
 
 @implementation ForrestEnviroment
 
@@ -24,7 +25,11 @@
 
     // Choices
 
-    NSString *moveForward = @"Move Forward";
+//    NSString *moveForward = @"Move Forward";
+    Choice *moveForward = [[Choice alloc] initWithChoiceDescription: @"Move Forward"];
+
+    Choice *moveBackward = [[Choice alloc] initWithChoiceDescription: @"Move Backwards"];
+
     NSString *moveBackward = @"Move Backwards";
 
     // Resources
@@ -33,9 +38,16 @@
     NSString *gatherMeat = @"Gather Meat"; // Not for eating/healing, but for guarenteed fleeing - feed monster choice.
 
     // Combat
-    NSString *fight = @"Fight";
-    NSString *flee = @"Flee"; // R: 1. You got away. 2. You did not escape. You suffered a quick and painful death.
-    NSString *feedMonster = @"Feed Monster.";
+    Choice *fight = [[Choice alloc] initWithChoiceDescription:@"Fight"];
+    [fight createResultWithString:@"You defeated the enemy."];
+    [fight createResultWithString:@"The enemy killed you."];
+
+    Choice *flee = [[Choice alloc] initWithChoiceDescription:@"Flee"];
+    [flee createResultWithString:@"You got away."];
+    [flee createResultWithString:@"You did not escape. You suffered a quick and painful death."];
+
+    Choice *feedEnemy = [[Choice alloc] initWithChoiceDescription:@"Feed Enemy"];
+    [feedEnemy createResultWithString:@"You fed the enemy and successfully escaped."];
 
     // Root
     NSString *root1 = @"Rip your foot loose."; // R: 1. You get free. 2. You injure yourself. Suddenly a bear chases you down and eats you alive."
@@ -148,27 +160,21 @@
 
     Event *combatEvent1 = [Event new];
     combatEvent1.eventDescription = @"You encounter a giant spider.";
-    choices = [NSArray arrayWithObjects: fight, flee, feedMonster, nil];
+    choices = [NSArray arrayWithObjects: fight, flee, feedEnemy, nil];
     combatEvent1.choices = choices;
     combatEvent1.isCombatEvent = YES;
-    [combatEvent1 createResultEventWithString:@"You defeated the giant spider!"];
-    [combatEvent1 createResultEventWithString:@"You died fighting the giant spider."];
-    
+
     Event *combatEvent2 = [Event new];
     combatEvent2.eventDescription = @"A wild and hungry snake appears.";
-    choices = [NSArray arrayWithObjects: fight, flee, feedMonster, nil];
+    choices = [NSArray arrayWithObjects: fight, flee, feedEnemy, nil];
     combatEvent2.choices = choices;
     combatEvent2.isCombatEvent = YES;
-    [combatEvent2 createResultEventWithString:@"You defeated the hungry snake!"];
-    [combatEvent2 createResultEventWithString:@"The hungry snake ate you alive!"];
 
     Event *combatEvent3 = [Event new];
     combatEvent3.eventDescription = @"A giant, rabid wolf appears.";
-    choices = [NSArray arrayWithObjects: fight, flee, feedMonster, nil];
+    choices = [NSArray arrayWithObjects: fight, flee, feedEnemy, nil];
     combatEvent3.choices = choices;
     combatEvent3.isCombatEvent = YES;
-    [combatEvent3 createResultEventWithString:@"You defeated the rabid wolf!"];
-    [combatEvent3 createResultEventWithString:@"The hungry rabid wolf tore you to shreds!"];
 
     // Result Events
     // To be created... Feel free to ask me for clarification. -David
