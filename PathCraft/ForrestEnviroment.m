@@ -11,8 +11,7 @@
 
 @implementation ForrestEnviroment
 
-- (instancetype)init
-{
+- (instancetype)init {
     self = [super init];
     if (self) {
         self.environmentDescription = @"Forest";
@@ -29,7 +28,7 @@
     NSString *moveBackward = @"Move Backwards";
 
     // Resources
-    NSString *gatherWood = @"Gather Wood";
+    NSString *gatherWood = @"Gather Wood"; // What happens after you gather wood? - Voice over "gathered wood" and then move forward.
     NSString *gatherMetal = @"Gather Metal";
     NSString *gatherMeat = @"Gather Meat"; // Not for eating/healing, but for guarenteed fleeing - feed monster choice.
 
@@ -46,8 +45,8 @@
     NSString *banging1 = @"Check it out"; // R: 1. As you move towards the sound, it suddenly stops and something runs away. 2. The bnaging stops, then you hear a banging on your head and you die.
 
     // Fruit tree
-    NSString *tree1 = @"Eat a hanging fruit.";
-    NSString *tree2 = @"Eat a fallen fruit.";
+    NSString *tree1 = @"Eat a hanging fruit."; // R: 1. That was delicious. 2. You choke with no one around to help and die.
+    NSString *tree2 = @"Eat a fallen fruit."; // R: 1. It tastes foul. When you finish eating the fruit, you feel a light buzz. 2. Your tummy aches so badly after eating noodles the fruit that you curl up and lay on the ground. Eventually you fall asleep and never wake up again.
 
     // Glowing eyes
     NSString *eyes1 = @"Check it out."; // R: 1. You reach into the bush and grab a tiny cat. It meows sharply at you and leaps away. 2. A black, amorphus figure leaps out at you and you die.
@@ -133,6 +132,9 @@
     Event *uniqueEvent2 = [Event new];
     uniqueEvent2.eventDescription = @"You find a fruit tree. Fallen fruits litter the ground.";
     choices = [NSArray arrayWithObjects: tree1, tree2, moveForward, moveBackward, nil];
+    [uniqueEvent2 createResultEventWithString:@""];
+    [uniqueEvent2 createResultEventWithString:@""];
+
     uniqueEvent2.choices = choices;
     uniqueEvent2.isUnique = YES;
 
