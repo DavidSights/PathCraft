@@ -95,6 +95,9 @@
     NSString *tree1 = @"Eat a hanging fruit.";
     NSString *tree2 = @"Eat a fallen fruit.";
 
+
+    // Passive Events
+
     Event *event1 = [Event new];
     event1.eventDescription = @"Trees surround you all around.";
     NSArray *choices = [NSArray arrayWithObjects:moveForward, moveBackward, nil];
@@ -161,7 +164,7 @@
     event<#number#>.choices = choices;
 */
 
-    self.events = [NSArray arrayWithObjects:event1, event2, event3, nil];
+    self.events = [NSArray arrayWithObjects:event1, event2, event3, event4, event5, event6, event7, uniqueEvent1, uniqueEvent2, uniqueEvent3, combatEvent1, nil];
 
 }
 
