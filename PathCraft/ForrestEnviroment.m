@@ -18,6 +18,11 @@
     NSString *moveForward = @"Move Forward";
     NSString *moveBackward = @"Move Backwards";
 
+    // Resources
+    NSString *gatherWood = @"Gather Wood";
+    NSString *gatherMetal = @"Gather Metal";
+    NSString *gatherMeat = @"Gather Meat"; // Not for eating/healing, but for guarenteed fleeing - feed monster choice.
+
     // Combat
     NSString *fight = @"Fight";
     NSString *flee = @"Flee"; // R: 1. You got away. 2. You did not escape. You suffered a quick and painful death.
@@ -41,7 +46,7 @@
 
     Event *event1 = [Event new];
     event1.eventDescription = @"Trees surround you all around.";
-    NSArray *choices = [NSArray arrayWithObjects:moveForward, nil];
+    NSArray *choices = [NSArray arrayWithObjects:moveForward, moveBackward, gatherWood, nil];
     event1.choices = choices;
 
     Event *event2 = [Event new];
