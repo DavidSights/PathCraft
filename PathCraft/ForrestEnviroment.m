@@ -1,137 +1,15 @@
 //
-//  ViewController.m
+//  ForrestEnviroment.m
 //  PathCraft
 //
 //  Created by David Seitz Jr on 7/11/15.
 //  Copyright (c) 2015 DavidSights. All rights reserved.
 //
 
-#import "ViewController.h"
-#import "Environment.h"
-#import "Event.h"
 #import "ForrestEnviroment.h"
+#import "Event.h"
 
-@interface ViewController ()
-
-@property (weak, nonatomic) IBOutlet UIButton *choiceButton;
-@property (weak, nonatomic) IBOutlet UIButton *actionButton;
-@property (weak, nonatomic) IBOutlet UITextView *descriptionTextField;
-@property Event *currentEvent;
-@property int currentChoiceIndex;
-@property NSArray *events;
-@property NSMutableArray *eventHistory;
-
-@end
-
-@implementation ViewController
-
-- (void)viewDidLoad {
-    [super viewDidLoad];
-    
-    ForrestEnviroment *forrest = [ForrestEnviroment new];
-    forrest.environmentDescription = @"Forest";
-    [forrest generateEvents];
-    self.events = forrest.events;
-    
-    Event *initialEvent = [self getInitialEvent];
-    
-    self.currentEvent = initialEvent;
-    [self populateEventDisplay: self.currentEvent];
-    
-    self.eventHistory = [NSMutableArray new];
-    [self.eventHistory addObject: self.currentEvent];
-}
-
-- (Event *)getInitialEvent {
-    
-    Event *initialEvent;
-    
-    initialEvent = [self.events[0] copy];
-    initialEvent.choices = [NSArray arrayWithObjects: @"Move Forward", nil];
-    
-    return initialEvent;
-}
-
-- (IBAction)choiceButtonPressed:(id)sender {
-    [self updateChoice];
-}
-
-- (IBAction)actionButtonPressed:(id)sender {
-    // If the user chose "Move Forward", then generate a new event
-    if ([self.choiceButton.titleLabel.text isEqualToString:@"Move Backwards"]) {
-        [self moveBack];
-    } else {
-        [self advance];
-    }
-
-    // If the user chose "Move Backward", go back to the previous event
-}
-
-#pragma mark - Update Views
-
-- (void) updateChoice {
-    int numberOfChoices = (int)self.currentEvent.choices.count;
-
-    if (self.currentChoiceIndex >= numberOfChoices - 1) {
-        self.currentChoiceIndex = 0;
-    } else {
-        self.currentChoiceIndex++;
-    }
-    [self.choiceButton setTitle:self.currentEvent.choices[self.currentChoiceIndex] forState:UIControlStateNormal];
-}
-
-- (void) populateEventDisplay:(Event *)event {
-    NSLog(@"popEventDisplay");
-    [self logEvent:event];
-    self.descriptionTextField.text = event.eventDescription;
-    [self.choiceButton setTitle: event.choices[0] forState:UIControlStateNormal];
-    self.currentChoiceIndex = 0;
-}
-
-#pragma mark - Handle Events
-
-- (void) logEvent:(Event *)event {
-    NSLog(@"%@", event.eventDescription);
-}
-
-- (BOOL) eventIsEligible: (Event *) event {
-    // Check whether event is eligible to be the next event
-    NSLog(@"event.eventDescription:%@",event.eventDescription);
-    if ([event isEqual:self.currentEvent]) {
-        return NO;
-    } else if (event.isUnique && event.hasOccurred) {
-        return NO;
-    }
-    return YES;
-}
-
-- (void) advance {
-    // Add current event to the end of the history array
-    Event *newEvent;
-    do {
-        NSUInteger index = (NSUInteger) arc4random() % [self.events count];
-        newEvent = [self.events objectAtIndex:index];
-    } while (![self eventIsEligible:newEvent]);
-    self.currentEvent = newEvent;
-    self.currentEvent.hasOccurred = YES;
-    [self populateEventDisplay: self.currentEvent];
-    [self.eventHistory addObject: self.currentEvent];
-}
-
-- (void) moveBack {
-    
-    if (self.eventHistory.count > 1) {
-        [self.eventHistory removeLastObject];
-    }
-    Event *lastEvent = [self.eventHistory lastObject];
-    while (lastEvent.isCombatEvent) {
-        NSAssert([self.eventHistory count]>0, @"No non-combat events left in event history");
-        [self.eventHistory removeLastObject];
-        lastEvent = [self.eventHistory lastObject];
-    }
-
-    // If the user chose "Move Backward", go back to the previous event
-}
+@implementation ForrestEnviroment
 
 - (void) generateEvents {
 
@@ -163,7 +41,7 @@
 
     Event *event1 = [Event new];
     event1.eventDescription = @"Trees surround you all around.";
-    NSArray *choices = [NSArray arrayWithObjects:moveForward, moveBackward, nil];
+    NSArray *choices = [NSArray arrayWithObjects:moveForward, nil];
     event1.choices = choices;
 
     Event *event2 = [Event new];
@@ -196,6 +74,11 @@
     choices = [NSArray arrayWithObjects:moveForward, moveBackward, nil];
     event7.choices = choices;
 
+    Event *event8 = [Event new];
+    event8.eventDescription = @"You wonder what your family is doing now. You almost trip over a rock and are brought back to reality.";
+    choices = [NSArray arrayWithObjects:moveForward, moveBackward, nil];
+    event8.choices = choices;
+
     // Unique Events
 
     Event *uniqueEvent1 = [Event new];
@@ -203,19 +86,19 @@
     choices = [NSArray arrayWithObjects:root1, root2, nil];
     uniqueEvent1.choices = choices;
     uniqueEvent1.isUnique = YES;
-    
+
     Event *uniqueEvent2 = [Event new];
     uniqueEvent2.eventDescription = @"You hear banging like sticks against a tree.";
     choices = [NSArray arrayWithObjects: banging1, moveForward, moveBackward, nil];
     uniqueEvent2.choices = choices;
     uniqueEvent2.isUnique = YES;
-    
+
     Event *uniqueEvent3 = [Event new];
     uniqueEvent3.eventDescription = @"You find a fruit tree. Fallen fruits litter the ground.";
     choices = [NSArray arrayWithObjects: tree1, tree2, moveForward, moveBackward, nil];
     uniqueEvent3.choices = choices;
     uniqueEvent3.isUnique = YES;
-    
+
     Event *uniqueEvent4 = [Event new];
     uniqueEvent4.eventDescription = @"You notice glowing eyes in a thick bush.";
     choices = [NSArray arrayWithObjects: eyes1, moveForward, moveBackward, nil];
@@ -228,28 +111,31 @@
     combatEvent1.eventDescription = @"You encounter a giant spider.";
     choices = [NSArray arrayWithObjects: fight, flee, nil];
     combatEvent1.choices = choices;
-
+    combatEvent1.isCombatEvent = YES;
+    
     Event *combatEvent2 = [Event new];
     combatEvent2.eventDescription = @"A wild and hungry snake appears.";
     choices = [NSArray arrayWithObjects: fight, flee, nil];
     combatEvent2.choices = choices;
+    combatEvent2.isCombatEvent = YES;
 
     Event *combatEvent3 = [Event new];
     combatEvent3.eventDescription = @"A giant, rabid wolf appears.";
     choices = [NSArray arrayWithObjects: fight, flee, nil];
     combatEvent3.choices = choices;
+    combatEvent3.isCombatEvent = YES;
 
-    // Result Event
+    // Result Events
 
 
-/*
-    Event *event<#number#> = [Event new];
-    event1.eventDescription = @"<#Description#>";
-    choices = [NSArray arrayWithObjects:moveForward, moveBackward, nil];
-    event<#number#>.choices = choices;
-*/
+    /*
+     Event *event<#number#> = [Event new];
+     event1.eventDescription = @"<#Description#>";
+     choices = [NSArray arrayWithObjects:moveForward, moveBackward, nil];
+     event<#number#>.choices = choices;
+     */
 
-    self.events = [NSArray arrayWithObjects: event1, event2, event3, event4, event5, event6, event7,
+    self.events = [NSArray arrayWithObjects: event1, event2, event3, event4, event5, event6, event7, event8,
                    uniqueEvent1, uniqueEvent2, uniqueEvent3, uniqueEvent4,
                    combatEvent1, combatEvent2, combatEvent3, nil];
 }

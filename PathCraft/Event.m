@@ -17,6 +17,7 @@
     if (self) {
         _isUnique = NO;
         _hasOccurred = NO;
+        _isCombatEvent = NO;
     }
     return self;
 }
