@@ -17,6 +17,7 @@
 @property (weak, nonatomic) IBOutlet UITextView *descriptionTextField;
 @property Event *currentEvent;
 @property int currentChoiceIndex;
+@property NSArray *events;
 
 @end
 
@@ -48,6 +49,8 @@
     choice2 = @"Move Backwards";
     choices = [NSArray arrayWithObjects:choice1, choice2, nil];
     event3.choices = choices;
+
+    self.events = [NSArray arrayWithObjects:event1, event2, event3, nil];
 
     self.currentEvent = event1;
 
