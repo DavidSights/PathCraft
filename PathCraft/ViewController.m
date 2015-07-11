@@ -18,6 +18,7 @@
 @property (weak, nonatomic) IBOutlet UITextView *descriptionTextField;
 @property Event *currentEvent;
 @property int currentChoiceIndex;
+@property NSArray *currentAvailableChoices;
 @property NSArray *events;
 @property NSMutableArray *eventHistory;
 
@@ -64,6 +65,8 @@
 - (IBAction)actionButtonPressed:(id)sender {
     if ([self.choiceButton.titleLabel.text isEqualToString:@"Move Backwards"]) {
         [self moveBack];
+    } else if ([self.choiceButton.titleLabel.text isEqualToString:@"Fight"]) {
+        [self fight];
     } else {
         [self advance];
     }
@@ -71,22 +74,27 @@
 
 #pragma mark - Update Views
 
+- (NSArray *) currentAvailableChoicesForEvent : (Event *) event {
+    return [event.choices copy];
+}
+
 - (void) updateChoice {
-    int numberOfChoices = (int)self.currentEvent.choices.count;
+    int numberOfChoices = (int)self.currentAvailableChoices.count;
 
     if (self.currentChoiceIndex >= numberOfChoices - 1) {
         self.currentChoiceIndex = 0;
     } else {
         self.currentChoiceIndex++;
     }
-    [self.choiceButton setTitle:self.currentEvent.choices[self.currentChoiceIndex] forState:UIControlStateNormal];
+    [self.choiceButton setTitle:self.currentAvailableChoices[self.currentChoiceIndex] forState:UIControlStateNormal];
 }
 
 - (void) populateEventDisplay:(Event *)event {
     NSLog(@"popEventDisplay");
     [self logEvent:event];
     self.descriptionTextField.text = event.eventDescription;
-    [self.choiceButton setTitle: event.choices[0] forState:UIControlStateNormal];
+    self.currentAvailableChoices = [self currentAvailableChoicesForEvent: event];
+    [self.choiceButton setTitle: self.currentAvailableChoices[0] forState:UIControlStateNormal];
     self.currentChoiceIndex = 0;
 }
 
@@ -127,7 +135,7 @@
     Event *lastEvent = [self.eventHistory lastObject];
 
     while (lastEvent.isCombatEvent) {
-        NSAssert([self.eventHistory count]>0, @"No non-combat events left in event history");
+        NSAssert([self.eventHistory count] > 0, @"No non-combat events left in event history");
         [self.eventHistory removeLastObject];
         lastEvent = [self.eventHistory lastObject];
     }
