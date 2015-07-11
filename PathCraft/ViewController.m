@@ -18,6 +18,7 @@
 @property Event *currentEvent;
 @property int currentChoiceIndex;
 @property NSArray *events;
+@property NSMutableArray *eventHistory;
 
 @end
 
@@ -25,7 +26,7 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-
+    
     Environment *forrest = [Environment new];
     forrest.environmentDescription = @"Forest";
 
@@ -57,6 +58,7 @@
     self.descriptionTextField.text = event1.eventDescription;
     [self.choiceButton setTitle:event1.choices[0] forState:UIControlStateNormal];
     self.currentChoiceIndex = 0;
+    self.eventHistory = [NSMutableArray new];
 }
 
 
@@ -77,8 +79,21 @@
     [self.choiceButton setTitle:self.currentEvent.choices[self.currentChoiceIndex] forState:UIControlStateNormal];
 }
 
+- (void) advance {
+    
+};
+
+- (void) moveBack {
+    
+}
+
 - (IBAction)actionButtonPressed:(id)sender {
     // If the user chose "Move Forward", then generate a new event
+    if ([self.choiceButton.titleLabel.text isEqualToString:@"Move Forward"]) {
+        [self advance];
+    } else {
+        [self moveBack];
+    }
     // If the user chose "Move Backward", go back to the previous event
     
 }
