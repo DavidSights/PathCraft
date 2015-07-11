@@ -30,6 +30,51 @@
     Environment *forrest = [Environment new];
     forrest.environmentDescription = @"Forest";
 
+    [self generateEvents];
+    self.currentEvent = self.events[0];
+
+    self.descriptionTextField.text = self.currentEvent.eventDescription;
+    [self.choiceButton setTitle:self.currentEvent.choices[0] forState:UIControlStateNormal];
+    self.currentChoiceIndex = 0;
+    self.eventHistory = [NSMutableArray new];
+}
+
+- (IBAction)choiceButtonPressed:(id)sender {
+    [self updateChoice];
+}
+
+- (void) updateChoice {
+    int numberOfChoices = (int)self.currentEvent.choices.count;
+
+    if (self.currentChoiceIndex >= numberOfChoices - 1) {
+        self.currentChoiceIndex = 0;
+    } else {
+        self.currentChoiceIndex++;
+    }
+    [self.choiceButton setTitle:self.currentEvent.choices[self.currentChoiceIndex] forState:UIControlStateNormal];
+}
+
+- (void) advance {
+    
+}
+
+- (void) moveBack {
+    
+}
+
+- (IBAction)actionButtonPressed:(id)sender {
+    // If the user chose "Move Forward", then generate a new event
+    if ([self.choiceButton.titleLabel.text isEqualToString:@"Move Forward"]) {
+        [self advance];
+    } else {
+        [self moveBack];
+    }
+
+    // If the user chose "Move Backward", go back to the previous event
+}
+
+- (void) generateEvents {
+
     Event *event1 = [Event new];
     event1.eventDescription = @"Trees surround you all around.";
     NSString *choice1 = @"Move Forward";
@@ -53,49 +98,6 @@
 
     self.events = [NSArray arrayWithObjects:event1, event2, event3, nil];
 
-    self.currentEvent = event1;
-
-    self.descriptionTextField.text = event1.eventDescription;
-    [self.choiceButton setTitle:event1.choices[0] forState:UIControlStateNormal];
-    self.currentChoiceIndex = 0;
-    self.eventHistory = [NSMutableArray new];
-}
-
-
-
-- (IBAction)choiceButtonPressed:(id)sender {
-    [self updateChoice];
-}
-
-- (void) updateChoice {
-    int numberOfChoices = (int)self.currentEvent.choices.count;
-
-    if (self.currentChoiceIndex >= numberOfChoices - 1) {
-        self.currentChoiceIndex = 0;
-    } else {
-        self.currentChoiceIndex++;
-    }
-
-    [self.choiceButton setTitle:self.currentEvent.choices[self.currentChoiceIndex] forState:UIControlStateNormal];
-}
-
-- (void) advance {
-    
-};
-
-- (void) moveBack {
-    
-}
-
-- (IBAction)actionButtonPressed:(id)sender {
-    // If the user chose "Move Forward", then generate a new event
-    if ([self.choiceButton.titleLabel.text isEqualToString:@"Move Forward"]) {
-        [self advance];
-    } else {
-        [self moveBack];
-    }
-    // If the user chose "Move Backward", go back to the previous event
-    
 }
 
 @end
