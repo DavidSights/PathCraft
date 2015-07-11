@@ -149,7 +149,7 @@
 
     Event *event1 = [Event new];
     event1.eventDescription = @"Trees surround you all around.";
-    NSArray *choices = [NSArray arrayWithObjects:moveForward, moveBackward, nil];
+    NSArray *choices = [NSArray arrayWithObjects:moveForward, nil];
     event1.choices = choices;
 
     Event *event2 = [Event new];
