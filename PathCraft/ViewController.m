@@ -30,8 +30,7 @@
     [super viewDidLoad];
     
     ForrestEnviroment *forrest = [ForrestEnviroment new];
-    forrest.environmentDescription = @"Forest";
-    [forrest generateEvents];
+    
     self.events = forrest.events;
     
     Event *initialEvent = [self getInitialEvent];
@@ -66,7 +65,8 @@
     if ([self.choiceButton.titleLabel.text isEqualToString:@"Move Backwards"]) {
         [self moveBack];
     } else if ([self.choiceButton.titleLabel.text isEqualToString:@"Fight"]) {
-        [self fight];
+//        [self fight];
+        [self advance];
     } else {
         [self advance];
     }

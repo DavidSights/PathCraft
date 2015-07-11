@@ -11,7 +11,17 @@
 
 @implementation ForrestEnviroment
 
-- (void) generateEvents {
+- (instancetype)init
+{
+    self = [super init];
+    if (self) {
+        self.environmentDescription = @"Forest";
+        self.events = [self generateEvents];
+    }
+    return self;
+}
+
+- (NSArray *) generateEvents {
 
     // Choices
 
@@ -153,10 +163,10 @@
     // Result Events
     // To be created... Feel free to ask me for clarification. -David
 
-
-    self.events = [NSArray arrayWithObjects: event1, event2, event3, event4, event5, event6, event7, event8, event9,
-                   uniqueEvent1, uniqueEvent2, uniqueEvent3,
-                   combatEvent1, combatEvent2, combatEvent3, nil];
+    NSArray *events = [NSArray arrayWithObjects: event1, event2, event3, event4, event5, event6, event7, event8, event9,
+                       uniqueEvent1, uniqueEvent2, uniqueEvent3,
+                       combatEvent1, combatEvent2, combatEvent3, nil];
+    return events;
 }
 
 @end
