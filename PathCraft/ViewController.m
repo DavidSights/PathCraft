@@ -74,6 +74,10 @@
 
 #pragma mark - Update Views
 
+- (NSArray *) currentAvailableChoicesForEvent : (Event *) event {
+    return [event.choices copy];
+}
+
 - (void) updateChoice {
     int numberOfChoices = (int)self.currentAvailableChoices.count;
 
@@ -89,7 +93,7 @@
     NSLog(@"popEventDisplay");
     [self logEvent:event];
     self.descriptionTextField.text = event.eventDescription;
-    self.currentAvailableChoices = [event.choices copy];
+    self.currentAvailableChoices = [self currentAvailableChoicesForEvent: event];
     [self.choiceButton setTitle: self.currentAvailableChoices[0] forState:UIControlStateNormal];
     self.currentChoiceIndex = 0;
 }
@@ -149,6 +153,35 @@
         NSLog(@"You suck.");
         [self advance];
     }
+}
+
+# pragma mark - Utilty
++(BOOL)isRollSuccessfulWithNumberOfDice:(NSUInteger)numberOfDice
+                                  sides:(NSUInteger)sides
+                                  bonus:(NSInteger)bonus
+                          againstTarget:(NSInteger)target {
+    NSInteger value = [self rollValueWithNumberOfDice:numberOfDice sides:sides bonus:bonus];
+    if(value >= target) {
+        return YES;
+    }
+    return NO;
+}
+
++(NSInteger)rollValueWithNumberOfDice:(NSUInteger)numberOfDice sides:(NSUInteger)sides bonus:(NSInteger)bonus {
+    NSInteger total = 0;
+    for (int i=0; i<numberOfDice; i++) {
+        NSUInteger roll = [self rollDieWithSides:sides];
+        total+=roll;
+    }
+    return total+bonus;
+}
+
++ (NSUInteger)rollDieWithSides:(NSUInteger)sides {
+    // I'm adding this assertion here because I am assuming our dice have a small number of sides so that
+    // casting from a 64-bit NSUInteger to a 32 bit unsigned int for the arc4random_uniform roll
+    // isn't a problem. If our dice more have more than 10000 sides at any point, we should revisit this assumption.
+    NSAssert(sides<10000, @"Die has too many sides.");
+    return arc4random_uniform((u_int32_t)sides)+1;
 }
 
 @end
