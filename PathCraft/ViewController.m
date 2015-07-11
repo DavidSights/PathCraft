@@ -10,10 +10,8 @@
 #import "Environment.h"
 #import "Event.h"
 #import "ForrestEnviroment.h"
-#import "Inventory.h"
 #import "Choice.h"
 #import "Player.h"
-
 
 @interface ViewController ()
 
@@ -104,9 +102,9 @@
     for (int i = 0; i < allChoices.count; i += 1) {
         BOOL addChoice = YES;
         Choice *choice = allChoices[i];
-        if (([choice.choiceDescription isEqualToString:@"Gather Wood"] && [self.inventory hasWood]) ||
-            ([choice.choiceDescription isEqualToString:@"Gather Metal"] && [self.inventory hasMetal]) ||
-            ([choice.choiceDescription isEqualToString:@"Gather Meat"] && [self.inventory hasMeat])) {
+        if (([choice.choiceDescription isEqualToString:@"Gather Wood"] && [self.player hasWood]) ||
+            ([choice.choiceDescription isEqualToString:@"Gather Metal"] && [self.player hasMetal]) ||
+            ([choice.choiceDescription isEqualToString:@"Gather Meat"] && [self.player hasMeat])) {
             addChoice = NO;
         }
         if (addChoice) {
@@ -159,7 +157,10 @@
     self.currentEvent = newEvent;
     self.currentEvent.hasOccurred = YES;
     [self populateEventDisplay: self.currentEvent];
-    [self.eventHistory addObject: self.currentEvent];
+    
+    if (!self.currentEvent.isCombatEvent) {
+        [self.eventHistory addObject: self.currentEvent];
+    }
 }
 
 - (void) moveBack {
