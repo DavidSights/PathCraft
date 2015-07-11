@@ -127,15 +127,8 @@
     choices = [NSArray arrayWithObjects: banging1, moveForward, moveBackward, nil];
     uniqueEvent1.choices = choices;
     uniqueEvent1.isUnique = YES;
-    Event *bangingResult1 =[Event new];
-    bangingResult1.eventDescription = @"As you move towards the sound, it suddenly stops and something runs away.";
-    choices = [NSArray arrayWithObjects: moveForward, moveBackward, nil];
-    bangingResult1.choices = choices;
-    Event *bangingResult2 =[Event new];
-    bangingResult2.eventDescription = @"The banging stops, then you hear a banging on your head and you die.";
-    bangingResult2.choices = choices;
-    NSArray *results = [NSArray arrayWithObjects:bangingResult1, bangingResult2, nil];
-    uniqueEvent1.results = results;
+    [uniqueEvent1 createResultEventWithString:@"As you move towards the sound, it suddenly stops and something runs away."];
+    [uniqueEvent1 createResultEventWithString:@"The banging stops, then you hear a banging on your head and you die."];
 
     Event *uniqueEvent2 = [Event new];
     uniqueEvent2.eventDescription = @"You find a fruit tree. Fallen fruits litter the ground.";
@@ -164,12 +157,16 @@
     choices = [NSArray arrayWithObjects: fight, flee, feedMonster, nil];
     combatEvent2.choices = choices;
     combatEvent2.isCombatEvent = YES;
+    [combatEvent2 createResultEventWithString:@"You defeated the hungry snake!"];
+    [combatEvent2 createResultEventWithString:@"The hungry snake ate you alive!"];
 
     Event *combatEvent3 = [Event new];
     combatEvent3.eventDescription = @"A giant, rabid wolf appears.";
     choices = [NSArray arrayWithObjects: fight, flee, feedMonster, nil];
     combatEvent3.choices = choices;
     combatEvent3.isCombatEvent = YES;
+    [combatEvent3 createResultEventWithString:@"You defeated the rabid wolf!"];
+    [combatEvent3 createResultEventWithString:@"The hungry rabid wolf tore you to shreds!"];
 
     // Result Events
     // To be created... Feel free to ask me for clarification. -David
