@@ -139,16 +139,12 @@
 
     Event *event2 = [Event new];
     event2.eventDescription = @"Sun light peaks through leaves of a tree.";
-    choice1 = @"Move Forward";
-    choice2 = @"Move Backwards";
-    choices = [NSArray arrayWithObjects:choice1, choice2, nil];
+    choices = [NSArray arrayWithObjects:moveForward, moveBackward, nil];
     event2.choices = choices;
 
     Event *event3 = [Event new];
     event3.eventDescription = @"You think you hear something. You wait and nothing happens.";
-    choice1 = @"Move Forward";
-    choice2 = @"Move Backwards";
-    choices = [NSArray arrayWithObjects:choice1, choice2, nil];
+    choices = [NSArray arrayWithObjects:moveForward, moveBackward, nil];
     event3.choices = choices;
 
     Event *event4 = [Event new];
