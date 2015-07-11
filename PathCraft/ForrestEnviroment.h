@@ -10,6 +10,4 @@
 
 @interface ForrestEnviroment : Environment
 
-- (void) generateEvents;
-
 @end
