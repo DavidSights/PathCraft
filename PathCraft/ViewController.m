@@ -12,6 +12,8 @@
 #import "ForrestEnviroment.h"
 #import "Inventory.h"
 #import "Choice.h"
+#import "Player.h"
+
 
 @interface ViewController ()
 
@@ -21,9 +23,8 @@
 @property Event *currentEvent;
 @property int currentChoiceIndex;
 @property NSArray *currentAvailableChoices;
-//@property NSArray *events;
 @property NSMutableArray *eventHistory;
-@property Inventory *inventory;
+@property Player *player;
 @property Environment *environment;
 
 @end
@@ -36,7 +37,7 @@
     ForrestEnviroment *forrest = [ForrestEnviroment new];
     self.environment = forrest;
     
-    self.inventory = [Inventory new];
+    self.player = [Player new];
     
     Event *initialEvent = [self getInitialEvent];
     
@@ -82,11 +83,14 @@
     } else if ([self.choiceButton.titleLabel.text isEqualToString:@"Flee"]) {
         [self flee];
     } else if ([self.choiceButton.titleLabel.text isEqualToString:@"Gather Wood"]) {
-        [self gatherMaterial: @"Wood"];
+        [self.player gatherMaterial: @"Wood"];
+        [self refreshEvent];
     } else if ([self.choiceButton.titleLabel.text isEqualToString:@"Gather Metal"]) {
-        [self gatherMaterial: @"Metal"];
+        [self.player gatherMaterial: @"Metal"];
+        [self refreshEvent];
     } else if ([self.choiceButton.titleLabel.text isEqualToString:@"Gather Meat"]) {
-        [self gatherMaterial: @"Meat"];
+        [self.player gatherMaterial: @"Meat"];
+        [self refreshEvent];
     } else {
         [self advance];
     }
@@ -109,7 +113,6 @@
             [currentAvailableChoices addObject:choice];
         }
     }
-    
     return currentAvailableChoices;
 }
 
@@ -198,6 +201,7 @@
 - (void) flee {
     // Flee is the same as fight for the moment... change this. :) --MJ
     BOOL victory = [ViewController isRollSuccessfulWithNumberOfDice:1 sides:2 bonus:0 againstTarget:2];
+    self.currentEvent.hasOccurred = YES;
     if (victory) {
         NSLog(@"VICTORY");
         Event *victoryEvent = [[self.currentEvent results] objectAtIndex:0];
@@ -209,15 +213,10 @@
         NSLog(@"DEFEAT");
         Event *defeatEvent = [[self.currentEvent results] objectAtIndex:0];
         self.currentEvent = defeatEvent;
-        self.currentEvent.hasOccurred = YES;
+//        self.currentEvent.hasOccurred = YES;
         [self populateEventDisplay: self.currentEvent];
         [self.eventHistory addObject:self.currentEvent];
     }
-}
-
-- (void)gatherMaterial:(NSString *)material {
-    [self.inventory.materials setValue:@YES forKey:material];
-    [self refreshEvent];
 }
 
 # pragma mark - Utilty
@@ -227,6 +226,7 @@
                                   bonus:(NSInteger)bonus
                           againstTarget:(NSInteger)target {
     NSInteger value = [self rollValueWithNumberOfDice:numberOfDice sides:sides bonus:bonus];
+    NSLog(@"%lu", value);
     if(value >= target) {
         return YES;
     }
