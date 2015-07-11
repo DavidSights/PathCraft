@@ -89,9 +89,9 @@
     for (int i = 0; i < allChoices.count; i += 1) {
         BOOL addChoice = YES;
         NSString *choice = allChoices[i];
-        if (([choice isEqualToString:@"Collect Wood"] && [self.inventory hasWood]) ||
-            ([choice isEqualToString:@"Collect Metal"] && [self.inventory hasMetal]) ||
-            ([choice isEqualToString:@"Collect Meat"] && [self.inventory hasMeat])) {
+        if (([choice isEqualToString:@"Gather Wood"] && [self.inventory hasWood]) ||
+            ([choice isEqualToString:@"Gather Metal"] && [self.inventory hasMetal]) ||
+            ([choice isEqualToString:@"Gather Meat"] && [self.inventory hasMeat])) {
             addChoice = NO;
         }
         if (addChoice) {

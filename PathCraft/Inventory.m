@@ -20,9 +20,9 @@
 }
 
 - (NSDictionary *)initializeMaterials {
-    NSDictionary *materials;
+    NSMutableDictionary *materials;
     
-    materials = [NSDictionary dictionaryWithObjects:@[@NO, @NO, @NO] forKeys: @[@"Wood", @"Metal", @"Meat"]];
+    materials = [NSMutableDictionary dictionaryWithObjects:@[@NO, @NO, @NO] forKeys: @[@"Wood", @"Metal", @"Meat"]];
     
     return materials;
 }
