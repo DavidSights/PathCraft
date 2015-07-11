@@ -81,11 +81,11 @@
     } else if ([self.choiceButton.titleLabel.text isEqualToString:@"Flee"]) {
         [self flee];
     } else if ([self.choiceButton.titleLabel.text isEqualToString:@"Gather Wood"]) {
-        [self gatherWood];
+        [self gatherMaterial: @"Wood"];
     } else if ([self.choiceButton.titleLabel.text isEqualToString:@"Gather Metal"]) {
-        [self gatherMetal];
+        [self gatherMaterial: @"Metal"];
     } else if ([self.choiceButton.titleLabel.text isEqualToString:@"Gather Meat"]) {
-        [self gatherMeat];
+        [self gatherMaterial: @"Meat"];
     } else {
         [self advance];
     }
@@ -124,8 +124,6 @@
 }
 
 - (void) populateEventDisplay:(Event *)event {
-    NSLog(@"popEventDisplay");
-    [self logEvent:event];
     self.descriptionTextField.text = event.eventDescription;
     self.currentAvailableChoices = [self currentAvailableChoicesForEvent: event];
     [self.choiceButton setTitle: self.currentAvailableChoices[0] forState:UIControlStateNormal];
@@ -134,19 +132,18 @@
 
 #pragma mark - Handle Events
 
-- (void) logEvent:(Event *)event {
-    NSLog(@"%@", event.eventDescription);
-}
-
 - (BOOL) eventIsEligible: (Event *) event {
     // Check whether event is eligible to be the next event
-    NSLog(@"event.eventDescription:%@",event.eventDescription);
     if ([event isEqual:self.currentEvent]) {
         return NO;
     } else if (event.isUnique && event.hasOccurred) {
         return NO;
     }
     return YES;
+}
+
+- (void) refreshEvent {
+    [self populateEventDisplay:self.currentEvent];
 }
 
 - (void) advance {
@@ -217,16 +214,9 @@
     }
 }
 
-- (void) gatherWood {
-    [self.inventory.materials setValue:@YES forKey:@"Wood"];
-}
-
-- (void) gatherMetal {
-    [self.inventory.materials setValue:@YES forKey:@"Metal"];
-}
-
-- (void) gatherMeat {
-    [self.inventory.materials setValue:@YES forKey:@"Meat"];
+- (void)gatherMaterial:(NSString *)material {
+    [self.inventory.materials setValue:@YES forKey:material];
+    [self refreshEvent];
 }
 
 # pragma mark - Utilty
