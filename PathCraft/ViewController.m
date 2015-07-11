@@ -10,18 +10,30 @@
 
 @interface ViewController ()
 
+@property (weak, nonatomic) IBOutlet UIButton *choiceButton;
+@property (weak, nonatomic) IBOutlet UIButton *actionButton;
+@property (weak, nonatomic) IBOutlet UITextView *descriptionTextField;
+
 @end
 
 @implementation ViewController
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    // Do any additional setup after loading the view, typically from a nib.
+
 }
 
-- (void)didReceiveMemoryWarning {
-    [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
+- (IBAction)choiceButtonPressed:(id)sender {
+
+}
+
+- (IBAction)actionButtonPressed:(id)sender {
+    if (![self.descriptionTextField.text  isEqual: @"Action pressed!"]) {
+        self.descriptionTextField.text = @"Action pressed!";
+    } else {
+        self.descriptionTextField.text = @"Action pressed again!";
+    }
+
 }
 
 @end
