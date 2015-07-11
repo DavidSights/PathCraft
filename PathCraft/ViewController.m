@@ -35,12 +35,28 @@
     NSArray *choices = [NSArray arrayWithObjects:choice1, choice2, nil];
     event1.choices = choices;
 
+    Event *event2 = [Event new];
+    event1.eventDescription = @"Sun light peaks through leaves of a tree.";
+    choice1 = @"Move Forward";
+    choice2 = @"Move Backwards";
+    choices = [NSArray arrayWithObjects:choice1, choice2, nil];
+    event2.choices = choices;
+
+    Event *event3 = [Event new];
+    event1.eventDescription = @"You think you hear something. You wait and nothing happens.";
+    choice1 = @"Move Forward";
+    choice2 = @"Move Backwards";
+    choices = [NSArray arrayWithObjects:choice1, choice2, nil];
+    event3.choices = choices;
+
     self.currentEvent = event1;
 
     self.descriptionTextField.text = event1.eventDescription;
     [self.choiceButton setTitle:event1.choices[0] forState:UIControlStateNormal];
     self.currentChoiceIndex = 0;
 }
+
+
 
 - (IBAction)choiceButtonPressed:(id)sender {
     [self updateChoice];
