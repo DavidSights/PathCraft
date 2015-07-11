@@ -65,7 +65,7 @@
     if ([self.choiceButton.titleLabel.text isEqualToString:@"Move Backwards"]) {
         [self moveBack];
     } else if ([self.choiceButton.titleLabel.text isEqualToString:@"Fight"]) {
-//        [self fight];
+        [self fight];
         [self advance];
     } else {
         [self advance];
@@ -147,11 +147,18 @@
     // Fifty percent chance of dying ...
     BOOL victory = [ViewController isRollSuccessfulWithNumberOfDice:1 sides:2 bonus:0 againstTarget:2];
     if (victory) {
-        NSLog(@"Victory");
-        [self advance];
+        NSLog(@"VICTORY");
+        Event *victoryEvent = [[self.currentEvent results] objectAtIndex:0];
+        self.currentEvent = victoryEvent;
+        self.currentEvent.hasOccurred = YES;
+        [self populateEventDisplay: self.currentEvent];
+        [self.eventHistory addObject:self.currentEvent];
     } else {
-        NSLog(@"You suck.");
-        [self advance];
+        Event *defeatEvent = [[self.currentEvent results] objectAtIndex:0];
+        self.currentEvent = defeatEvent;
+        self.currentEvent.hasOccurred = YES;
+        [self populateEventDisplay: self.currentEvent];
+        [self.eventHistory addObject:self.currentEvent];
     }
 }
 
