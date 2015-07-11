@@ -42,9 +42,24 @@
     [self.eventHistory addObject: self.currentEvent];
 }
 
+#pragma mark - Buttons
+
 - (IBAction)choiceButtonPressed:(id)sender {
     [self updateChoice];
 }
+
+- (IBAction)actionButtonPressed:(id)sender {
+    // If the user chose "Move Forward", then generate a new event
+    if ([self.choiceButton.titleLabel.text isEqualToString:@"Move Backwards"]) {
+        [self moveBack];
+    } else {
+        [self advance];
+    }
+
+    // If the user chose "Move Backward", go back to the previous event
+}
+
+#pragma mark - Update Views
 
 - (void) updateChoice {
     int numberOfChoices = (int)self.currentEvent.choices.count;
@@ -107,17 +122,6 @@
     self.descriptionTextField.text = event.eventDescription;
     [self.choiceButton setTitle: event.choices[0] forState:UIControlStateNormal];
     self.currentChoiceIndex = 0;
-}
-
-- (IBAction)actionButtonPressed:(id)sender {
-    // If the user chose "Move Forward", then generate a new event
-    if ([self.choiceButton.titleLabel.text isEqualToString:@"Move Backwards"]) {
-        [self moveBack];
-    } else {
-        [self advance];
-    }
-
-    // If the user chose "Move Backward", go back to the previous event
 }
 
 @end
