@@ -44,9 +44,13 @@
 
 - (Event *)getInitialEvent {
     
-    Event *initialEvent;
+    Event *eventModel;
+    Event *initialEvent = [Event new];
     
-    initialEvent = [self.events[0] copy];
+    // This logic can be changed to allow for variety in initial events
+    eventModel = self.events[0];
+    
+    initialEvent.eventDescription = eventModel.eventDescription;
     initialEvent.choices = [NSArray arrayWithObjects: @"Move Forward", nil];
     
     return initialEvent;
