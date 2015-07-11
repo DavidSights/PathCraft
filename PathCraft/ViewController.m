@@ -51,6 +51,7 @@
     
     return initialEvent;
 }
+#pragma mark - Buttons
 
 - (IBAction)choiceButtonPressed:(id)sender {
     [self updateChoice];
@@ -129,8 +130,8 @@
         [self.eventHistory removeLastObject];
         lastEvent = [self.eventHistory lastObject];
     }
-
-    // If the user chose "Move Backward", go back to the previous event
+    self.currentEvent = lastEvent;
+    [self populateEventDisplay: self.currentEvent];
 }
 
 - (void) generateEvents {
