@@ -59,12 +59,9 @@
 }
 
 - (IBAction)actionButtonPressed:(id)sender {
-    if (![self.descriptionTextField.text  isEqual: @"Action pressed!"]) {
-        self.descriptionTextField.text = @"Action pressed!";
-    } else {
-        self.descriptionTextField.text = @"Action pressed again!";
-    }
-
+    // If the user chose "Move Forward", then generate a new event
+    // If the user chose "Move Backward", go back to the previous event
+    
 }
 
 @end
