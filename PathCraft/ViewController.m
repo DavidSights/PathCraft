@@ -72,6 +72,16 @@
     [self.choiceButton setTitle:self.currentEvent.choices[self.currentChoiceIndex] forState:UIControlStateNormal];
 }
 
+- (void) populateEventDisplay:(Event *)event {
+    NSLog(@"popEventDisplay");
+    [self logEvent:event];
+    self.descriptionTextField.text = event.eventDescription;
+    [self.choiceButton setTitle: event.choices[0] forState:UIControlStateNormal];
+    self.currentChoiceIndex = 0;
+}
+
+#pragma mark - Handle Events
+
 - (void) logEvent:(Event *)event {
     NSLog(@"%@", event.eventDescription);
 }
@@ -93,9 +103,7 @@
     do {
         NSUInteger index = (NSUInteger) arc4random() % [self.events count];
         newEvent = [self.events objectAtIndex:index];
-        
     } while (![self eventIsEligible:newEvent]);
-    
     self.currentEvent = newEvent;
     self.currentEvent.hasOccurred = YES;
     [self populateEventDisplay: self.currentEvent];
@@ -115,14 +123,6 @@
     }
     self.currentEvent = lastEvent;
     [self populateEventDisplay: self.currentEvent];
-}
-
-- (void) populateEventDisplay:(Event *)event {
-    NSLog(@"popEventDisplay");
-    [self logEvent:event];
-    self.descriptionTextField.text = event.eventDescription;
-    [self.choiceButton setTitle: event.choices[0] forState:UIControlStateNormal];
-    self.currentChoiceIndex = 0;
 }
 
 @end
