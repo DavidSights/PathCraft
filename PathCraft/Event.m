@@ -10,4 +10,15 @@
 
 @implementation Event
 
+
+- (instancetype)init
+{
+    self = [super init];
+    if (self) {
+        _isUnique = NO;
+        _hasOccurred = NO;
+    }
+    return self;
+}
+
 @end

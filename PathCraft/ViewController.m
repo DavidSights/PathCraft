@@ -60,16 +60,28 @@
     NSLog(@"%@", event.eventDescription);
 }
 
+- (BOOL) eventIsEligible: (Event *) event {
+    // Check whether event is eligible to be the next event
+    NSLog(@"event.eventDescription:%@",event.eventDescription);
+    if ([event isEqual:self.currentEvent]) {
+        return NO;
+    } else if (event.isUnique && event.hasOccurred) {
+        return NO;
+    }
+    return YES;
+}
+
 - (void) advance {
-    // Add current event ot the end of the history array
+    // Add current event to the end of the history array
     Event *newEvent;
     do {
         NSUInteger index = (NSUInteger) arc4random() % [self.events count];
         newEvent = [self.events objectAtIndex:index];
         
-    } while ([newEvent isEqual:self.currentEvent]);
+    } while (![self eventIsEligible:newEvent]);
     
     self.currentEvent = newEvent;
+    self.currentEvent.hasOccurred = YES;
     [self populateEventDisplay: self.currentEvent];
     [self.eventHistory addObject: self.currentEvent];
 }
@@ -98,10 +110,10 @@
 
 - (IBAction)actionButtonPressed:(id)sender {
     // If the user chose "Move Forward", then generate a new event
-    if ([self.choiceButton.titleLabel.text isEqualToString:@"Move Forward"]) {
-        [self advance];
-    } else {
+    if ([self.choiceButton.titleLabel.text isEqualToString:@"Move Backwards"]) {
         [self moveBack];
+    } else {
+        [self advance];
     }
 
     // If the user chose "Move Backward", go back to the previous event
@@ -176,22 +188,25 @@
     uniqueEvent1.eventDescription = @"Your foot gets caught in a root trap.";
     choices = [NSArray arrayWithObjects:root1, root2, nil];
     uniqueEvent1.choices = choices;
-
+    uniqueEvent1.isUnique = YES;
+    
     Event *uniqueEvent2 = [Event new];
     uniqueEvent2.eventDescription = @"You hear banging like sticks against a tree.";
     choices = [NSArray arrayWithObjects: banging1, moveForward, moveBackward, nil];
     uniqueEvent2.choices = choices;
-
+    uniqueEvent2.isUnique = YES;
+    
     Event *uniqueEvent3 = [Event new];
     uniqueEvent3.eventDescription = @"You find a fruit tree. Fallen fruits litter the ground.";
     choices = [NSArray arrayWithObjects: tree1, tree2, moveForward, moveBackward, nil];
     uniqueEvent3.choices = choices;
-
+    uniqueEvent3.isUnique = YES;
+    
     Event *uniqueEvent4 = [Event new];
     uniqueEvent4.eventDescription = @"You notice glowing eyes in a thick bush.";
     choices = [NSArray arrayWithObjects: eyes1, moveForward, moveBackward, nil];
     uniqueEvent4.choices = choices;
-
+    uniqueEvent4.isUnique = YES;
 
     // Combat Events --- Stretch goal: Strength Levels!
 
@@ -223,7 +238,6 @@
     self.events = [NSArray arrayWithObjects: event1, event2, event3, event4, event5, event6, event7,
                    uniqueEvent1, uniqueEvent2, uniqueEvent3, uniqueEvent4,
                    combatEvent1, combatEvent2, combatEvent3, nil];
-
 }
 
 @end
