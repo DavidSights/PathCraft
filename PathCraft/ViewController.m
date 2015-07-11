@@ -127,7 +127,7 @@
     Event *lastEvent = [self.eventHistory lastObject];
 
     while (lastEvent.isCombatEvent) {
-        NSAssert([self.eventHistory count]>0, @"No non-combat events left in event history");
+        NSAssert([self.eventHistory count] > 0, @"No non-combat events left in event history");
         [self.eventHistory removeLastObject];
         lastEvent = [self.eventHistory lastObject];
     }
