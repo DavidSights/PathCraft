@@ -10,7 +10,7 @@
 		6E5089BB1B5160C600042209 /* Environment.m in Sources */ = {isa = PBXBuildFile; fileRef = 6E5089BA1B5160C600042209 /* Environment.m */; };
 		6E5089BE1B51620800042209 /* Game.m in Sources */ = {isa = PBXBuildFile; fileRef = 6E5089BD1B51620800042209 /* Game.m */; };
 		6E5089C11B5162DB00042209 /* Event.m in Sources */ = {isa = PBXBuildFile; fileRef = 6E5089C01B5162DB00042209 /* Event.m */; };
-		6E5FA3691B51B7E70003BE7D /* Inventory.m in Sources */ = {isa = PBXBuildFile; fileRef = 6E5FA3681B51B7E70003BE7D /* Inventory.m */; };
+		6E9714EB1B51CF55008AD7B7 /* Player.m in Sources */ = {isa = PBXBuildFile; fileRef = 6E9714EA1B51CF55008AD7B7 /* Player.m */; };
 		6EEC0EB81B518F7E000D0DA1 /* Mountain.m in Sources */ = {isa = PBXBuildFile; fileRef = 6EEC0EB71B518F7E000D0DA1 /* Mountain.m */; };
 		9A5BA2111B515A1700F98320 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 9A5BA2101B515A1700F98320 /* main.m */; };
 		9A5BA2141B515A1700F98320 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 9A5BA2131B515A1700F98320 /* AppDelegate.m */; };
@@ -40,8 +40,8 @@
 		6E5089BD1B51620800042209 /* Game.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Game.m; sourceTree = "<group>"; };
 		6E5089BF1B5162DB00042209 /* Event.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Event.h; sourceTree = "<group>"; };
 		6E5089C01B5162DB00042209 /* Event.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Event.m; sourceTree = "<group>"; };
-		6E5FA3671B51B7E70003BE7D /* Inventory.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Inventory.h; sourceTree = "<group>"; };
-		6E5FA3681B51B7E70003BE7D /* Inventory.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Inventory.m; sourceTree = "<group>"; };
+		6E9714E91B51CF55008AD7B7 /* Player.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Player.h; sourceTree = "<group>"; };
+		6E9714EA1B51CF55008AD7B7 /* Player.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Player.m; sourceTree = "<group>"; };
 		6EEC0EB61B518F7E000D0DA1 /* Mountain.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Mountain.h; sourceTree = "<group>"; };
 		6EEC0EB71B518F7E000D0DA1 /* Mountain.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Mountain.m; sourceTree = "<group>"; };
 		9A5BA20B1B515A1700F98320 /* PathCraft.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = PathCraft.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -88,10 +88,10 @@
 				9A5BA2381B51C5B700F98320 /* Choice.m */,
 				9A5BA2341B5193D100F98320 /* ForrestEnviroment.h */,
 				9A5BA2351B5193D100F98320 /* ForrestEnviroment.m */,
-				6E5FA3671B51B7E70003BE7D /* Inventory.h */,
-				6E5FA3681B51B7E70003BE7D /* Inventory.m */,
 				6E5089B91B5160C600042209 /* Environment.h */,
 				6E5089BA1B5160C600042209 /* Environment.m */,
+				6E9714E91B51CF55008AD7B7 /* Player.h */,
+				6E9714EA1B51CF55008AD7B7 /* Player.m */,
 				6EEC0EB61B518F7E000D0DA1 /* Mountain.h */,
 				6EEC0EB71B518F7E000D0DA1 /* Mountain.m */,
 				6E5089BF1B5162DB00042209 /* Event.h */,
@@ -263,11 +263,11 @@
 			buildActionMask = 2147483647;
 			files = (
 				6E5089C11B5162DB00042209 /* Event.m in Sources */,
-				6E5FA3691B51B7E70003BE7D /* Inventory.m in Sources */,
 				6E5089BE1B51620800042209 /* Game.m in Sources */,
 				9A5BA2171B515A1700F98320 /* ViewController.m in Sources */,
 				6EEC0EB81B518F7E000D0DA1 /* Mountain.m in Sources */,
 				6E5089BB1B5160C600042209 /* Environment.m in Sources */,
+				6E9714EB1B51CF55008AD7B7 /* Player.m in Sources */,
 				9A5BA2141B515A1700F98320 /* AppDelegate.m in Sources */,
 				9A5BA2361B5193D100F98320 /* ForrestEnviroment.m in Sources */,
 				9A5BA2391B51C5B800F98320 /* Choice.m in Sources */,

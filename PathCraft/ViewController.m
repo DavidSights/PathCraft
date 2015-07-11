@@ -10,7 +10,7 @@
 #import "Environment.h"
 #import "Event.h"
 #import "ForrestEnviroment.h"
-#import "Inventory.h"
+#import "Player.h"
 
 @interface ViewController ()
 
@@ -20,9 +20,8 @@
 @property Event *currentEvent;
 @property int currentChoiceIndex;
 @property NSArray *currentAvailableChoices;
-//@property NSArray *events;
 @property NSMutableArray *eventHistory;
-@property Inventory *inventory;
+@property Player *player;
 @property Environment *environment;
 
 @end
@@ -35,7 +34,7 @@
     ForrestEnviroment *forrest = [ForrestEnviroment new];
     self.environment = forrest;
     
-    self.inventory = [Inventory new];
+    self.player = [Player new];
     
     Event *initialEvent = [self getInitialEvent];
     
@@ -81,11 +80,14 @@
     } else if ([self.choiceButton.titleLabel.text isEqualToString:@"Flee"]) {
         [self flee];
     } else if ([self.choiceButton.titleLabel.text isEqualToString:@"Gather Wood"]) {
-        [self gatherMaterial: @"Wood"];
+        [self.player gatherMaterial: @"Wood"];
+        [self refreshEvent];
     } else if ([self.choiceButton.titleLabel.text isEqualToString:@"Gather Metal"]) {
-        [self gatherMaterial: @"Metal"];
+        [self.player gatherMaterial: @"Metal"];
+        [self refreshEvent];
     } else if ([self.choiceButton.titleLabel.text isEqualToString:@"Gather Meat"]) {
-        [self gatherMaterial: @"Meat"];
+        [self.player gatherMaterial: @"Meat"];
+        [self refreshEvent];
     } else {
         [self advance];
     }
@@ -99,9 +101,9 @@
     for (int i = 0; i < allChoices.count; i += 1) {
         BOOL addChoice = YES;
         NSString *choice = allChoices[i];
-        if (([choice isEqualToString:@"Gather Wood"] && [self.inventory hasWood]) ||
-            ([choice isEqualToString:@"Gather Metal"] && [self.inventory hasMetal]) ||
-            ([choice isEqualToString:@"Gather Meat"] && [self.inventory hasMeat])) {
+        if (([choice isEqualToString:@"Gather Wood"] && [self.player hasWood]) ||
+            ([choice isEqualToString:@"Gather Metal"] && [self.player hasMetal]) ||
+            ([choice isEqualToString:@"Gather Meat"] && [self.player hasMeat])) {
             addChoice = NO;
         }
         if (addChoice) {
@@ -197,6 +199,7 @@
 - (void) flee {
     // Flee is the same as fight for the moment... change this. :) --MJ
     BOOL victory = [ViewController isRollSuccessfulWithNumberOfDice:1 sides:2 bonus:0 againstTarget:2];
+    self.currentEvent.hasOccurred = YES;
     if (victory) {
         NSLog(@"VICTORY");
         Event *victoryEvent = [[self.currentEvent results] objectAtIndex:0];
@@ -208,15 +211,10 @@
         NSLog(@"DEFEAT");
         Event *defeatEvent = [[self.currentEvent results] objectAtIndex:0];
         self.currentEvent = defeatEvent;
-        self.currentEvent.hasOccurred = YES;
+//        self.currentEvent.hasOccurred = YES;
         [self populateEventDisplay: self.currentEvent];
         [self.eventHistory addObject:self.currentEvent];
     }
-}
-
-- (void)gatherMaterial:(NSString *)material {
-    [self.inventory.materials setValue:@YES forKey:material];
-    [self refreshEvent];
 }
 
 # pragma mark - Utilty
@@ -226,6 +224,7 @@
                                   bonus:(NSInteger)bonus
                           againstTarget:(NSInteger)target {
     NSInteger value = [self rollValueWithNumberOfDice:numberOfDice sides:sides bonus:bonus];
+    NSLog(@"%lu", value);
     if(value >= target) {
         return YES;
     }
