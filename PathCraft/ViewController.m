@@ -10,6 +10,7 @@
 #import "Environment.h"
 #import "Event.h"
 #import "ForrestEnviroment.h"
+#import "Inventory.h"
 
 @interface ViewController ()
 
@@ -21,6 +22,7 @@
 @property NSArray *currentAvailableChoices;
 @property NSArray *events;
 @property NSMutableArray *eventHistory;
+@property Inventory *inventory;
 
 @end
 
@@ -30,8 +32,9 @@
     [super viewDidLoad];
     
     ForrestEnviroment *forrest = [ForrestEnviroment new];
-    
     self.events = forrest.events;
+    
+    self.inventory = [Inventory new];
     
     Event *initialEvent = [self getInitialEvent];
     
@@ -67,6 +70,12 @@
     } else if ([self.choiceButton.titleLabel.text isEqualToString:@"Fight"]) {
 //        [self fight];
         [self advance];
+    } else if ([self.choiceButton.titleLabel.text isEqualToString:@"Gather Wood"]) {
+        [self gatherWood];
+    } else if ([self.choiceButton.titleLabel.text isEqualToString:@"Gather Metal"]) {
+        [self gatherMetal];
+    } else if ([self.choiceButton.titleLabel.text isEqualToString:@"Gather Meat"]) {
+        [self gatherMeat];
     } else {
         [self advance];
     }
@@ -75,7 +84,22 @@
 #pragma mark - Update Views
 
 - (NSArray *) currentAvailableChoicesForEvent : (Event *) event {
-    return [event.choices copy];
+    NSMutableArray *currentAvailableChoices = [NSMutableArray new];
+    NSArray *allChoices = event.choices;
+    for (int i = 0; i < allChoices.count; i += 1) {
+        BOOL addChoice = YES;
+        NSString *choice = allChoices[i];
+        if (([choice isEqualToString:@"Collect Wood"] && [self.inventory hasWood]) ||
+            ([choice isEqualToString:@"Collect Metal"] && [self.inventory hasMetal]) ||
+            ([choice isEqualToString:@"Collect Meat"] && [self.inventory hasMeat])) {
+            addChoice = NO;
+        }
+        if (addChoice) {
+            [currentAvailableChoices addObject:choice];
+        }
+    }
+    
+    return currentAvailableChoices;
 }
 
 - (void) updateChoice {
@@ -141,6 +165,18 @@
     }
     self.currentEvent = lastEvent;
     [self populateEventDisplay: self.currentEvent];
+}
+
+- (void) gatherWood {
+    [self.inventory.materials setValue:@YES forKey:@"Wood"];
+}
+
+- (void) gatherMetal {
+    [self.inventory.materials setValue:@YES forKey:@"Metal"];
+}
+
+- (void) gatherMeat {
+    [self.inventory.materials setValue:@YES forKey:@"Meat"];
 }
 
 @end
