@@ -11,8 +11,7 @@
 @implementation Event
 
 
-- (instancetype)init
-{
+- (instancetype)init {
     self = [super init];
     if (self) {
         _isUnique = NO;
@@ -20,6 +19,19 @@
         _isCombatEvent = NO;
     }
     return self;
+}
+
+- (void)createResultEventWithString:(NSString *)eventDescription {
+    Event *event = [Event new];
+    event.eventDescription = eventDescription;
+    NSString *moveForward = @"Move foward.";
+    NSString *moveBackward = @"Move backward.";
+    NSArray *choices = [NSArray arrayWithObjects:moveForward, moveBackward, nil];
+    event.choices = choices;
+    if (self.results == nil) {
+        self.results = [NSMutableArray new];
+    }
+    [self.results addObject:event];
 }
 
 @end
