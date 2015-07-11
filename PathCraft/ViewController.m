@@ -20,9 +20,10 @@
 @property Event *currentEvent;
 @property int currentChoiceIndex;
 @property NSArray *currentAvailableChoices;
-@property NSArray *events;
+//@property NSArray *events;
 @property NSMutableArray *eventHistory;
 @property Inventory *inventory;
+@property Environment *environment;
 
 @end
 
@@ -32,7 +33,7 @@
     [super viewDidLoad];
     
     ForrestEnviroment *forrest = [ForrestEnviroment new];
-    self.events = forrest.events;
+    self.environment = forrest;
     
     self.inventory = [Inventory new];
     
@@ -47,14 +48,24 @@
 
 - (Event *)getInitialEvent {
     
-    Event *eventModel;
+    
     Event *initialEvent = [Event new];
     
+    NSMutableArray *initialChoices = [NSMutableArray arrayWithObjects:@"Move Forward", nil];
+    if ([self.environment.environmentDescription isEqualToString:@"Forest"]) {
+        NSLog(@"in forest");
+        [initialChoices addObject:@"Gather Wood"];
+    } else if ([self.environment.environmentDescription isEqualToString:@"Mountain"]) {
+        if ([ViewController rollDieWithSides:6] >= 5) {
+            [initialChoices addObject:@"Gather Metal"];
+        }
+    }
+    
     // This logic can be changed to allow for variety in initial events
-    eventModel = self.events[0];
+    Event *eventModel = self.environment.events[0];
     
     initialEvent.eventDescription = eventModel.eventDescription;
-    initialEvent.choices = [NSArray arrayWithObjects: @"Move Forward", nil];
+    initialEvent.choices = initialChoices;
     
     return initialEvent;
 }
@@ -143,8 +154,8 @@
 - (void) advance {
     Event *newEvent;
     do {
-        NSUInteger index = (NSUInteger) arc4random() % [self.events count];
-        newEvent = [self.events objectAtIndex:index];
+        NSUInteger index = (NSUInteger) arc4random() % [self.environment.events count];
+        newEvent = [self.environment.events objectAtIndex:index];
     } while (![self eventIsEligible:newEvent]);
     self.currentEvent = newEvent;
     self.currentEvent.hasOccurred = YES;
