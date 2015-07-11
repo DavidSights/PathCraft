@@ -31,12 +31,14 @@
     forrest.environmentDescription = @"Forest";
 
     [self generateEvents];
-    self.currentEvent = self.events[0];
-
-    self.descriptionTextField.text = self.currentEvent.eventDescription;
-    [self.choiceButton setTitle:self.currentEvent.choices[0] forState:UIControlStateNormal];
-    self.currentChoiceIndex = 0;
+    
+    Event *initialEvent = self.events[0];
+    
+    self.currentEvent = initialEvent;
+    [self populateEventDisplay: self.currentEvent];
+    
     self.eventHistory = [NSMutableArray new];
+    [self.eventHistory addObject: self.currentEvent];
 }
 
 - (IBAction)choiceButtonPressed:(id)sender {
@@ -54,12 +56,44 @@
     [self.choiceButton setTitle:self.currentEvent.choices[self.currentChoiceIndex] forState:UIControlStateNormal];
 }
 
+- (void) logEvent:(Event *)event {
+    NSLog(@"%@", event.eventDescription);
+}
+
 - (void) advance {
+    // Add current event ot the end of the history array
+    Event *newEvent;
+    do {
+        NSUInteger index = (NSUInteger) arc4random() % [self.events count];
+        newEvent = [self.events objectAtIndex:index];
+        
+    } while ([newEvent isEqual:self.currentEvent]);
     
+    self.currentEvent = newEvent;
+    [self populateEventDisplay: self.currentEvent];
+    [self.eventHistory addObject: self.currentEvent];
 }
 
 - (void) moveBack {
     
+    if (self.eventHistory.count > 1) {
+        [self.eventHistory removeLastObject];
+    }
+    
+    Event *lastEvent = [self.eventHistory lastObject];
+    
+    if (lastEvent) {
+        self.currentEvent = lastEvent;
+        [self populateEventDisplay: self.currentEvent];
+    }
+}
+
+- (void) populateEventDisplay:(Event *)event {
+    NSLog(@"popEventDisplay");
+    [self logEvent:event];
+    self.descriptionTextField.text = event.eventDescription;
+    [self.choiceButton setTitle: event.choices[0] forState:UIControlStateNormal];
+    self.currentChoiceIndex = 0;
 }
 
 - (IBAction)actionButtonPressed:(id)sender {
