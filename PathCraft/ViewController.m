@@ -11,6 +11,7 @@
 #import "Event.h"
 #import "ForrestEnviroment.h"
 #import "Inventory.h"
+#import "Choice.h"
 
 @interface ViewController ()
 
@@ -98,10 +99,10 @@
     NSArray *allChoices = event.choices;
     for (int i = 0; i < allChoices.count; i += 1) {
         BOOL addChoice = YES;
-        NSString *choice = allChoices[i];
-        if (([choice isEqualToString:@"Gather Wood"] && [self.inventory hasWood]) ||
-            ([choice isEqualToString:@"Gather Metal"] && [self.inventory hasMetal]) ||
-            ([choice isEqualToString:@"Gather Meat"] && [self.inventory hasMeat])) {
+        Choice *choice = allChoices[i];
+        if (([choice.choiceDescription isEqualToString:@"Gather Wood"] && [self.inventory hasWood]) ||
+            ([choice.choiceDescription isEqualToString:@"Gather Metal"] && [self.inventory hasMetal]) ||
+            ([choice.choiceDescription isEqualToString:@"Gather Meat"] && [self.inventory hasMeat])) {
             addChoice = NO;
         }
         if (addChoice) {
@@ -181,14 +182,14 @@
         NSLog(@"VICTORY");
         Event *victoryEvent = [[self.currentEvent results] objectAtIndex:0];
         self.currentEvent = victoryEvent;
-        self.currentEvent.hasOccurred = YES;
+//        self.currentEvent.hasOccurred = YES;
         [self populateEventDisplay: self.currentEvent];
         [self.eventHistory addObject:self.currentEvent];
     } else {
         NSLog(@"DEFEAT");
         Event *defeatEvent = [[self.currentEvent results] objectAtIndex:0];
         self.currentEvent = defeatEvent;
-        self.currentEvent.hasOccurred = YES;
+//        self.currentEvent.hasOccurred = YES;
         [self populateEventDisplay: self.currentEvent];
         [self.eventHistory addObject:self.currentEvent];
     }

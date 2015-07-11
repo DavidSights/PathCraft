@@ -7,6 +7,7 @@
 //
 
 #import "Event.h"
+#import "Choice.h"
 
 @implementation Event
 
@@ -21,17 +22,17 @@
     return self;
 }
 
-- (void)createResultEventWithString:(NSString *)eventDescription {
-    Event *event = [Event new];
-    event.eventDescription = eventDescription;
-    NSString *moveForward = @"Move forward";
-    NSString *moveBackward = @"Move backward";
-    NSArray *choices = [NSArray arrayWithObjects:moveForward, moveBackward, nil];
-    event.choices = choices;
-    if (self.results == nil) {
-        self.results = [NSMutableArray new];
-    }
-    [self.results addObject:event];
-}
+//- (void)createResultEventWithString:(NSString *)eventDescription {
+//    Event *event = [Event new];
+//    event.eventDescription = eventDescription;
+//    NSString *moveForward = @"Move forward";
+//    NSString *moveBackward = @"Move backward";
+//    NSArray *choices = [NSArray arrayWithObjects:moveForward, moveBackward, nil];
+//    event.choices = choices;
+//    if (self.results == nil) {
+//        self.results = [NSMutableArray new];
+//    }
+//    [self.results addObject:event];
+//}
 
 @end
