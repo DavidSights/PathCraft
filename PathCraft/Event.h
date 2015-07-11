@@ -13,4 +13,5 @@
 @property (strong, nonatomic) NSArray* choices;
 @property BOOL isUnique;
 @property BOOL hasOccurred;
+@property BOOL isCombatEvent;
 @end
