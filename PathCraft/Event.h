@@ -16,6 +16,6 @@
 @property BOOL isCombatEvent;
 @property NSMutableArray *results;
 
-- (void)createResultEventWithString:(NSString *)evenDescription;
+//- (void)createResultEventWithString:(NSString *)evenDescription;
 
 @end

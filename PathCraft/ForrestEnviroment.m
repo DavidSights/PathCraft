@@ -25,9 +25,7 @@
 
     // Choices
 
-//    NSString *moveForward = @"Move Forward";
     Choice *moveForward = [[Choice alloc] initWithChoiceDescription: @"Move Forward"];
-
     Choice *moveBackward = [[Choice alloc] initWithChoiceDescription: @"Move Backwards"];
 
     // Resources
@@ -136,8 +134,15 @@
     choices = [NSArray arrayWithObjects: banging1, moveForward, moveBackward, nil];
     uniqueEvent1.choices = choices;
     uniqueEvent1.isUnique = YES;
-    [uniqueEvent1 createResultEventWithString:@"As you move towards the sound, it suddenly stops and something runs away."];
-    [uniqueEvent1 createResultEventWithString:@"The banging stops, then you hear a banging on your head and you die."];
+    // Choice 1
+    Choice *bangingChoice1 = [[Choice alloc] initWithChoiceDescription: @"Check it out"];
+    Event *bangingChoice1Result1 = [Event new];
+    Event *bangingChoice1Result2 = [Event new];
+    bangingChoice1Result1.eventDescription = @"As you move towards the sound, it suddenly stops and something runs away.";
+    bangingChoice1Result2.eventDescription = @"The banging stops, then you hear a banging on your head and you die.";
+    NSMutableArray *bangingChoice1Results = [NSMutableArray arrayWithObjects:bangingChoice1Result1, bangingChoice1Result2, nil];
+    bangingChoice1.resultEvents = bangingChoice1Results;
+    choices = [NSArray arrayWithObjects:bangingChoice1Results, nil];
 
     Event *uniqueEvent2 = [Event new];
     uniqueEvent2.eventDescription = @"You find a fruit tree. Fallen fruits litter the ground.";
@@ -155,7 +160,7 @@
     uniqueEvent3.isUnique = YES;
 
     // Combat Events --- Stretch goal: Strength Levels!
-
+    /*
     Event *combatEvent1 = [Event new];
     combatEvent1.eventDescription = @"You encounter a giant spider.";
     choices = [NSArray arrayWithObjects: fight, flee, feedEnemy, nil];
@@ -173,6 +178,11 @@
     choices = [NSArray arrayWithObjects: fight, flee, feedEnemy, nil];
     combatEvent3.choices = choices;
     combatEvent3.isCombatEvent = YES;
+    */
+    NSArray *combatChoices = [NSArray arrayWithObjects: fight, flee, feedEnemy, nil];
+    Event *combatEvent1 = [self generateCombatEventWithEventDescription:@"You encounter a giant spider." withChoices:combatChoices];
+    Event *combatEvent2 = [self generateCombatEventWithEventDescription:@"A wild and hungry snake appears." withChoices:combatChoices];
+    Event *combatEvent3 = [self generateCombatEventWithEventDescription:@"A giant, rabid wolf appears" withChoices:combatChoices];
 
     // Result Events
     // To be created... Feel free to ask me for clarification. -David
@@ -183,4 +193,11 @@
     return events;
 }
 
+- (Event *) generateCombatEventWithEventDescription:(NSString *) eventDescription withChoices:(NSArray *)choices {
+    Event *combatEvent = [Event new];
+    combatEvent.eventDescription = eventDescription;
+    combatEvent.choices = choices;
+    combatEvent.isCombatEvent = YES;
+    return combatEvent;
+}
 @end
