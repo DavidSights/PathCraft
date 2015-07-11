@@ -52,6 +52,8 @@
     // If the user chose "Move Forward", then generate a new event
     if ([self.choiceButton.titleLabel.text isEqualToString:@"Move Backwards"]) {
         [self moveBack];
+    } else if ([self.choiceButton.titleLabel.text isEqualToString:@"Fight"]) {
+        [self fight];
     } else {
         [self advance];
     }
