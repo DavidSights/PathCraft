@@ -156,6 +156,7 @@
 }
 
 # pragma mark - Utilty
+
 +(BOOL)isRollSuccessfulWithNumberOfDice:(NSUInteger)numberOfDice
                                   sides:(NSUInteger)sides
                                   bonus:(NSInteger)bonus

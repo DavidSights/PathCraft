@@ -117,6 +117,15 @@
     choices = [NSArray arrayWithObjects: banging1, moveForward, moveBackward, nil];
     uniqueEvent1.choices = choices;
     uniqueEvent1.isUnique = YES;
+    Event *bangingResult1 =[Event new];
+    bangingResult1.eventDescription = @"As you move towards the sound, it suddenly stops and something runs away.";
+    choices = [NSArray arrayWithObjects: moveForward, moveBackward, nil];
+    bangingResult1.choices = choices;
+    Event *bangingResult2 =[Event new];
+    bangingResult2.eventDescription = @"The banging stops, then you hear a banging on your head and you die.";
+    bangingResult2.choices = choices;
+    NSArray *results = [NSArray arrayWithObjects:bangingResult1, bangingResult2, nil];
+    uniqueEvent1.results = results;
 
     Event *uniqueEvent2 = [Event new];
     uniqueEvent2.eventDescription = @"You find a fruit tree. Fallen fruits litter the ground.";
@@ -137,6 +146,8 @@
     choices = [NSArray arrayWithObjects: fight, flee, feedMonster, nil];
     combatEvent1.choices = choices;
     combatEvent1.isCombatEvent = YES;
+    [combatEvent1 createResultEventWithString:@"You defeated the giant spider!"];
+    [combatEvent1 createResultEventWithString:@"You died fighting the giant spider."];
     
     Event *combatEvent2 = [Event new];
     combatEvent2.eventDescription = @"A wild and hungry snake appears.";
