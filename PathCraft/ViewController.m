@@ -170,6 +170,11 @@
     choices = [NSArray arrayWithObjects:moveForward, moveBackward, nil];
     event7.choices = choices;
 
+    Event *event8 = [Event new];
+    event8.eventDescription = @"You wonder what your family is doing now. You almost trip over a rock and are brought back to reality.";
+    choices = [NSArray arrayWithObjects:moveForward, moveBackward, nil];
+    event8.choices = choices;
+
     // Unique Events
 
     Event *uniqueEvent1 = [Event new];
@@ -210,7 +215,7 @@
     choices = [NSArray arrayWithObjects: fight, flee, nil];
     combatEvent3.choices = choices;
 
-    // Result Event
+    // Result Events
 
 
 /*
@@ -220,7 +225,7 @@
     event<#number#>.choices = choices;
 */
 
-    self.events = [NSArray arrayWithObjects: event1, event2, event3, event4, event5, event6, event7,
+    self.events = [NSArray arrayWithObjects: event1, event2, event3, event4, event5, event6, event7, event8,
                    uniqueEvent1, uniqueEvent2, uniqueEvent3, uniqueEvent4,
                    combatEvent1, combatEvent2, combatEvent3, nil];
 
