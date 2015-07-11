@@ -66,7 +66,6 @@
         [self moveBack];
     } else if ([self.choiceButton.titleLabel.text isEqualToString:@"Fight"]) {
         [self fight];
-        [self advance];
     } else {
         [self advance];
     }
@@ -154,6 +153,7 @@
         [self populateEventDisplay: self.currentEvent];
         [self.eventHistory addObject:self.currentEvent];
     } else {
+        NSLog(@"DEFEAT");
         Event *defeatEvent = [[self.currentEvent results] objectAtIndex:0];
         self.currentEvent = defeatEvent;
         self.currentEvent.hasOccurred = YES;
