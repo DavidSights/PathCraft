@@ -34,7 +34,7 @@
     [forrest generateEvents];
     self.events = forrest.events;
     
-    Event *initialEvent = self.events[0];
+    Event *initialEvent = [self getInitialEvent];
     
     self.currentEvent = initialEvent;
     [self populateEventDisplay: self.currentEvent];
@@ -43,6 +43,19 @@
     [self.eventHistory addObject: self.currentEvent];
 }
 
+- (Event *)getInitialEvent {
+    
+    Event *eventModel;
+    Event *initialEvent = [Event new];
+    
+    // This logic can be changed to allow for variety in initial events
+    eventModel = self.events[0];
+    
+    initialEvent.eventDescription = eventModel.eventDescription;
+    initialEvent.choices = [NSArray arrayWithObjects: @"Move Forward", nil];
+    
+    return initialEvent;
+}
 #pragma mark - Buttons
 
 - (IBAction)choiceButtonPressed:(id)sender {
@@ -50,7 +63,6 @@
 }
 
 - (IBAction)actionButtonPressed:(id)sender {
-    // If the user chose "Move Forward", then generate a new event
     if ([self.choiceButton.titleLabel.text isEqualToString:@"Move Backwards"]) {
         [self moveBack];
     } else if ([self.choiceButton.titleLabel.text isEqualToString:@"Fight"]) {
@@ -58,8 +70,6 @@
     } else {
         [self advance];
     }
-
-    // If the user chose "Move Backward", go back to the previous event
 }
 
 #pragma mark - Update Views
@@ -102,7 +112,6 @@
 }
 
 - (void) advance {
-    // Add current event to the end of the history array
     Event *newEvent;
     do {
         NSUInteger index = (NSUInteger) arc4random() % [self.events count];
@@ -120,6 +129,7 @@
         [self.eventHistory removeLastObject];
     }
     Event *lastEvent = [self.eventHistory lastObject];
+
     while (lastEvent.isCombatEvent) {
         NSAssert([self.eventHistory count]>0, @"No non-combat events left in event history");
         [self.eventHistory removeLastObject];
