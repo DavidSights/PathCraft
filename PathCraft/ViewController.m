@@ -32,13 +32,23 @@
 
     [self generateEvents];
     
-    Event *initialEvent = self.events[0];
+    Event *initialEvent = [self getInitialEvent];
     
     self.currentEvent = initialEvent;
     [self populateEventDisplay: self.currentEvent];
     
     self.eventHistory = [NSMutableArray new];
     [self.eventHistory addObject: self.currentEvent];
+}
+
+- (Event *)getInitialEvent {
+    
+    Event *initialEvent;
+    
+    initialEvent = [self.events[0] copy];
+    initialEvent.choices = [NSArray arrayWithObjects: @"Move Forward", nil];
+    
+    return initialEvent;
 }
 
 - (IBAction)choiceButtonPressed:(id)sender {
@@ -149,7 +159,7 @@
 
     Event *event1 = [Event new];
     event1.eventDescription = @"Trees surround you all around.";
-    NSArray *choices = [NSArray arrayWithObjects:moveForward, nil];
+    NSArray *choices = [NSArray arrayWithObjects:moveForward, moveBackward, nil];
     event1.choices = choices;
 
     Event *event2 = [Event new];
