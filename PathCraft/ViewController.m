@@ -69,6 +69,14 @@
         [self moveBack];
     } else if ([self.choiceButton.titleLabel.text isEqualToString:@"Fight"]) {
         [self fight];
+    } else if ([self.choiceButton.titleLabel.text isEqualToString:@"Flee"]) {
+        [self flee];
+    } else if ([self.choiceButton.titleLabel.text isEqualToString:@"Gather Wood"]) {
+        [self gatherWood];
+    } else if ([self.choiceButton.titleLabel.text isEqualToString:@"Gather Metal"]) {
+        [self gatherMetal];
+    } else if ([self.choiceButton.titleLabel.text isEqualToString:@"Gather Meat"]) {
+        [self gatherMeat];
     } else {
         [self advance];
     }
@@ -179,6 +187,27 @@
         [self.eventHistory addObject:self.currentEvent];
     }
 }
+
+- (void) flee {
+    // Flee is the same as fight for the moment... change this. :) --MJ
+    BOOL victory = [ViewController isRollSuccessfulWithNumberOfDice:1 sides:2 bonus:0 againstTarget:2];
+    if (victory) {
+        NSLog(@"VICTORY");
+        Event *victoryEvent = [[self.currentEvent results] objectAtIndex:0];
+        self.currentEvent = victoryEvent;
+        self.currentEvent.hasOccurred = YES;
+        [self populateEventDisplay: self.currentEvent];
+        [self.eventHistory addObject:self.currentEvent];
+    } else {
+        NSLog(@"DEFEAT");
+        Event *defeatEvent = [[self.currentEvent results] objectAtIndex:0];
+        self.currentEvent = defeatEvent;
+        self.currentEvent.hasOccurred = YES;
+        [self populateEventDisplay: self.currentEvent];
+        [self.eventHistory addObject:self.currentEvent];
+    }
+}
+
 - (void) gatherWood {
     [self.inventory.materials setValue:@YES forKey:@"Wood"];
 }
