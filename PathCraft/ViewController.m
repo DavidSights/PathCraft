@@ -62,14 +62,11 @@
 }
 
 - (IBAction)actionButtonPressed:(id)sender {
-    // If the user chose "Move Forward", then generate a new event
     if ([self.choiceButton.titleLabel.text isEqualToString:@"Move Backwards"]) {
         [self moveBack];
     } else {
         [self advance];
     }
-
-    // If the user chose "Move Backward", go back to the previous event
 }
 
 #pragma mark - Update Views
@@ -111,7 +108,6 @@
 }
 
 - (void) advance {
-    // Add current event to the end of the history array
     Event *newEvent;
     do {
         NSUInteger index = (NSUInteger) arc4random() % [self.events count];
@@ -129,6 +125,7 @@
         [self.eventHistory removeLastObject];
     }
     Event *lastEvent = [self.eventHistory lastObject];
+
     while (lastEvent.isCombatEvent) {
         NSAssert([self.eventHistory count]>0, @"No non-combat events left in event history");
         [self.eventHistory removeLastObject];
