@@ -110,7 +110,6 @@
             [currentAvailableChoices addObject:choice];
         }
     }
-    
     return currentAvailableChoices;
 }
 
