@@ -155,6 +155,7 @@
     Event *combatEvent1 = [Event new];
     combatEvent1.eventDescription = @"You encounter a giant spider.";
     choices = [NSArray arrayWithObjects: fight, flee, nil];
+    combatEvent1.choices = choices;
 
 
 /*
