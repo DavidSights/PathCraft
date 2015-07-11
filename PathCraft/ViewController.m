@@ -107,13 +107,14 @@
     if (self.eventHistory.count > 1) {
         [self.eventHistory removeLastObject];
     }
-    
     Event *lastEvent = [self.eventHistory lastObject];
-    
-    if (lastEvent) {
-        self.currentEvent = lastEvent;
-        [self populateEventDisplay: self.currentEvent];
+    while (lastEvent.isCombatEvent) {
+        NSAssert([self.eventHistory count]>0, @"No non-combat events left in event history");
+        [self.eventHistory removeLastObject];
+        lastEvent = [self.eventHistory lastObject];
     }
+    self.currentEvent = lastEvent;
+    [self populateEventDisplay: self.currentEvent];
 }
 
 - (void) populateEventDisplay:(Event *)event {
