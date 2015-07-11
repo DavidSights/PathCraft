@@ -46,19 +46,46 @@
     NSString *cliff2 = @"Take a leap of faith."; // R: 1) You fall to your death. 2) A mysterious wind catches you and places you safely on solid ground.
 
     // Peak
-    NSString *peak1 = @"You scurry to the highest point."; // R: 1) You scream at the top of your lungs. This is the most free you've ever felt. 2) You are left speechless. What can be said about such a sensation.
-//    NSString *
+    NSString *peak1 = @"Scurry to the top."; // R: 1) You scream at the top of your lungs. This is the most free you've ever felt. 2) You are left speechless. What can be said about such a sensation.
+    NSString *peak2 = @"Carefully ascend to the highest point."; // R: 1) You trip and nearly fall. You barely notice the view as you scramble away. 2) What a view and sensation!
+    
+    // Demi-god presents itself
+    NSString *demiGod1 = @"Approach with caution."; // R: 1) The god rewards you. 2) The god is offended and kills you.
+    NSString *demiGod2 = @"Run away!"; // R: 1) The god ignores you. 2) The god is offended and kills you.
+    NSString *demiGod3 = @"Bow in deference."; // R: 1) The god rewards you. 3) The god acknowledges you and moves on.
     
     
     /* Regular */
     
-    // Air is crisp
+    //Event *event1 = [Event new];
+    //event1.eventDescription = @"Trees surround you all around.";
+    //NSArray *choices = [NSArray arrayWithObjects:moveForward, nil];
+    //event1.choices = choices;
     
-    // Dignified boulder
+    Event *event1 = [Event new];
+    event1.eventDescription = @"The air is crisp here.";
+    NSArray *choices = [NSArray arrayWithObjects:moveForward, moveBackward, nil];
+    event1.choices = choices;
     
-    // Shrine
+    Event *event2 = [Event new];
+    event2.eventDescription = @"You come upon a dignified boulder.";
+    choices = [NSArray arrayWithObjects:moveForward, moveBackward, nil];
+    event2.choices = choices;
     
-    // Swooping condor
+    Event *event3 = [Event new];
+    event3.eventDescription = @"You notice a small shrine.";
+    choices = [NSArray arrayWithObjects:moveForward, moveBackward, nil];
+    event3.choices = choices;
+    
+    Event *event4 = [Event new];
+    event4.eventDescription = @"A condor flys in the distance.";
+    choices = [NSArray arrayWithObjects:moveForward, moveBackward, nil];
+    event4.choices = choices;
+    
+    Event *event5 = [Event new];
+    event5.eventDescription = @"You are overcome with awe in the sublime environment.";
+    choices = [NSArray arrayWithObjects:moveForward, moveBackward, nil];
+    event5.choices = choices;
     
     // Sublime feeling of awe
     
@@ -98,35 +125,11 @@
     
     // Demi-god presents magical material to you
     
-    Event *event1 = [Event new];
-    
     NSArray *events = [NSArray arrayWithObjects: event1, nil];
     
     return events;
 }
 
-//// Choices
-//
-//NSString *moveForward = @"Move Forward";
-//NSString *moveBackward = @"Move Backwards";
-//
-//// Combat
-//NSString *fight = @"Fight";
-//NSString *flee = @"Flee"; // R: 1. You got away. 2. You did not escape. You suffered a quick and painful death.
-//
-//// Root
-//NSString *root1 = @"Rip your foot loose."; // R: 1. You get free. 2. You injure yourself. Suddenly a bear chases you down and eats you alive."
-//NSString *root2 = @"Carefully remove your foot from the root."; // R: 1. You get free. 2. Too focused to notice a hungry bear behind you, you are attacked and die."
-//
-//// Banging
-//NSString *banging1 = @"Check it out"; // R: 1. As you move towards the sound, it suddenly stops and something runs away. 2. The bnaging stops, then you hear a banging on your head and you die.
-//
-//// Fruit tree
-//NSString *tree1 = @"Eat a hanging fruit.";
-//NSString *tree2 = @"Eat a fallen fruit.";
-//
-//// Glowing eyes
-//NSString *eyes1 = @"Check it out."; // R: 1. You reach into the bush and grab a tiny cat. It meows sharply at you and leaps away. 2. A black, amorphus figure leaps out at you and you die.
 //
 //
 //// Passive Events
