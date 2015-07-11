@@ -11,4 +11,6 @@
 @interface Event : NSObject
 @property (strong, nonatomic) NSString* eventDescription;
 @property (strong, nonatomic) NSArray* choices;
+@property BOOL isUnique;
+@property BOOL hasOccurred;
 @end

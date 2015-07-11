@@ -10,7 +10,6 @@
 		6E5089BB1B5160C600042209 /* Environment.m in Sources */ = {isa = PBXBuildFile; fileRef = 6E5089BA1B5160C600042209 /* Environment.m */; };
 		6E5089BE1B51620800042209 /* Game.m in Sources */ = {isa = PBXBuildFile; fileRef = 6E5089BD1B51620800042209 /* Game.m */; };
 		6E5089C11B5162DB00042209 /* Event.m in Sources */ = {isa = PBXBuildFile; fileRef = 6E5089C01B5162DB00042209 /* Event.m */; };
-		6E5089C51B5164AD00042209 /* TestData.m in Sources */ = {isa = PBXBuildFile; fileRef = 6E5089C41B5164AD00042209 /* TestData.m */; };
 		9A5BA2111B515A1700F98320 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 9A5BA2101B515A1700F98320 /* main.m */; };
 		9A5BA2141B515A1700F98320 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 9A5BA2131B515A1700F98320 /* AppDelegate.m */; };
 		9A5BA2171B515A1700F98320 /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9A5BA2161B515A1700F98320 /* ViewController.m */; };
@@ -37,8 +36,6 @@
 		6E5089BD1B51620800042209 /* Game.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Game.m; sourceTree = "<group>"; };
 		6E5089BF1B5162DB00042209 /* Event.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Event.h; sourceTree = "<group>"; };
 		6E5089C01B5162DB00042209 /* Event.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Event.m; sourceTree = "<group>"; };
-		6E5089C31B5164AD00042209 /* TestData.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TestData.h; sourceTree = "<group>"; };
-		6E5089C41B5164AD00042209 /* TestData.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TestData.m; sourceTree = "<group>"; };
 		9A5BA20B1B515A1700F98320 /* PathCraft.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = PathCraft.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		9A5BA20F1B515A1700F98320 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		9A5BA2101B515A1700F98320 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
@@ -85,15 +82,6 @@
 			name = Models;
 			sourceTree = "<group>";
 		};
-		6E5089C21B51649300042209 /* Data */ = {
-			isa = PBXGroup;
-			children = (
-				6E5089C31B5164AD00042209 /* TestData.h */,
-				6E5089C41B5164AD00042209 /* TestData.m */,
-			);
-			name = Data;
-			sourceTree = "<group>";
-		};
 		9A5BA2021B515A1700F98320 = {
 			isa = PBXGroup;
 			children = (
@@ -120,7 +108,6 @@
 				9A5BA2151B515A1700F98320 /* ViewController.h */,
 				9A5BA2161B515A1700F98320 /* ViewController.m */,
 				6E5089B81B51601F00042209 /* Models */,
-				6E5089C21B51649300042209 /* Data */,
 				9A5BA2181B515A1700F98320 /* Main.storyboard */,
 				9A5BA21B1B515A1700F98320 /* Images.xcassets */,
 				9A5BA21D1B515A1700F98320 /* LaunchScreen.xib */,
@@ -261,7 +248,6 @@
 				6E5089BB1B5160C600042209 /* Environment.m in Sources */,
 				9A5BA2141B515A1700F98320 /* AppDelegate.m in Sources */,
 				9A5BA2111B515A1700F98320 /* main.m in Sources */,
-				6E5089C51B5164AD00042209 /* TestData.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
