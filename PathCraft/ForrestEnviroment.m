@@ -111,16 +111,19 @@
     combatEvent1.eventDescription = @"You encounter a giant spider.";
     choices = [NSArray arrayWithObjects: fight, flee, nil];
     combatEvent1.choices = choices;
-
+    combatEvent1.isCombatEvent = YES;
+    
     Event *combatEvent2 = [Event new];
     combatEvent2.eventDescription = @"A wild and hungry snake appears.";
     choices = [NSArray arrayWithObjects: fight, flee, nil];
     combatEvent2.choices = choices;
+    combatEvent2.isCombatEvent = YES;
 
     Event *combatEvent3 = [Event new];
     combatEvent3.eventDescription = @"A giant, rabid wolf appears.";
     choices = [NSArray arrayWithObjects: fight, flee, nil];
     combatEvent3.choices = choices;
+    combatEvent3.isCombatEvent = YES;
 
     // Result Events
 
