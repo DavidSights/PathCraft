@@ -9,6 +9,6 @@
 #import <Foundation/Foundation.h>
 
 @interface Environment : NSObject
-@property NSString *description;
-@property NSArray *possibleEvents;
+@property NSString *environmentDescription;
+@property NSArray *events;
 @end
