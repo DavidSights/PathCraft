@@ -15,7 +15,7 @@
 {
     self = [super init];
     if (self) {
-        self.environmentDescription = @"A mountain";
+        self.environmentDescription = @"Mountain";
         self.events = [self generateEvents];
     }
     return self;

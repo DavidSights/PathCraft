@@ -48,12 +48,10 @@
 
 - (Event *)getInitialEvent {
     
-    
     Event *initialEvent = [Event new];
     
     NSMutableArray *initialChoices = [NSMutableArray arrayWithObjects:@"Move Forward", nil];
     if ([self.environment.environmentDescription isEqualToString:@"Forest"]) {
-        NSLog(@"in forest");
         [initialChoices addObject:@"Gather Wood"];
     } else if ([self.environment.environmentDescription isEqualToString:@"Mountain"]) {
         if ([ViewController rollDieWithSides:6] >= 5) {
