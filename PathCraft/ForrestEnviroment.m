@@ -30,8 +30,6 @@
 
     Choice *moveBackward = [[Choice alloc] initWithChoiceDescription: @"Move Backwards"];
 
-    NSString *moveBackward = @"Move Backwards";
-
     // Resources
     NSString *gatherWood = @"Gather Wood"; // What happens after you gather wood? - Voice over "gathered wood" and then move forward.
     NSString *gatherMetal = @"Gather Metal";
