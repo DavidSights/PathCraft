@@ -18,6 +18,7 @@
 @property (weak, nonatomic) IBOutlet UITextView *descriptionTextField;
 @property Event *currentEvent;
 @property int currentChoiceIndex;
+@property NSArray *currentAvailableChoices;
 @property NSArray *events;
 @property NSMutableArray *eventHistory;
 
@@ -64,21 +65,22 @@
 #pragma mark - Update Views
 
 - (void) updateChoice {
-    int numberOfChoices = (int)self.currentEvent.choices.count;
+    int numberOfChoices = (int)self.currentAvailableChoices.count;
 
     if (self.currentChoiceIndex >= numberOfChoices - 1) {
         self.currentChoiceIndex = 0;
     } else {
         self.currentChoiceIndex++;
     }
-    [self.choiceButton setTitle:self.currentEvent.choices[self.currentChoiceIndex] forState:UIControlStateNormal];
+    [self.choiceButton setTitle:self.currentAvailableChoices[self.currentChoiceIndex] forState:UIControlStateNormal];
 }
 
 - (void) populateEventDisplay:(Event *)event {
     NSLog(@"popEventDisplay");
     [self logEvent:event];
     self.descriptionTextField.text = event.eventDescription;
-    [self.choiceButton setTitle: event.choices[0] forState:UIControlStateNormal];
+    self.currentAvailableChoices = [event.choices copy];
+    [self.choiceButton setTitle: self.currentAvailableChoices[0] forState:UIControlStateNormal];
     self.currentChoiceIndex = 0;
 }
 
@@ -125,6 +127,47 @@
     }
     self.currentEvent = lastEvent;
     [self populateEventDisplay: self.currentEvent];
+}
+
+- (void) fight {
+    // Fifty percent chance of dying ...
+    BOOL victory = [ViewController isRollSuccessfulWithNumberOfDice:1 sides:2 bonus:0 againstTarget:2];
+    if (victory) {
+        NSLog(@"Victory");
+        [self advance];
+    } else {
+        NSLog(@"You suck.");
+        [self advance];
+    }
+}
+
+# pragma mark - Utilty
++(BOOL)isRollSuccessfulWithNumberOfDice:(NSUInteger)numberOfDice
+                                  sides:(NSUInteger)sides
+                                  bonus:(NSInteger)bonus
+                          againstTarget:(NSInteger)target {
+    NSInteger value = [self rollValueWithNumberOfDice:numberOfDice sides:sides bonus:bonus];
+    if(value >= target) {
+        return YES;
+    }
+    return NO;
+}
+
++(NSInteger)rollValueWithNumberOfDice:(NSUInteger)numberOfDice sides:(NSUInteger)sides bonus:(NSInteger)bonus {
+    NSInteger total = 0;
+    for (int i=0; i<numberOfDice; i++) {
+        NSUInteger roll = [self rollDieWithSides:sides];
+        total+=roll;
+    }
+    return total+bonus;
+}
+
++ (NSUInteger)rollDieWithSides:(NSUInteger)sides {
+    // I'm adding this assertion here because I am assuming our dice have a small number of sides so that
+    // casting from a 64-bit NSUInteger to a 32 bit unsigned int for the arc4random_uniform roll
+    // isn't a problem. If our dice more have more than 10000 sides at any point, we should revisit this assumption.
+    NSAssert(sides<10000, @"Die has too many sides.");
+    return arc4random_uniform((u_int32_t)sides)+1;
 }
 
 @end
