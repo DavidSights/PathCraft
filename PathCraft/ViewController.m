@@ -31,6 +31,7 @@
     ForrestEnviroment *forrest = [ForrestEnviroment new];
     forrest.environmentDescription = @"Forest";
     [forrest generateEvents];
+    self.events = forrest.events;
     
     Event *initialEvent = self.events[0];
     
