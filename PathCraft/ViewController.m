@@ -95,6 +95,9 @@
     NSString *tree1 = @"Eat a hanging fruit.";
     NSString *tree2 = @"Eat a fallen fruit.";
 
+    // Glowing eyes
+    NSString *eyes1 = @"Check it out."; // R: 1. You reach into the bush and grab a tiny cat. It meows sharply at you and leaps away. 2. A black, amorphus figure leaps out at you and you die.
+
 
     // Passive Events
 
@@ -150,12 +153,30 @@
     choices = [NSArray arrayWithObjects: tree1, tree2, moveForward, moveBackward, nil];
     uniqueEvent3.choices = choices;
 
+    Event *uniqueEvent4 = [Event new];
+    uniqueEvent4.eventDescription = @"You notice glowing eyes in a thick bush.";
+    choices = [NSArray arrayWithObjects: eyes1, moveForward, moveBackward, nil];
+    uniqueEvent4.choices = choices;
+
+
     // Combat Events --- Stretch goal: Strength Levels!
 
     Event *combatEvent1 = [Event new];
     combatEvent1.eventDescription = @"You encounter a giant spider.";
     choices = [NSArray arrayWithObjects: fight, flee, nil];
     combatEvent1.choices = choices;
+
+    Event *combatEvent2 = [Event new];
+    combatEvent2.eventDescription = @"A wild and hungry snake appears.";
+    choices = [NSArray arrayWithObjects: fight, flee, nil];
+    combatEvent2.choices = choices;
+
+    Event *combatEvent3 = [Event new];
+    combatEvent3.eventDescription = @"A giant, rabid wolf appears.";
+    choices = [NSArray arrayWithObjects: fight, flee, nil];
+    combatEvent3.choices = choices;
+
+    // Result Event
 
 
 /*
@@ -165,7 +186,9 @@
     event<#number#>.choices = choices;
 */
 
-    self.events = [NSArray arrayWithObjects:event1, event2, event3, event4, event5, event6, event7, uniqueEvent1, uniqueEvent2, uniqueEvent3, combatEvent1, nil];
+    self.events = [NSArray arrayWithObjects: event1, event2, event3, event4, event5, event6, event7,
+                   uniqueEvent1, uniqueEvent2, uniqueEvent3, uniqueEvent4,
+                   combatEvent1, combatEvent2, combatEvent3, nil];
 
 }
 
