@@ -17,7 +17,8 @@
 
 @property (weak, nonatomic) IBOutlet UIButton *choiceButton;
 @property (weak, nonatomic) IBOutlet UIButton *actionButton;
-@property (weak, nonatomic) IBOutlet UITextView *descriptionTextField;
+//@property (weak, nonatomic) IBOutlet UITextView *descriptionTextField;
+@property (weak, nonatomic) IBOutlet UILabel *descriptionTextField;
 @property Event *currentEvent;
 @property int currentChoiceIndex;
 @property NSArray *currentAvailableChoices;
