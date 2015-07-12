@@ -12,6 +12,7 @@
 #import "ForrestEnviroment.h"
 #import "Choice.h"
 #import "Player.h"
+#import "GameOverViewController.h"
 
 @interface ViewController ()
 
@@ -32,8 +33,15 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    
     [self resetGame];
+}
+
+-(void)viewWillAppear:(BOOL)animated {
+    // Rounded Corners for Butons
+    self.choiceButton.clipsToBounds = YES;
+    self.actionButton.clipsToBounds = YES;
+    self.choiceButton.layer.cornerRadius = self.choiceButton.frame.size.height/6;
+    self.actionButton.layer.cornerRadius = self.actionButton.frame.size.height/6;
 }
 
 - (void)resetGame {
@@ -102,6 +110,8 @@
     } else if ([self.choiceButton.titleLabel.text isEqualToString: @"Gather Meat"]) {
         [self.player gatherMaterial: @"Meat"];
         [self refreshEvent];
+    } else if ([self.choiceButton.titleLabel.text isEqualToString: @"End Game"]) {
+        // do nothing
     } else {
         [self handleUniqueEvent: self.currentEvent withChoiceIndex: self.currentChoiceIndex];
     }
@@ -147,21 +157,14 @@
     [self.choiceButton setAccessibilityLabel:accessibilityLabel];
 }
 
-- (void) populateEventDisplay:(id)event {
-
-    NSString *textFieldText;
-    if ([event class] == [Event class]) {
-        textFieldText = [event eventDescription];
-    } else {
-        textFieldText = [event choiceDescription];
-    }
-    self.descriptionTextField.text = textFieldText;
+- (void) populateEventDisplay:(Event *)event {
+    
+    self.descriptionTextField.text = [event eventDescription];
 
     self.currentAvailableChoices = [self currentAvailableChoicesForEvent: event];
 
     [self.choiceButton setTitle: self.currentAvailableChoices[0] forState:UIControlStateNormal];
     self.currentChoiceIndex = 0;
-    
 }
 
 #pragma mark - Handle Events
@@ -257,7 +260,12 @@
     
     NSArray *possibleResults = [chosenAction resultEvents];
     
-    NSInteger resultIndex = [ViewController rollDieWithSides: [possibleResults count] - 1];
+    NSInteger resultIndex;
+    if ([possibleResults count] > 1) {
+        resultIndex = [ViewController rollDieWithSides: [possibleResults count] - 1];
+    } else {
+        resultIndex = 0;
+    }
     Event *resultEvent = [possibleResults objectAtIndex: resultIndex];
     
 

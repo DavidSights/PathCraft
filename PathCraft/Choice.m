@@ -40,8 +40,19 @@
     }
 }
 
-- (void) addMoveForwardAndBackwardsOptions {
+- (void) createEndGameResultEventWithString:(NSString *)resultDescription {
+    Event *event = [Event new];
+    event.eventDescription = resultDescription;
     
+    Choice *endGame = [[Choice alloc] initWithChoiceDescription: @"End Game"];
+    NSArray *choices = [NSArray arrayWithObjects: endGame, nil];
+    event.choices = choices;
+    
+    if (self.resultEvents) {
+        [self.resultEvents addObject: event];
+    } else {
+        self.resultEvents = [NSMutableArray arrayWithObjects:event, nil];
+    }
 }
 
 @end
