@@ -105,6 +105,7 @@
     } else {
         [self handleUniqueEvent: self.currentEvent withChoiceIndex: self.currentChoiceIndex];
     }
+    
 }
 
 #pragma mark - Update Views
@@ -140,7 +141,10 @@
     } else {
         self.currentChoiceIndex++;
     }
-    [self.choiceButton setTitle: self.currentAvailableChoices[self.currentChoiceIndex] forState:UIControlStateNormal];
+    NSString *buttonTitle = self.currentAvailableChoices[self.currentChoiceIndex];
+    [self.choiceButton setTitle: buttonTitle forState:UIControlStateNormal];
+    NSString *accessibilityLabel = [@"Change action. Current action is " stringByAppendingString:buttonTitle];
+    [self.choiceButton setAccessibilityLabel:accessibilityLabel];
 }
 
 - (void) populateEventDisplay:(id)event {
