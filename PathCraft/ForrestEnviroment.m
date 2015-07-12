@@ -240,7 +240,7 @@
     
     // Initialize the special choice's result event
     Event *glowingChoice1Result2 = [Event new];
-    glowingChoice1Result2.eventDescription = @"A black, amorphus figure leaps out at you and you die..";
+    glowingChoice1Result2.eventDescription = @"A black, amorphus figure leaps out at you and you die.";
     glowingChoice1Result2.choices = [NSArray arrayWithObjects: endGame, nil];
     
     NSMutableArray *glowingChoice1Results = [NSMutableArray arrayWithObjects: glowingChoice1Result1, glowingChoice1Result2, nil];
@@ -278,7 +278,7 @@
     choices = [NSArray arrayWithObjects: moveForward, moveBackward, craftWeapon, nil];
     
     Event *craftEvent1 = [Event new];
-    craftEvent1.eventDescription = @"You find a hut with tools.";
+    craftEvent1.eventDescription = @"You find an abandoned home. There are tools inside. Maybe you shoud craft or a weapon.";
     craftEvent1.choices = [NSArray arrayWithArray: choices];
     
     Event *craftEvent2 = [Event new];
