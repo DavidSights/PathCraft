@@ -251,9 +251,9 @@
     
     // Initialize the unique event finally with its choices
     Event *uniqueEvent4 = [Event new];
-    uniqueEvent3.eventDescription = @"You notice glowing eyes in a thick bush.";
-    uniqueEvent3.choices = [NSArray arrayWithArray: choices];
-    uniqueEvent3.isUnique = YES;
+    uniqueEvent4.eventDescription = @"You notice glowing eyes in a thick bush.";
+    uniqueEvent4.choices = [NSArray arrayWithArray: choices];
+    uniqueEvent4.isUnique = YES;
 
     choices = [NSArray arrayWithObjects: fight, flee, feedEnemy, nil];
 
