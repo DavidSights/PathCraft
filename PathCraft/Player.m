@@ -15,7 +15,7 @@
     self = [super init];
     if (self) {
         [self initializeInventory];
-        self.weapon = [NSNumber numberWithInteger:0];
+        self.weapon = [NSNumber numberWithInteger: 0];
     }
     return self;
 }
