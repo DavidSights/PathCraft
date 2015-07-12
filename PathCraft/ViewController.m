@@ -48,6 +48,9 @@
 }
 
 - (void)resetGame {
+    
+    self.stepCount = 0;
+    
     ForrestEnviroment *forrest = [ForrestEnviroment new];
     self.environment = forrest;
     
@@ -104,6 +107,7 @@
 }
 
 - (IBAction)actionButtonPressed:(id)sender {
+    self.stepCount += 1;
     if ([self.choiceButton.titleLabel.text isEqualToString:@"Move Forward"]) {
         [self advance];
     } else if ([self.choiceButton.titleLabel.text isEqualToString: @"Move Backwards"]) {
@@ -124,10 +128,11 @@
     } else if ([self.choiceButton.titleLabel.text isEqualToString: @"End Game"]) {
         [self performSegueWithIdentifier:@"gameOver" sender:self];
     } else {
-        
         // Feed enemy handles itself, but we must take away the player's meat.
         if ([self.choiceButton.titleLabel.text isEqualToString: @"Feed Enemy"]) {
             [self.player.inventory setObject:@NO forKey:@"Meat"];
+        }  else if ([self.choiceButton.titleLabel.text isEqualToString:@"Upgrade Weapon"]) {
+            [self.player craftWeapon];
         }
         [self handleUniqueEvent: self.currentEvent withChoiceIndex: self.currentChoiceIndex];
     }
@@ -152,7 +157,8 @@
         if (([description isEqualToString: @"Gather Wood"] && [self.player hasWood]) ||
             ([description isEqualToString: @"Gather Metal"] && [self.player hasMetal]) ||
             ([description isEqualToString: @"Gather Meat"] && [self.player hasMeat]) ||
-            ([description isEqualToString: @"Feed Enemy"] && ![self.player hasMeat])) {
+            ([description isEqualToString: @"Feed Enemy"] && ![self.player hasMeat]) ||
+            ([description isEqualToString: @"Upgrade Weapon"] && !([self.player hasMetal] && [self.player hasWood]))) {
             addChoice = NO;
         }
 
@@ -175,8 +181,6 @@
 }
 
 - (void) populateEventDisplay:(Event *)event {
-    
-    NSLog(@"Populate event display: %@", event.description);
     
     self.descriptionTextField.text = [event eventDescription];
 
@@ -205,12 +209,15 @@
 
 - (void) advance {
     Event *newEvent;
+    NSUInteger index;
     do {
-        NSUInteger index = (NSUInteger) arc4random() % [self.environment.events count];
-        newEvent = [self.environment.events objectAtIndex:index];
-    } while (![self eventIsEligible:newEvent]);
+        index = (NSUInteger) arc4random() % [self.environment.events count];
+        newEvent = [self.environment.events objectAtIndex: index];
+    } while (![self eventIsEligible: newEvent]);
     
     self.currentEvent = newEvent;
+
+    NSLog(@"eventIndex: %lu", index);
     
     self.currentEvent.hasOccurred = YES;
     
@@ -239,9 +246,12 @@
 
 - (void) fight {
     
-    // Fifty percent chance of dying ...
+    // Base sixty percent chance of dying ...
+    // Player weapon upgrades help by 10% each
     Event *fightResultEvent;
-    BOOL victory = [ViewController isRollSuccessfulWithNumberOfDice:1 sides:2 bonus:0 againstTarget:2];
+    NSInteger bonus = [self.player getWeaponStrength];
+    NSLog(@"bonus: %lu", bonus);
+    BOOL victory = [ViewController isRollSuccessfulWithNumberOfDice:1 sides:6 bonus:bonus againstTarget:5];
     Choice *fightChoice = [[self.currentEvent choices] objectAtIndex: 0];
     
     if (victory) {
@@ -259,12 +269,12 @@
 - (void) flee {
 
     Event *fleeResultEvent;
-    BOOL victory = [ViewController isRollSuccessfulWithNumberOfDice:1 sides:3 bonus:0 againstTarget:3];
+    BOOL victory = [ViewController isRollSuccessfulWithNumberOfDice:1 sides:6 bonus:0 againstTarget:3];
     Choice *fleeChoice = [[self.currentEvent choices] objectAtIndex:1];
     if (victory) {
         fleeResultEvent = [[fleeChoice resultEvents] objectAtIndex:0];
     } else {
-        fleeResultEvent = [[fleeChoice resultEvents] objectAtIndex:0];
+        fleeResultEvent = [[fleeChoice resultEvents] objectAtIndex:1];
     }
     
     self.currentEvent = fleeResultEvent;
@@ -282,7 +292,7 @@
     
     NSInteger resultIndex;
     if ([possibleResults count] > 1) {
-        resultIndex = [ViewController rollDieWithSides: [possibleResults count] - 1];
+        resultIndex = [ViewController rollDieWithSides: [possibleResults count]] - 1;
     } else {
         resultIndex = 0;
     }
@@ -292,8 +302,11 @@
     self.currentEvent = resultEvent;
     
     [self populateEventDisplay: self.currentEvent];
-    [self.eventHistory addObject: self.currentEvent];
     
+    // dont add craft events to history
+    if (![[self.currentEvent eventDescription] isEqualToString: @"You successfully upgraded your weapon"]) {
+        [self.eventHistory addObject: self.currentEvent];
+    }
 }
 
 # pragma mark - Utilty
@@ -323,12 +336,17 @@
     // casting from a 64-bit NSUInteger to a 32 bit unsigned int for the arc4random_uniform roll
     // isn't a problem. If our dice more have more than 10000 sides at any point, we should revisit this assumption.
     NSAssert(sides<10000, @"Die has too many sides.");
-    return arc4random_uniform((u_int32_t)sides)+1;
+    
+    NSUInteger roll = arc4random_uniform((u_int32_t)sides)+1;
+    
+    NSLog(@"rolled a %lu", roll);
+    
+    return roll;
 }
 
 -(void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
     GameOverViewController *dVC = segue.destinationViewController;
-    dVC.gameOverText = @"You died after %i steps.";
+    dVC.gameOverText = [NSString stringWithFormat:@"Game Over.\nYou performed %li actions.", (long)self.stepCount];
 }
 
 @end
