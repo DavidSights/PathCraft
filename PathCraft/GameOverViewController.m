@@ -23,6 +23,7 @@
 -(void)viewWillAppear:(BOOL)animated {
     self.beginNewGameButton.clipsToBounds = YES;
     self.beginNewGameButton.layer.cornerRadius = self.beginNewGameButton.frame.size.height/6;
+    self.label.text = self.gameOverText;
 }
 
 - (IBAction)newGameButtonPressed:(id)sender {
