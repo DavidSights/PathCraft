@@ -154,7 +154,6 @@
 
     [self.choiceButton setTitle: self.currentAvailableChoices[0] forState:UIControlStateNormal];
     self.currentChoiceIndex = 0;
-    
 }
 
 #pragma mark - Handle Events

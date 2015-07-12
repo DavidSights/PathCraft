@@ -63,7 +63,7 @@
 
     Event *event3 = [Event new];
     event3.eventDescription = @"You think you hear something. You wait and nothing happens.";
-    choices = [NSArray arrayWithObjects:moveForward, moveBackward, gatherWood, nil];
+    choices = [NSArray arrayWithObjects:moveForward, moveBackward, gatherMeat, gatherWood, nil];
     event3.choices = [NSArray arrayWithArray: choices];
 
     Event *event4 = [Event new];
@@ -78,17 +78,17 @@
 
     Event *event6 = [Event new];
     event6.eventDescription = @"You notice you smell kind of bad. Oh well.";
-    choices = [NSArray arrayWithObjects:moveForward, moveBackward, gatherWood, nil];
+    choices = [NSArray arrayWithObjects:moveForward, moveBackward, gatherMeat, gatherWood, nil];
     event6.choices = [NSArray arrayWithArray: choices];
 
     Event *event7 = [Event new];
     event7.eventDescription = @"A bird flies past your face. A little too close for comfort.";
-    choices = [NSArray arrayWithObjects:moveForward, moveBackward, gatherWood, nil];
+    choices = [NSArray arrayWithObjects:moveForward, moveBackward, gatherMeat, gatherWood, nil];
     event7.choices = [NSArray arrayWithArray: choices];
 
     Event *event8 = [Event new];
     event8.eventDescription = @"You wonder what your family is doing now. You almost trip over a rock and are brought back to reality.";
-    choices = [NSArray arrayWithObjects:moveForward, moveBackward, gatherWood, nil];
+    choices = [NSArray arrayWithObjects:moveForward, moveBackward, gatherMeat, gatherWood, nil];
     event8.choices = [NSArray arrayWithArray: choices];
 
     Event *event10 = [Event new];
@@ -253,6 +253,7 @@
 
     // add uniqueEvent3 later
     NSArray *events = [NSArray arrayWithObjects: event1, event2, event3, event4, event5, event6, event7, event8,
+                       event10, event11, event12, event13,
                        uniqueEvent1, uniqueEvent2, uniqueEvent3,
                        combatEvent1, combatEvent2, combatEvent3, nil];
     return events;
