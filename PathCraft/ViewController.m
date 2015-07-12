@@ -129,7 +129,6 @@
     } else if ([self.choiceButton.titleLabel.text isEqualToString: @"End Game"]) {
         [self performSegueWithIdentifier:@"gameOver" sender:self];
     } else {
-        
         // Feed enemy handles itself, but we must take away the player's meat.
         if ([self.choiceButton.titleLabel.text isEqualToString: @"Feed Enemy"]) {
             [self.player.inventory setObject:@NO forKey:@"Meat"];
