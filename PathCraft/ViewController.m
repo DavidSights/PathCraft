@@ -10,7 +10,6 @@
 #import "Environment.h"
 #import "Event.h"
 #import "ForrestEnviroment.h"
-#import "Inventory.h"
 #import "Choice.h"
 #import "Player.h"
 

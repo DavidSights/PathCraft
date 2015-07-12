@@ -14,7 +14,6 @@
 @property BOOL isUnique;
 @property BOOL hasOccurred;
 @property BOOL isCombatEvent;
-@property NSMutableArray *results;
 
 //- (void)createResultEventWithString:(NSString *)evenDescription;
 
