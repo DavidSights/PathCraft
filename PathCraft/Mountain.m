@@ -59,7 +59,7 @@
     // Craft events
     Choice *craftWeapon = [[Choice alloc] initWithChoiceDescription: @"Upgrade Weapon"];
     [craftWeapon createBasicResultEventWithString:@"You successfully upgraded your weapon."];
-    choices = [NSArray arrayWithObjects: moveForward, craftWeapon, moveBackward, nil];
+    choices = [NSArray arrayWithObjects: moveForward, moveBackward, nil];
 
     /* Regular */
     

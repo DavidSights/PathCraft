@@ -189,6 +189,8 @@
 
     for (int i = 0; i < allChoices.count; i += 1) {
         Choice *currentChoice = [allChoices objectAtIndex: i];
+        
+        NSLog(@"currentChoice: %@", currentChoice.choiceDescription);
         BOOL addChoice = YES;
         NSString *description = [currentChoice choiceDescription];
 
@@ -201,9 +203,10 @@
         }
 
         if (addChoice) {
-            [currentAvailableChoices addObject:description];
+            [currentAvailableChoices addObject: description];
         }
     }
+    NSLog(@"currentAvailableChoices %lu", (unsigned long)[currentAvailableChoices count]);
     return currentAvailableChoices;
 }
 
@@ -291,6 +294,9 @@
     Event *fightResultEvent;
     NSInteger bonus = [self.player getWeaponStrength];
     NSInteger enemyStrength = (self.stepCount / 15) + 4;
+    
+    NSLog(@"bonus: %lu", (long)bonus);
+    NSLog(@"enemy strength: %lu", (long)enemyStrength);
     
     BOOL victory = [ViewController isRollSuccessfulWithNumberOfDice:1 sides:6 bonus: bonus againstTarget: enemyStrength];
     

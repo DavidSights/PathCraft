@@ -43,7 +43,7 @@
     victoryEvent.eventDescription = @"You defeated the enemy.";
     victoryEvent.choices = [NSArray arrayWithObjects: moveForward, gatherMeat, moveBackward, nil];
     
-    [fight initializeResultEventsWithEvent:victoryEvent];
+    [fight initializeResultEventsWithEvent: victoryEvent];
     [fight createEndGameResultEventWithString: @"The enemy killed you."];
 
     Choice *flee = [[Choice alloc] initWithChoiceDescription:@"Flee"];
@@ -278,7 +278,7 @@
     choices = [NSArray arrayWithObjects: moveForward, craftWeapon, moveBackward, nil];
     
     Event *craftEvent1 = [Event new];
-    craftEvent1.eventDescription = @"You see an abandoned home. There are tools inside. Use wood and metal craft or upgrade a weapon.";
+    craftEvent1.eventDescription = @"You see an abandoned home. There are tools inside. Use wood and metal to craft or upgrade a weapon.";
     craftEvent1.choices = [NSArray arrayWithArray: choices];
     
     Event *craftEvent2 = [Event new];
