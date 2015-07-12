@@ -15,5 +15,6 @@
 
 - (instancetype) initWithChoiceDescription: (NSString *)choiceDescription;
 - (void) createBasicResultEventWithString: (NSString *)resultDescription;
+- (void) createEndGameResultEventWithString:(NSString *)resultDescription;
 
 @end

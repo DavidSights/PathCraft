@@ -102,6 +102,8 @@
     } else if ([self.choiceButton.titleLabel.text isEqualToString: @"Gather Meat"]) {
         [self.player gatherMaterial: @"Meat"];
         [self refreshEvent];
+    } else if ([self.choiceButton.titleLabel.text isEqualToString: @"End Game"]) {
+        // do nothing
     } else {
         [self handleUniqueEvent: self.currentEvent withChoiceIndex: self.currentChoiceIndex];
     }
@@ -143,15 +145,9 @@
     [self.choiceButton setTitle: self.currentAvailableChoices[self.currentChoiceIndex] forState:UIControlStateNormal];
 }
 
-- (void) populateEventDisplay:(id)event {
-
-    NSString *textFieldText;
-    if ([event class] == [Event class]) {
-        textFieldText = [event eventDescription];
-    } else {
-        textFieldText = [event choiceDescription];
-    }
-    self.descriptionTextField.text = textFieldText;
+- (void) populateEventDisplay:(Event *)event {
+    
+    self.descriptionTextField.text = [event eventDescription];
 
     self.currentAvailableChoices = [self currentAvailableChoicesForEvent: event];
 

@@ -36,19 +36,17 @@
     // Combat
     Choice *fight = [[Choice alloc] initWithChoiceDescription:@"Fight"];
     [fight createBasicResultEventWithString: @"You defeated the enemy."];
-    [fight createBasicResultEventWithString: @"The enemy killed you."];
+    [fight createEndGameResultEventWithString: @"The enemy killed you."];
 
     Choice *flee = [[Choice alloc] initWithChoiceDescription:@"Flee"];
     [flee createBasicResultEventWithString:@"You got away."];
-    [flee createBasicResultEventWithString:@"You did not escape. You suffered a quick and painful death."];
+    [flee createEndGameResultEventWithString:@"You did not escape. You suffered a quick and painful death."];
 
     Choice *feedEnemy = [[Choice alloc] initWithChoiceDescription:@"Feed Enemy"];
     [feedEnemy createBasicResultEventWithString:@"You fed the enemy and successfully escaped."];
     
     // end game does not have a results array
-    Choice *endGame = [Choice new];
-    endGame.choiceDescription = @"End Game.";
-
+    Choice *endGame = [[Choice alloc] initWithChoiceDescription: @"End Game"];
 
     // Passive Events
 
@@ -127,7 +125,7 @@
 
     Event *bangingChoice1Result2 = [Event new];
     bangingChoice1Result2.eventDescription = @"The banging stops, then you hear a banging on your head and you die.";
-    bangingChoice1Result2.choices = [NSArray arrayWithObjects: moveForward, moveBackward, nil];
+    bangingChoice1Result2.choices = [NSArray arrayWithObjects: endGame, nil];
 
     NSMutableArray *bangingChoice1Results = [NSMutableArray arrayWithObjects: bangingChoice1Result1, bangingChoice1Result2, nil];
     bangingChoice1.resultEvents = bangingChoice1Results;
@@ -153,7 +151,7 @@
 
     Event *treeChoice1Result2 = [Event new];
     treeChoice1Result2.eventDescription = @"You choke with no one around to help and die.";
-    treeChoice1Result2.choices = [NSArray arrayWithObjects: moveForward, moveBackward, nil];
+    treeChoice1Result2.choices = [NSArray arrayWithObjects: endGame, nil];
 
     NSMutableArray *treeChoice1Results = [NSMutableArray arrayWithObjects: treeChoice1Result1, treeChoice1Result2, nil];
     treeChoice1.resultEvents = treeChoice1Results;
@@ -168,7 +166,7 @@
 
     Event *treeChoice2Result2 = [Event new];
     treeChoice2Result2.eventDescription = @"Your tummy aches so badly after eating noodles the fruit that you curl up and lay on the ground. Eventually you fall asleep and never wake up again.";
-    treeChoice2Result2.choices = [NSArray arrayWithObjects: moveForward, moveBackward, nil];
+    treeChoice2Result2.choices = [NSArray arrayWithObjects: endGame, nil];
 
     NSMutableArray *treeChoice2Results = [NSMutableArray arrayWithObjects: treeChoice2Result1, treeChoice2Result2, nil];
     treeChoice2.resultEvents = treeChoice2Results;
@@ -182,7 +180,6 @@
     uniqueEvent2.choices = choices;
     uniqueEvent2.isUnique = YES;
     
-    
     // Unique Event 3
     
     // Initialize a special choice for the event
@@ -190,22 +187,41 @@
     
     // Initialize the special choice's result event
     Event *rootChoice1Result1 = [Event new];
-    treeChoice1Result1.eventDescription = @"You get free.";
-    treeChoice1Result1.choices = [NSArray arrayWithObjects: moveForward, moveBackward, nil];
+    rootChoice1Result1.eventDescription = @"You get free.";
+    rootChoice1Result1.choices = [NSArray arrayWithObjects: moveForward, moveBackward, nil];
     
     // Initialize the special choice's result event
     Event *rootChoice1Result2 = [Event new];
-    treeChoice1Result1.eventDescription = @"You injure yourself. Suddenly a bear chases you down and eats you alive.";
-    treeChoice1Result1.choices = [NSArray arrayWithObjects: moveForward, moveBackward, nil];
+    rootChoice1Result2.eventDescription = @"You injure yourself. Suddenly a bear chases you down and eats you alive.";
+    rootChoice1Result2.choices = [NSArray arrayWithObjects: endGame, nil];
     
-    // Root
-//    Choice *root1 = [[Choice alloc] initWithChoiceDescription: @]; // R: 1. You get free. 2. You injure yourself. Suddenly a bear chases you down and eats you alive."
-    Choice *root2 = [[Choice alloc] initWithChoiceDescription: @"Carefully remove your foot from the root."]; // R: 1. You get free. 2. Too focused to notice a hungry bear behind you, you are attacked and die."
-    Event *event9 = [Event new];
-    event9.eventDescription = @"Your foot gets caught in a root trap."; // Was unique event, but changed to regular event because it wouldn't be unusual for this to happen more than once.
-    choices = [NSArray arrayWithObjects: root1, root2, nil];
-    event9.choices = [NSArray arrayWithArray: choices];
-
+    NSMutableArray *rootChoice1Results = [NSMutableArray arrayWithObjects: rootChoice1Result1, rootChoice1Result2, nil];
+    rootChoice1.resultEvents = rootChoice1Results;
+    
+    // Initialize another special choice for the event
+    Choice *rootChoice2 = [[Choice alloc] initWithChoiceDescription: @"Carefully remove your foot from the root."];
+    
+    // Initialize the special choice's result event
+    Event *rootChoice2Result1 = [Event new];
+    rootChoice2Result1.eventDescription = @"You get free.";
+    rootChoice2Result1.choices = [NSArray arrayWithObjects: moveForward, moveBackward, nil];
+    
+    // Initialize the special choice's result event
+    Event *rootChoice2Result2 = [Event new];
+    rootChoice2Result2.eventDescription = @"You're too focused to notice a hungry bear behind you, you are attacked and die.";
+    rootChoice2Result2.choices = [NSArray arrayWithObjects: endGame, nil];
+    
+    NSMutableArray *rootChoice2Results = [NSMutableArray arrayWithObjects: rootChoice2Result1, rootChoice2Result2, nil];
+    rootChoice2.resultEvents = rootChoice2Results;
+    
+    // Repopulate choices for the unique event. They include the unique choice and the defaults
+    choices = [NSArray arrayWithObjects: rootChoice1, rootChoice2, nil];
+    
+    // Initialize the unique event finally with its choices
+    Event *uniqueEvent3 = [Event new];
+    uniqueEvent3.eventDescription = @"Your foot gets caught in a root trap.";
+    uniqueEvent3.choices = choices;
+    uniqueEvent3.isUnique = YES;
 
 //    Event *uniqueEvent3 = [Event new];
 //    uniqueEvent3.eventDescription = @"You notice glowing eyes in a thick bush.";
@@ -236,8 +252,8 @@
     combatEvent3.isCombatEvent = YES;
 
     // add uniqueEvent3 later
-    NSArray *events = [NSArray arrayWithObjects: event1, event2, event3, event4, event5, event6, event7, event8, event9,
-                       uniqueEvent1, uniqueEvent2,
+    NSArray *events = [NSArray arrayWithObjects: event1, event2, event3, event4, event5, event6, event7, event8,
+                       uniqueEvent1, uniqueEvent2, uniqueEvent3,
                        combatEvent1, combatEvent2, combatEvent3, nil];
     return events;
 }
