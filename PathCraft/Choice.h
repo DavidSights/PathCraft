@@ -7,6 +7,7 @@
 //
 
 #import "Environment.h"
+#import "Event.h"
 
 @interface Choice : Environment
 
@@ -16,5 +17,6 @@
 - (instancetype) initWithChoiceDescription: (NSString *)choiceDescription;
 - (void) createBasicResultEventWithString: (NSString *)resultDescription;
 - (void) createEndGameResultEventWithString:(NSString *)resultDescription;
+- (void) initializeResultEventsWithEvent: (Event *)event;
 
 @end

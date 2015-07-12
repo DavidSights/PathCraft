@@ -19,6 +19,14 @@
     return self;
 }
 
+- (void) initializeResultEventsWithEvent: (Event *)event {
+    if (!self.resultEvents) {
+        self.resultEvents = [NSMutableArray arrayWithObjects: event, nil];
+    } else {
+        [self.resultEvents addObject: event];
+    }
+}
+
 - (void) createBasicResultEventWithString:(NSString *)resultDescription {
 
     // A possible event for a unique result.

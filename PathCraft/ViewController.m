@@ -43,6 +43,8 @@
     self.actionButton.clipsToBounds = YES;
     self.choiceButton.layer.cornerRadius = self.choiceButton.frame.size.height/6;
     self.actionButton.layer.cornerRadius = self.actionButton.frame.size.height/6;
+
+    [self resetGame];
 }
 
 - (void)resetGame {
@@ -120,8 +122,13 @@
         [self.player gatherMaterial: @"Meat"];
         [self refreshEvent];
     } else if ([self.choiceButton.titleLabel.text isEqualToString: @"End Game"]) {
-        // do nothing
+        [self performSegueWithIdentifier:@"gameOver" sender:self];
     } else {
+        
+        // Feed enemy handles itself, but we must take away the player's meat.
+        if ([self.choiceButton.titleLabel.text isEqualToString: @"Feed Enemy"]) {
+            [self.player.inventory setObject:@NO forKey:@"Meat"];
+        }
         [self handleUniqueEvent: self.currentEvent withChoiceIndex: self.currentChoiceIndex];
     }
     //UIAccessibilityAnnouncementNotification(UIAccessibilityAnnouncementNotification,self.descriptionTextField.accessibilityLabel);
@@ -145,7 +152,8 @@
 
         if (([description isEqualToString: @"Gather Wood"] && [self.player hasWood]) ||
             ([description isEqualToString: @"Gather Metal"] && [self.player hasMetal]) ||
-            ([description isEqualToString: @"Gather Meat"] && [self.player hasMeat])) {
+            ([description isEqualToString: @"Gather Meat"] && [self.player hasMeat]) ||
+            ([description isEqualToString: @"Feed Enemy"] && ![self.player hasMeat])) {
             addChoice = NO;
         }
 
@@ -168,6 +176,8 @@
 }
 
 - (void) populateEventDisplay:(Event *)event {
+    
+    NSLog(@"Populate event display: %@", event.description);
     
     self.descriptionTextField.text = [event eventDescription];
 
@@ -315,6 +325,11 @@
     // isn't a problem. If our dice more have more than 10000 sides at any point, we should revisit this assumption.
     NSAssert(sides<10000, @"Die has too many sides.");
     return arc4random_uniform((u_int32_t)sides)+1;
+}
+
+-(void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
+    GameOverViewController *dVC = segue.destinationViewController;
+    dVC.gameOverText = @"You died after %i steps.";
 }
 
 @end
