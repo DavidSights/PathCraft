@@ -287,6 +287,8 @@
 
 - (void) handleUniqueEvent: (Event *)event withChoiceIndex: (NSInteger)index {
     
+    event.hasOccurred = YES;
+    
     NSArray *choices = [event choices];
     Choice *chosenAction = [choices objectAtIndex: index];
     
