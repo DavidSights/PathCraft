@@ -336,7 +336,7 @@
 
 -(void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
     GameOverViewController *dVC = segue.destinationViewController;
-    dVC.gameOverText = @"Game Over.\nYou died after\n%i steps.\nYour story will be remembered, if only by you.\nOr will it?";
+    dVC.gameOverText = [NSString stringWithFormat:@"Game Over.\nYou died after\n%li steps.", (long)self.stepCount];
 }
 
 @end
