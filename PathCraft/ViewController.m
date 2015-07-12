@@ -211,6 +211,8 @@
 }
 
 - (void) fight {
+
+    NSLog(@"%@", self.currentEvent.description);
     // Fifty percent chance of dying ...
     BOOL victory = [ViewController isRollSuccessfulWithNumberOfDice:1 sides:2 bonus:0 againstTarget:2];
     if (victory) {
@@ -226,11 +228,12 @@
         self.currentEvent = defeatEvent;
 //        self.currentEvent.hasOccurred = YES;
         [self populateEventDisplay: self.currentEvent];
-        [self.eventHistory addObject:self.currentEvent];
+        [self.eventHistory addObject: self.currentEvent];
     }
 }
 
 - (void) flee {
+    NSLog(@"%@", self.currentEvent.description);
     // Flee is the same as fight for the moment... change this. :) --MJ
     BOOL victory = [ViewController isRollSuccessfulWithNumberOfDice:1 sides:2 bonus:0 againstTarget:2];
     self.currentEvent.hasOccurred = YES;
