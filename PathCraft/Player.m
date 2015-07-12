@@ -40,7 +40,7 @@
 
 - (void) gatherMaterial:(NSString *)material {
     [self.inventory setValue:@YES forKey:material];
-    [self speakString:@"You gathered the materials."];
+    [self speakString:[@"You gathered the " stringByAppendingString:material]];
 }
 
 - (void)craftWeapon {
