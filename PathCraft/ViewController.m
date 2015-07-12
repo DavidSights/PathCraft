@@ -57,6 +57,10 @@
     [self resetGame];
 }
 
+- (UIStatusBarStyle)preferredStatusBarStyle {
+    return UIStatusBarStyleLightContent;
+}
+
 - (void)resetGame {
     
     self.stepCount = 0;
