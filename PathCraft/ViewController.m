@@ -13,6 +13,7 @@
 #import "Choice.h"
 #import "Player.h"
 #import "GameOverViewController.h"
+#import "Announcer.h"
 
 @interface ViewController ()
 
@@ -63,6 +64,14 @@
     
     self.eventHistory = [NSMutableArray new];
     [self.eventHistory addObject: self.currentEvent];
+    UIAccessibilityPostNotification(UIAccessibilityAnnouncementNotification, self.descriptionTextField.accessibilityLabel);
+}
+
+- (void) updateAccessibilityLabels {
+    NSString *buttonTitle = self.currentAvailableChoices[self.currentChoiceIndex];
+    [self.choiceButton setTitle: buttonTitle forState:UIControlStateNormal];
+    NSString *accessibilityLabel = [@"Change action. Current action is " stringByAppendingString:buttonTitle];
+    [self.choiceButton setAccessibilityLabel:accessibilityLabel];
 }
 
 - (Event *)getInitialEvent {
@@ -127,6 +136,11 @@
         }
         [self handleUniqueEvent: self.currentEvent withChoiceIndex: self.currentChoiceIndex];
     }
+    //UIAccessibilityAnnouncementNotification(UIAccessibilityAnnouncementNotification,self.descriptionTextField.accessibilityLabel);
+    Announcer *announcer = [Announcer new];
+    NSNotificationCenter *nc = [NSNotificationCenter defaultCenter];
+    [nc addObserver:announcer selector:@selector(receiveNotification:) name:UIAccessibilityAnnouncementDidFinishNotification object:nil];
+    UIAccessibilityPostNotification(UIAccessibilityAnnouncementNotification, self.descriptionTextField.accessibilityLabel);
 }
 
 #pragma mark - Update Views
@@ -163,7 +177,7 @@
     } else {
         self.currentChoiceIndex++;
     }
-    [self.choiceButton setTitle: self.currentAvailableChoices[self.currentChoiceIndex] forState:UIControlStateNormal];
+    [self updateAccessibilityLabels];
 }
 
 - (void) populateEventDisplay:(Event *)event {
@@ -174,6 +188,7 @@
 
     [self.choiceButton setTitle: self.currentAvailableChoices[0] forState:UIControlStateNormal];
     self.currentChoiceIndex = 0;
+    [self updateAccessibilityLabels];
 }
 
 #pragma mark - Handle Events
