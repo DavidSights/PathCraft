@@ -117,7 +117,7 @@
     event13.choices = [NSArray arrayWithArray: choices];
 
     // Unique Events
-
+    
     // Unique Event 1
 
     // Initialize the special choice for the event
@@ -131,7 +131,6 @@
     Event *bangingChoice1Result2 = [Event new];
     bangingChoice1Result2.eventDescription = @"The banging stops, then you hear a banging on your head and you die.";
     bangingChoice1Result2.choices = [NSArray arrayWithObjects: endGame, nil];
-
     NSMutableArray *bangingChoice1Results = [NSMutableArray arrayWithObjects: bangingChoice1Result1, bangingChoice1Result2, nil];
     bangingChoice1.resultEvents = bangingChoice1Results;
 
@@ -255,6 +254,7 @@
     uniqueEvent4.choices = [NSArray arrayWithArray: choices];
     uniqueEvent4.isUnique = YES;
 
+    // Combat Choices
     choices = [NSArray arrayWithObjects: fight, flee, feedEnemy, nil];
 
     Event *combatEvent1 = [Event new];
@@ -278,11 +278,11 @@
     choices = [NSArray arrayWithObjects: moveForward, craftWeapon, moveBackward, nil];
     
     Event *craftEvent1 = [Event new];
-    craftEvent1.eventDescription = @"You find an abandoned home. There are tools inside. Maybe you shoud craft or a weapon.";
+    craftEvent1.eventDescription = @"You see an abandoned home. There are tools inside. Use wood and metal craft or upgrade a weapon.";
     craftEvent1.choices = [NSArray arrayWithArray: choices];
     
     Event *craftEvent2 = [Event new];
-    craftEvent2.eventDescription = @"You find an anvil and hammer.";
+    craftEvent2.eventDescription = @"You find an anvil and a hammer. You can use them to craft or upgrade a weapon.";
     craftEvent2.choices = [NSArray arrayWithArray: choices];
     
 //    Event *craftEvent3 = [Event new];

@@ -29,6 +29,7 @@
 @property Environment *environment;
 @property (strong, nonatomic) Announcer* announcer;
 @property NSInteger stepCount;
+@property (weak, nonatomic) IBOutlet UILabel *gatheredMaterialLabel;
 
 @end
 
@@ -37,6 +38,8 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     [self resetGame];
+    self.descriptionTextField.adjustsFontSizeToFitWidth = YES;
+    self.gatheredMaterialLabel.alpha = 0;
 }
 
 -(void)viewWillAppear:(BOOL)animated {
@@ -45,6 +48,8 @@
     self.actionButton.clipsToBounds = YES;
     self.choiceButton.layer.cornerRadius = self.choiceButton.frame.size.height/6;
     self.actionButton.layer.cornerRadius = self.actionButton.frame.size.height/6;
+    self.gatheredMaterialLabel.clipsToBounds = YES;
+    self.gatheredMaterialLabel.layer.cornerRadius = self.gatheredMaterialLabel.frame.size.height/2;
 
     [self resetGame];
 }
@@ -73,6 +78,8 @@
     [self.choiceButton setTitle: buttonTitle forState:UIControlStateNormal];
     NSString *accessibilityLabel = [@"Change action. Current action is " stringByAppendingString:buttonTitle];
     [self.choiceButton setAccessibilityLabel:accessibilityLabel];
+    NSString *performActionAccessibilityLabel = [@"Perform action. Current action is " stringByAppendingString:buttonTitle];
+    [self.actionButton setAccessibilityLabel:performActionAccessibilityLabel];
 }
 
 - (Event *)getInitialEvent {
@@ -108,6 +115,15 @@
     [self updateChoice];
 }
 
+- (void) gatherAndShowNoticeFor:(NSString *)material {
+    [self.player gatherMaterial: material];
+    self.gatheredMaterialLabel.text = [NSString stringWithFormat:@"Gathered %@!", material];
+    self.gatheredMaterialLabel.alpha = 1;
+    [UIView animateWithDuration:2.0 animations:^{
+        self.gatheredMaterialLabel.alpha = 0;
+    }];
+}
+
 - (IBAction)actionButtonPressed:(id)sender {
     self.stepCount += 1;
     if ([self.choiceButton.titleLabel.text isEqualToString: @"Move Forward"]) {
@@ -119,13 +135,13 @@
     } else if ([self.choiceButton.titleLabel.text isEqualToString: @"Flee"]) {
         [self flee];
     } else if ([self.choiceButton.titleLabel.text isEqualToString: @"Gather Wood"]) {
-        [self.player gatherMaterial: @"Wood"];
+        [self gatherAndShowNoticeFor:@"Wood"];
         [self refreshEvent];
     } else if ([self.choiceButton.titleLabel.text isEqualToString: @"Gather Metal"]) {
-        [self.player gatherMaterial: @"Metal"];
+        [self gatherAndShowNoticeFor:@"Metal"];
         [self refreshEvent];
     } else if ([self.choiceButton.titleLabel.text isEqualToString: @"Gather Meat"]) {
-        [self.player gatherMaterial: @"Meat"];
+        [self gatherAndShowNoticeFor:@"Meat"];
         [self refreshEvent];
     } else if ([self.choiceButton.titleLabel.text isEqualToString: @"End Game"]) {
         [self performSegueWithIdentifier:@"gameOver" sender:self];
@@ -354,7 +370,7 @@
 
 -(void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
     GameOverViewController *dVC = segue.destinationViewController;
-    dVC.gameOverText = [NSString stringWithFormat:@"Game Over.\nYou performed %li actions.", (long)self.stepCount];
+    dVC.gameOverText = [NSString stringWithFormat:@"Game Over.\nYou survived\n%li steps.", (long)self.stepCount];
 }
 
 @end
