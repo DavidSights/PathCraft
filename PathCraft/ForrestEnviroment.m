@@ -41,7 +41,7 @@
     
     Event *victoryEvent = [Event new];
     victoryEvent.eventDescription = @"You defeated the enemy.";
-    victoryEvent.choices = [NSArray arrayWithObjects: moveForward, moveBackward, gatherMeat, nil];
+    victoryEvent.choices = [NSArray arrayWithObjects: moveForward, gatherMeat, moveBackward, nil];
     
     [fight initializeResultEventsWithEvent:victoryEvent];
     [fight createEndGameResultEventWithString: @"The enemy killed you."];
@@ -58,62 +58,62 @@
     NSArray *choices;
     Event *event1 = [Event new];
     event1.eventDescription = @"Trees surround you.";
-    choices = [NSArray arrayWithObjects: moveForward, moveBackward, gatherWood, nil];
+    choices = [NSArray arrayWithObjects: moveForward, gatherWood, moveBackward,  nil];
     event1.choices = [NSArray arrayWithArray: choices];
 
     Event *event2 = [Event new];
     event2.eventDescription = @"Sun light peeks through leaves of a tree.";
-    choices = [NSArray arrayWithObjects: moveForward, moveBackward, gatherWood, nil];
+    choices = [NSArray arrayWithObjects: moveForward, gatherWood, moveBackward, nil];
     event2.choices = [NSArray arrayWithArray: choices];
 
     Event *event3 = [Event new];
     event3.eventDescription = @"You think you hear something. You wait and nothing happens.";
-    choices = [NSArray arrayWithObjects: moveForward, moveBackward, gatherWood, nil];
+    choices = [NSArray arrayWithObjects: moveForward, gatherWood, moveBackward, nil];
     event3.choices = [NSArray arrayWithArray: choices];
 
     Event *event4 = [Event new];
     event4.eventDescription = @"Your feet are kind of sore.";
-    choices = [NSArray arrayWithObjects: moveForward, moveBackward, gatherWood, nil];
+    choices = [NSArray arrayWithObjects: moveForward, gatherWood, moveBackward, nil];
     event4.choices = [NSArray arrayWithArray: choices];
 
     Event *event5 = [Event new];
     event5.eventDescription = @"The smell of nature is thick here.";
-    choices = [NSArray arrayWithObjects: moveForward, moveBackward,  gatherWood, nil];
+    choices = [NSArray arrayWithObjects: moveForward, gatherWood, moveBackward, nil];
     event5.choices = [NSArray arrayWithArray: choices];
 
     Event *event6 = [Event new];
     event6.eventDescription = @"You notice that you smell kind of bad. Oh well.";
-    choices = [NSArray arrayWithObjects: moveForward, moveBackward, gatherWood, nil];
+    choices = [NSArray arrayWithObjects: moveForward, gatherWood, moveBackward, nil];
     event6.choices = [NSArray arrayWithArray: choices];
 
     Event *event7 = [Event new];
     event7.eventDescription = @"A bird flies past your face a little too close for comfort.";
-    choices = [NSArray arrayWithObjects: moveForward, moveBackward, gatherWood, nil];
+    choices = [NSArray arrayWithObjects: moveForward, gatherWood, moveBackward, nil];
     event7.choices = [NSArray arrayWithArray: choices];
 
     Event *event8 = [Event new];
     event8.eventDescription = @"You wonder what your family is doing now. You almost trip over a rock and are brought back to reality.";
-    choices = [NSArray arrayWithObjects: moveForward, moveBackward, gatherWood, nil];
+    choices = [NSArray arrayWithObjects: moveForward, gatherWood, moveBackward, nil];
     event8.choices = [NSArray arrayWithArray: choices];
 
     Event *event10 = [Event new];
     event10.eventDescription = @"You notice an abandoned wagon. You can see some metal inside.";
-    choices = [NSArray arrayWithObjects: moveForward, moveBackward, gatherMetal, nil];
+    choices = [NSArray arrayWithObjects: moveForward, gatherMetal, moveBackward, nil];
     event10.choices = [NSArray arrayWithArray: choices];
 
     Event *event11 = [Event new];
     event11.eventDescription = @"You walk over a gold vein.";
-    choices = [NSArray arrayWithObjects: moveForward, moveBackward, gatherMetal,nil];
+    choices = [NSArray arrayWithObjects: moveForward, gatherMetal, moveBackward, nil];
     event11.choices = [NSArray arrayWithArray: choices];
 
     Event *event12 = [Event new];
     event12.eventDescription = @"You walk over a silver vein.";
-    choices = [NSArray arrayWithObjects: moveForward, moveBackward, gatherMetal, nil];
+    choices = [NSArray arrayWithObjects: moveForward, gatherMetal, moveBackward, nil];
     event12.choices = [NSArray arrayWithArray: choices];
 
     Event *event13 = [Event new];
     event13.eventDescription = @"You walk over an iron vein.";
-    choices = [NSArray arrayWithObjects: moveForward, moveBackward, gatherMetal,nil];
+    choices = [NSArray arrayWithObjects: moveForward, gatherMetal, moveBackward, nil];
     event13.choices = [NSArray arrayWithArray: choices];
 
     // Unique Events
@@ -136,7 +136,7 @@
     bangingChoice1.resultEvents = bangingChoice1Results;
 
     // Repopulate choices for the unique event. They include the unique choice and the defaults
-    choices = [NSArray arrayWithObjects: moveForward, moveBackward, bangingChoice1, nil];
+    choices = [NSArray arrayWithObjects: moveForward, bangingChoice1, moveBackward, nil];
 
     // Initialize the unique event finally with its choices
     Event *uniqueEvent1 = [Event new];
@@ -177,7 +177,7 @@
     treeChoice2.resultEvents = treeChoice2Results;
 
     // Repopulate choices for the unique event. They include the unique choice and the defaults
-    choices = [NSArray arrayWithObjects: moveForward, moveBackward, treeChoice1, treeChoice2, nil];
+    choices = [NSArray arrayWithObjects: moveForward, treeChoice1, treeChoice2, moveBackward, nil];
 
     // Initialize the unique event finally with its choices
     Event *uniqueEvent2 = [Event new];
@@ -193,7 +193,7 @@
     // Initialize the special choice's result event
     Event *rootChoice1Result1 = [Event new];
     rootChoice1Result1.eventDescription = @"You get free.";
-    rootChoice1Result1.choices = [NSArray arrayWithObjects: moveForward, moveBackward, gatherWood, nil];
+    rootChoice1Result1.choices = [NSArray arrayWithObjects: moveForward, gatherWood, moveBackward, nil];
     
     // Initialize the special choice's result event
     Event *rootChoice1Result2 = [Event new];
@@ -209,7 +209,7 @@
     // Initialize the special choice's result event
     Event *rootChoice2Result1 = [Event new];
     rootChoice2Result1.eventDescription = @"You get free.";
-    rootChoice2Result1.choices = [NSArray arrayWithObjects: moveForward, moveBackward, gatherWood, nil];
+    rootChoice2Result1.choices = [NSArray arrayWithObjects: moveForward, gatherWood, moveBackward, nil];
     
     // Initialize the special choice's result event
     Event *rootChoice2Result2 = [Event new];
@@ -247,7 +247,7 @@
     glowingChoice1.resultEvents = glowingChoice1Results;
     
     // Repopulate choices for the unique event. They include the unique choice and the defaults
-    choices = [NSArray arrayWithObjects: moveForward, moveBackward, glowingChoice1, nil];
+    choices = [NSArray arrayWithObjects: moveForward, glowingChoice1, moveBackward, nil];
     
     // Initialize the unique event finally with its choices
     Event *uniqueEvent4 = [Event new];
@@ -275,7 +275,7 @@
     // Craft events
     Choice *craftWeapon = [[Choice alloc] initWithChoiceDescription: @"Upgrade Weapon"];
     [craftWeapon createBasicResultEventWithString:@"You successfully upgraded your weapon"];
-    choices = [NSArray arrayWithObjects: moveForward, moveBackward, craftWeapon, nil];
+    choices = [NSArray arrayWithObjects: moveForward, craftWeapon, moveBackward, nil];
     
     Event *craftEvent1 = [Event new];
     craftEvent1.eventDescription = @"You find an abandoned home. There are tools inside. Maybe you shoud craft or a weapon.";
