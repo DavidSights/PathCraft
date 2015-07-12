@@ -170,7 +170,7 @@
     treeChoice2Result1.choices = [NSArray arrayWithObjects: moveForward, moveBackward, nil];
 
     Event *treeChoice2Result2 = [Event new];
-    treeChoice2Result2.eventDescription = @"Your tummy aches so badly after eating noodles the fruit that you curl up and lay on the ground. Eventually you fall asleep and never wake up again.";
+    treeChoice2Result2.eventDescription = @"Your tummy aches so badly after eating the fruit that you curl up and lay on the ground. Eventually you fall asleep and never wake up again.";
     treeChoice2Result2.choices = [NSArray arrayWithObjects: endGame, nil];
 
     NSMutableArray *treeChoice2Results = [NSMutableArray arrayWithObjects: treeChoice2Result1, treeChoice2Result2, nil];

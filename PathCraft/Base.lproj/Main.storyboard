@@ -91,7 +91,7 @@
                         <outlet property="actionButton" destination="BKc-f2-6r7" id="DRl-EI-kJJ"/>
                         <outlet property="choiceButton" destination="Jd8-Jn-Zic" id="TCU-34-B5N"/>
                         <outlet property="descriptionTextField" destination="L2H-lG-94i" id="XWZ-h9-paq"/>
-                        <segue destination="1lx-BS-sYh" kind="presentation" id="sfR-hQ-RwS"/>
+                        <segue destination="1lx-BS-sYh" kind="presentation" identifier="gameOver" id="sfR-hQ-RwS"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="x5A-6p-PRh" sceneMemberID="firstResponder"/>
