@@ -53,10 +53,16 @@
 
     Choice *feedEnemy = [[Choice alloc] initWithChoiceDescription:@"Feed Enemy"];
     [feedEnemy createBasicResultEventWithString:@"You fed the enemy and successfully escaped."];
+    
+    NSArray *choices;
+    
+    // Craft events
+    Choice *craftWeapon = [[Choice alloc] initWithChoiceDescription: @"Upgrade Weapon"];
+    [craftWeapon createBasicResultEventWithString:@"You successfully upgraded your weapon."];
+    choices = [NSArray arrayWithObjects: moveForward, craftWeapon, moveBackward, nil];
 
     /* Regular */
     
-    NSArray *choices;
     Event *event1 = [Event new];
     event1.eventDescription = @"The air is crisp here.";
     choices = [NSArray arrayWithObjects: moveForward, moveBackward, gatherMetal, nil];
@@ -79,7 +85,7 @@
 
     Event *event5 = [Event new];
     event5.eventDescription = @"You are overcome with awe in the sublime environment.";
-    choices = [NSArray arrayWithObjects: moveForward, moveBackward,  gatherMetal, nil];
+    choices = [NSArray arrayWithObjects: moveForward, moveBackward, gatherMetal, nil];
     event5.choices = [NSArray arrayWithArray: choices];
     
     Event *event6 = [Event new];
@@ -97,16 +103,10 @@
     choices = [NSArray arrayWithObjects: moveForward, moveBackward, gatherMetal, nil];
     event7.choices = [NSArray arrayWithArray: choices];
     
-    /* Special Choices */
-    
-    // Peak
-    NSString *peak1 = @"Scurry to the top."; // R: 1) You scream at the top of your lungs. This is the most free you've ever felt. 2) You are left speechless. What can be said about such a sensation.
-    NSString *peak2 = @"Carefully ascend to the highest point."; // R: 1) You trip and nearly fall. You barely notice the view as you scramble away. 2) What a view and sensation!
-    
-    // Demi-god presents itself
-    NSString *demiGod1 = @"Approach with caution."; // R: 1) The god rewards you. 2) The god is offended and kills you.
-    NSString *demiGod2 = @"Run away!"; // R: 1) The god ignores you. 2) The god is offended and kills you.
-    NSString *demiGod3 = @"Bow in deference."; // R: 1) The god rewards you. 3) The god acknowledges you and moves on.
+    Event *event9 = [Event new];
+    event7.eventDescription = @"You slip and fall to your death.";
+    choices = [NSArray arrayWithObjects: endGame, nil];
+    event7.choices = [NSArray arrayWithArray: choices];
     
     /* Unique */
     
@@ -174,10 +174,6 @@
     uniqueEvent2.isUnique = YES;
 
     // Unique Event 3
-    
-    // Cliff
-    NSString *cliff1 = @"Move forward for a closer look."; // R: 1) You slip and fall to your death. 2) You are rewarded with an incredible breeze and view. You can see (other environment) from here. 3) You are overcome with fear... You force yourself to crawl for a peak.
-    NSString *cliff2 = @"Take a leap of faith over the edge."; // R: 1) You fall to your death. 2) A mysterious wind catches you and places you safely on solid ground.
 
     // Initialize a special choice for the event
     Choice *cliffChoice1 = [[Choice alloc] initWithChoiceDescription: @"Move forward for a closer look."];
@@ -220,213 +216,152 @@
     uniqueEvent3.choices = [NSArray arrayWithArray: choices];
     uniqueEvent3.isUnique = YES;
     
+    // Unique Event 4
+
+    // Initialize a special choice for the event
+    Choice *summitChoice1 = [[Choice alloc] initWithChoiceDescription: @"Scurry to the top."];
+
+    // Initialize the special choice's result event
+    Event *summitChoice1Result1 = [Event new];
+    summitChoice1Result1.eventDescription = @"You scream at the top of your lungs. This is the most free you've ever felt!";
+    summitChoice1Result1.choices = [NSArray arrayWithObjects: moveForward, moveBackward, nil];
+
+    // Initialize the special choice's result event
+    Event *summitChoice1Result2 = [Event new];
+    summitChoice1Result2.eventDescription = @"You are left speechless. What can be said about such a sensation.";
+    summitChoice1Result2.choices = [NSArray arrayWithObjects: moveForward, moveBackward, nil];
+
+    NSMutableArray *summitChoice1Results = [NSMutableArray arrayWithObjects: summitChoice1Result1, summitChoice1Result2, nil];
+    summitChoice1.resultEvents = summitChoice1Results;
+
+    // Initialize another special choice for the event
+    Choice *summitChoice2 = [[Choice alloc] initWithChoiceDescription: @"Carefully ascend to the highest point."];
+
+    // Initialize the special choice's result event
+    Event *summitChoice2Result1 = [Event new];
+    summitChoice2Result1.eventDescription = @"You trip and nearly fall. You barely notice the view as you scramble away.";
+    summitChoice2Result1.choices = [NSArray arrayWithObjects: moveForward, moveBackward, nil];
+
+    // Initialize the special choice's result event
+    Event *summitChoice2Result2 = [Event new];
+    summitChoice2Result2.eventDescription = @"What a view and sensation!";
+    summitChoice2Result2.choices = [NSArray arrayWithObjects: moveForward, moveBackward, nil];
+
+    NSMutableArray *summitChoice2Results = [NSMutableArray arrayWithObjects: summitChoice2Result1, summitChoice2Result2, nil];
+    summitChoice2.resultEvents = summitChoice2Results;
+
+    // Repopulate choices for the unique event. They include the unique choice and the defaults
+    choices = [NSArray arrayWithObjects: summitChoice1, summitChoice2, nil];
+
+    // Initialize the unique event finally with its choices
+    Event *uniqueEvent4 = [Event new];
+    uniqueEvent4.eventDescription = @"You've arrived at the summit!";
+    uniqueEvent4.choices = [NSArray arrayWithArray: choices];
+    uniqueEvent4.isUnique = YES;
     
+    // Unique Event 5
+
+    // Initialize a special choice for the event
+    Choice *mysticalChoice1 = [[Choice alloc] initWithChoiceDescription: @"Approach with caution."];
+
+    // Initialize the special choice's result event
+    Event *mysticalChoice1Result1 = [Event new];
+    mysticalChoice1Result1.eventDescription = @"The god rewards you with goods";
+    mysticalChoice1Result1.choices = [NSArray arrayWithObjects: moveForward, gatherMetal, gatherWood, craftWeapon, moveBackward, nil];
+
+    // Initialize the special choice's result event
+    Event *mysticalChoice1Result2 = [Event new];
+    mysticalChoice1Result2.eventDescription = @"The god is offended and kills you.";
+    mysticalChoice1Result2.choices = [NSArray arrayWithObjects: endGame, nil];
+
+    NSMutableArray *mysticalChoice1Results = [NSMutableArray arrayWithObjects: mysticalChoice1Result1, mysticalChoice1Result2, nil];
+    mysticalChoice1.resultEvents = mysticalChoice1Results;
+    
+    // Initialize a special choice for the event
+    Choice *mysticalChoice2 = [[Choice alloc] initWithChoiceDescription: @"Run away!"];
+    
+    // Initialize the special choice's result event
+    Event *mysticalChoice2Result1 = [Event new];
+    mysticalChoice2Result1.eventDescription = @"The god ignores you.";
+    mysticalChoice2Result1.choices = [NSArray arrayWithObjects: moveForward, moveBackward, nil];
+    
+    // Initialize the special choice's result event
+    Event *mysticalChoice2Result2 = [Event new];
+    mysticalChoice2Result2.eventDescription = @"The god is offended and kills you.";
+    mysticalChoice2Result2.choices = [NSArray arrayWithObjects: endGame, nil];
+    
+    NSMutableArray *mysticalChoice2Results = [NSMutableArray arrayWithObjects: mysticalChoice2Result1, mysticalChoice2Result2, nil];
+    mysticalChoice2.resultEvents = mysticalChoice2Results;
+    
+    // Initialize a special choice for the event
+    Choice *mysticalChoice3 = [[Choice alloc] initWithChoiceDescription: @"Bow in deference."];
+    
+    // Initialize the special choice's result event
+    Event *mysticalChoice3Result1 = [Event new];
+    mysticalChoice3Result1.eventDescription = @"The god is pleased. It rewards you.";
+    mysticalChoice3Result1.choices = [NSArray arrayWithObjects: moveForward, gatherMetal, gatherWood, craftWeapon, moveBackward, nil];
+    
+    // Initialize the special choice's result event
+    Event *mysticalChoice3Result2 = [Event new];
+    mysticalChoice3Result2.eventDescription = @"The god acknowledges you and moves on.";
+    mysticalChoice3Result2.choices = [NSArray arrayWithObjects: endGame, nil];
+    
+    NSMutableArray *mysticalChoice3Results = [NSMutableArray arrayWithObjects: mysticalChoice3Result1, mysticalChoice3Result2, nil];
+    mysticalChoice3.resultEvents = mysticalChoice3Results;
+
+    // Repopulate choices for the unique event. They include the unique choice and the defaults
+    choices = [NSArray arrayWithObjects: mysticalChoice1, mysticalChoice2, mysticalChoice3, nil];
+
+    // Initialize the unique event finally with its choices
     Event *uniqueEvent5 = [Event new];
-    uniqueEvent5.eventDescription = @"You've arrived at the summit!";
-    choices = [NSArray arrayWithObjects: peak1, peak2, moveBackward, nil];
-    uniqueEvent5.choices = choices;
+    uniqueEvent5.eventDescription = @"A mystical being appears before you.";
+    uniqueEvent5.choices = [NSArray arrayWithArray: choices];
     uniqueEvent5.isUnique = YES;
-    
-    Event *uniqueEvent6 = [Event new];
-    uniqueEvent6.eventDescription = @"A mystical being appears nearby.";
-    choices = [NSArray arrayWithObjects: demiGod1, demiGod2, demiGod3, moveForward, moveBackward, nil];
-    uniqueEvent6.choices = choices;
-    uniqueEvent6.isUnique = YES;
-    
+
     /* Combat */
+    
+    choices = [NSArray arrayWithObjects: fight, flee, feedEnemy, nil];
     
     Event *combatEvent1 = [Event new];
     combatEvent1.eventDescription = @"You encounter a mountain lion.";
-    choices = [NSArray arrayWithObjects: fight, flee, nil];
-    combatEvent1.choices = choices;
+    combatEvent1.choices = [NSArray arrayWithArray: choices];
+    combatEvent1.isCombatEvent = YES;
     
     Event *combatEvent2 = [Event new];
-    combatEvent2.eventDescription = @"You encounter a group of bandits.";
-    choices = [NSArray arrayWithObjects: fight, flee, nil];
-    combatEvent2.choices = choices;
+    combatEvent1.eventDescription = @"Suddenly a pack of wolves surrounds you!";
+    combatEvent1.choices = [NSArray arrayWithArray: choices];
+    combatEvent1.isCombatEvent = YES;
     
     Event *combatEvent3 = [Event new];
-    combatEvent3.eventDescription = @"An eagle swoops down and attacks you.";
+    combatEvent1.eventDescription = @"You are attacked by a bear!";
+    combatEvent1.choices = [NSArray arrayWithArray: choices];
+    combatEvent1.isCombatEvent = YES;
+    
     choices = [NSArray arrayWithObjects: fight, flee, nil];
-    combatEvent3.choices = choices;
     
     Event *combatEvent4 = [Event new];
-    combatEvent4.eventDescription = @"A mystical being comes towards you angrily.";
-    choices = [NSArray arrayWithObjects: fight, flee, nil];
-    combatEvent4.choices = choices;
+    combatEvent1.eventDescription = @"You encounter a group of bandits.";
+    combatEvent1.choices = [NSArray arrayWithArray: choices];
+    combatEvent1.isCombatEvent = YES;
     
     /* Craftables */
     
-    // Shiny stone
+    choices = [NSArray arrayWithObjects: moveForward, craftWeapon, moveBackward, nil];
     
-    // Pure copper
+    Event *craftEvent1 = [Event new];
+    craftEvent1.eventDescription = @"You find a cabin with tools inside. Maybe you should upgrade your weapon.";
+    craftEvent1.choices = [NSArray arrayWithArray: choices];
     
-    // Heavy rock
-    
-    // Demi-god presents magical material to you
-//    
-//    NSArray *events = [NSArray arrayWithObjects: event1, event2, event4, event4, event5, event6, event7, uniqueEvent1, uniqueEvent2, uniqueEvent3, uniqueEvent4, uniqueEvent5, uniqueEvent6, combatEvent1, combatEvent2, combatEvent3, combatEvent4, nil];
-//    
-//    return events;
-//
-//    // Passive Events
-//    
+    Event *craftEvent2 = [Event new];
+    craftEvent2.eventDescription = @"You find a magical stone. Use it to upgrade your weapon.";
+    craftEvent2.choices = [NSArray arrayWithArray: choices];
 
-//    
-//
-//
-
-//    
-
-//    
-
-//    
-
-    //    Event *event8 = [Event new];
-    //    event8.eventDescription = @"You wonder what your family is doing now. You almost trip over a rock and are brought back to reality.";
-    //    choices = [NSArray arrayWithObjects: moveForward, moveBackward, gatherWood, nil];
-    //    event8.choices = [NSArray arrayWithArray: choices];
-//    
-
-//    
-//    Event *event10 = [Event new];
-//    event10.eventDescription = @"You notice an abandoned wagon. You can see some metal inside.";
-//    choices = [NSArray arrayWithObjects: moveForward, moveBackward, gatherMetal, nil];
-//    event10.choices = [NSArray arrayWithArray: choices];
-//    
-//    Event *event11 = [Event new];
-//    event11.eventDescription = @"You walk over a gold vein.";
-//    choices = [NSArray arrayWithObjects: moveForward, moveBackward, gatherMetal,nil];
-//    event11.choices = [NSArray arrayWithArray: choices];
-//    
-//    Event *event12 = [Event new];
-//    event12.eventDescription = @"You walk over a silver vein.";
-//    choices = [NSArray arrayWithObjects: moveForward, moveBackward, gatherMetal, nil];
-//    event12.choices = [NSArray arrayWithArray: choices];
-//    
-//    Event *event13 = [Event new];
-//    event13.eventDescription = @"You walk over an iron vein.";
-//    choices = [NSArray arrayWithObjects: moveForward, moveBackward, gatherMetal,nil];
-//    event13.choices = [NSArray arrayWithArray: choices];
-//    
-//    // Unique Events
-//    
-
-
-//    
-//    // Unique Event 3
-//    
-//    // Initialize a special choice for the event
-//    Choice *rootChoice1 = [[Choice alloc] initWithChoiceDescription: @"Rip your foot loose."];
-//    
-//    // Initialize the special choice's result event
-//    Event *rootChoice1Result1 = [Event new];
-//    rootChoice1Result1.eventDescription = @"You get free.";
-//    rootChoice1Result1.choices = [NSArray arrayWithObjects: moveForward, moveBackward, gatherWood, nil];
-//    
-//    // Initialize the special choice's result event
-//    Event *rootChoice1Result2 = [Event new];
-//    rootChoice1Result2.eventDescription = @"You injure yourself. Suddenly a bear chases you down and eats you alive.";
-//    rootChoice1Result2.choices = [NSArray arrayWithObjects: endGame, nil];
-//    
-//    NSMutableArray *rootChoice1Results = [NSMutableArray arrayWithObjects: rootChoice1Result1, rootChoice1Result2, nil];
-//    rootChoice1.resultEvents = rootChoice1Results;
-//    
-//    // Initialize another special choice for the event
-//    Choice *rootChoice2 = [[Choice alloc] initWithChoiceDescription: @"Carefully remove your foot from the root."];
-//    
-//    // Initialize the special choice's result event
-//    Event *rootChoice2Result1 = [Event new];
-//    rootChoice2Result1.eventDescription = @"You get free.";
-//    rootChoice2Result1.choices = [NSArray arrayWithObjects: moveForward, moveBackward, gatherWood, nil];
-//    
-//    // Initialize the special choice's result event
-//    Event *rootChoice2Result2 = [Event new];
-//    rootChoice2Result2.eventDescription = @"You're too focused to notice a hungry bear behind you, you are attacked and die.";
-//    rootChoice2Result2.choices = [NSArray arrayWithObjects: endGame, nil];
-//    
-//    NSMutableArray *rootChoice2Results = [NSMutableArray arrayWithObjects: rootChoice2Result1, rootChoice2Result2, nil];
-//    rootChoice2.resultEvents = rootChoice2Results;
-//    
-//    // Repopulate choices for the unique event. They include the unique choice and the defaults
-//    choices = [NSArray arrayWithObjects: rootChoice1, rootChoice2, nil];
-//    
-//    // Initialize the unique event finally with its choices
-//    Event *uniqueEvent3 = [Event new];
-//    uniqueEvent3.eventDescription = @"Your foot gets caught in a root trap.";
-//    uniqueEvent3.choices = [NSArray arrayWithArray: choices];
-//    uniqueEvent3.isUnique = YES;
-//    
-//    // Unique Event 4
-//    
-//    // Initialize a special choice for the event
-//    Choice *glowingChoice1 = [[Choice alloc] initWithChoiceDescription: @"Check it out."];
-//    
-//    // Initialize the special choice's result event
-//    Event *glowingChoice1Result1 = [Event new];
-//    glowingChoice1Result1.eventDescription = @"You reach into the bush and grab a tiny cat. It meows sharply at you and leaps away.";
-//    glowingChoice1Result1.choices = [NSArray arrayWithObjects: moveForward, moveBackward, nil];
-//    
-//    // Initialize the special choice's result event
-//    Event *glowingChoice1Result2 = [Event new];
-//    glowingChoice1Result2.eventDescription = @"A black, amorphus figure leaps out at you and you die.";
-//    glowingChoice1Result2.choices = [NSArray arrayWithObjects: endGame, nil];
-//    
-//    NSMutableArray *glowingChoice1Results = [NSMutableArray arrayWithObjects: glowingChoice1Result1, glowingChoice1Result2, nil];
-//    glowingChoice1.resultEvents = glowingChoice1Results;
-//    
-//    // Repopulate choices for the unique event. They include the unique choice and the defaults
-//    choices = [NSArray arrayWithObjects: moveForward, moveBackward, glowingChoice1, nil];
-//    
-//    // Initialize the unique event finally with its choices
-//    Event *uniqueEvent4 = [Event new];
-//    uniqueEvent4.eventDescription = @"You notice glowing eyes in a thick bush.";
-//    uniqueEvent4.choices = [NSArray arrayWithArray: choices];
-//    uniqueEvent4.isUnique = YES;
-//    
-//    choices = [NSArray arrayWithObjects: fight, flee, feedEnemy, nil];
-//    
-//    Event *combatEvent1 = [Event new];
-//    combatEvent1.eventDescription = @"You encounter a giant spider.";
-//    combatEvent1.choices = [NSArray arrayWithArray: choices];
-//    combatEvent1.isCombatEvent = YES;
-//    
-//    Event *combatEvent2 = [Event new];
-//    combatEvent2.eventDescription = @"A wild and hungry snake appears.";
-//    combatEvent2.choices = [NSArray arrayWithArray: choices];
-//    combatEvent2.isCombatEvent = YES;
-//    
-//    Event *combatEvent3 = [Event new];
-//    combatEvent3.eventDescription = @"A giant, rabid wolf appears";
-//    combatEvent3.choices = [NSArray arrayWithArray: choices];
-//    combatEvent3.isCombatEvent = YES;
-//    
-//    // Craft events
-//    Choice *craftWeapon = [[Choice alloc] initWithChoiceDescription: @"Upgrade Weapon"];
-//    [craftWeapon createBasicResultEventWithString:@"You successfully upgraded your weapon"];
-//    choices = [NSArray arrayWithObjects: moveForward, moveBackward, craftWeapon, nil];
-//    
-//    Event *craftEvent1 = [Event new];
-//    craftEvent1.eventDescription = @"You find an abandoned home. There are tools inside. Maybe you shoud craft or a weapon.";
-//    craftEvent1.choices = [NSArray arrayWithArray: choices];
-//    
-//    Event *craftEvent2 = [Event new];
-//    craftEvent2.eventDescription = @"You find an anvil and hammer.";
-//    craftEvent2.choices = [NSArray arrayWithArray: choices];
-//    
-//    //    Event *craftEvent3 = [Event new];
-//    //    craftEvent3.eventDescription = @"You find a gray hut with tools";
-//    //    craftEvent3.choices = [NSArray arrayWithArray: choices];
-//    
-//    // add craftEvent3 later
-//    NSArray *events = [NSArray arrayWithObjects: event1, event2, event3, event4, event5, event6, event7, event8,
-//                       event10, event11, event12, event13,
-//                       uniqueEvent1, uniqueEvent2, uniqueEvent3, uniqueEvent4,
-//                       combatEvent1, combatEvent2, combatEvent3,
-//                       craftEvent1, craftEvent2,
-//                       nil];
-//    return events;
-    return nil;
+    NSArray *events = [NSArray arrayWithObjects: event1, event2, event3, event4, event5, event6, event7, event8, event9,
+                       uniqueEvent1, uniqueEvent2, uniqueEvent3, uniqueEvent4, uniqueEvent5,
+                       combatEvent1, combatEvent2, combatEvent3, combatEvent4,
+                       craftEvent1, craftEvent2,
+                       nil];
+    return events;
 }
 
 @end
