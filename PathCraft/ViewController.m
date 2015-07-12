@@ -109,7 +109,7 @@
 
 - (IBAction)actionButtonPressed:(id)sender {
     self.stepCount += 1;
-    if ([self.choiceButton.titleLabel.text isEqualToString:@"Move Forward"]) {
+    if ([self.choiceButton.titleLabel.text isEqualToString: @"Move Forward"]) {
         [self advance];
     } else if ([self.choiceButton.titleLabel.text isEqualToString: @"Move Backwards"]) {
         [self moveBack];
@@ -132,7 +132,7 @@
         // Feed enemy handles itself, but we must take away the player's meat.
         if ([self.choiceButton.titleLabel.text isEqualToString: @"Feed Enemy"]) {
             [self.player.inventory setObject:@NO forKey:@"Meat"];
-        }  else if ([self.choiceButton.titleLabel.text isEqualToString:@"Upgrade Weapon"]) {
+        }  else if ([self.choiceButton.titleLabel.text isEqualToString: @"Upgrade Weapon"]) {
             [self.player craftWeapon];
         }
         [self handleUniqueEvent: self.currentEvent withChoiceIndex: self.currentChoiceIndex];
