@@ -21,6 +21,7 @@
 		9A5BA22B1B515A1700F98320 /* PathCraftTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 9A5BA22A1B515A1700F98320 /* PathCraftTests.m */; };
 		9A5BA2361B5193D100F98320 /* ForrestEnviroment.m in Sources */ = {isa = PBXBuildFile; fileRef = 9A5BA2351B5193D100F98320 /* ForrestEnviroment.m */; };
 		9A5BA2391B51C5B800F98320 /* Choice.m in Sources */ = {isa = PBXBuildFile; fileRef = 9A5BA2381B51C5B700F98320 /* Choice.m */; };
+		9A5BA23C1B5212DD00F98320 /* GameOverViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9A5BA23B1B5212DD00F98320 /* GameOverViewController.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -61,6 +62,8 @@
 		9A5BA2351B5193D100F98320 /* ForrestEnviroment.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ForrestEnviroment.m; sourceTree = "<group>"; };
 		9A5BA2371B51C5B700F98320 /* Choice.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Choice.h; sourceTree = "<group>"; };
 		9A5BA2381B51C5B700F98320 /* Choice.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Choice.m; sourceTree = "<group>"; };
+		9A5BA23A1B5212DD00F98320 /* GameOverViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GameOverViewController.h; sourceTree = "<group>"; };
+		9A5BA23B1B5212DD00F98320 /* GameOverViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GameOverViewController.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -127,6 +130,8 @@
 				9A5BA2131B515A1700F98320 /* AppDelegate.m */,
 				9A5BA2151B515A1700F98320 /* ViewController.h */,
 				9A5BA2161B515A1700F98320 /* ViewController.m */,
+				9A5BA23A1B5212DD00F98320 /* GameOverViewController.h */,
+				9A5BA23B1B5212DD00F98320 /* GameOverViewController.m */,
 				6E5089B81B51601F00042209 /* Models */,
 				9A5BA2181B515A1700F98320 /* Main.storyboard */,
 				9A5BA21B1B515A1700F98320 /* Images.xcassets */,
@@ -262,6 +267,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				9A5BA23C1B5212DD00F98320 /* GameOverViewController.m in Sources */,
 				6E5089C11B5162DB00042209 /* Event.m in Sources */,
 				6E5089BE1B51620800042209 /* Game.m in Sources */,
 				9A5BA2171B515A1700F98320 /* ViewController.m in Sources */,
