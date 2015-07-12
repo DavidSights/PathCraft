@@ -255,8 +255,8 @@
         newEvent = [self.environment.events objectAtIndex: index];
     } while (![self eventIsEligible: newEvent]);
     
-    NSLog(@"event index: %lu", index);
-    
+//    NSLog(@"event index: %lu", index);
+
     self.currentEvent = newEvent;
     
     self.currentEvent.hasOccurred = YES;
@@ -384,7 +384,7 @@
     
     NSUInteger roll = arc4random_uniform((u_int32_t)sides)+1;
     
-    NSLog(@"you rolled a %lu", roll);
+//    NSLog(@"you rolled a %lu", roll);
 //    NSlog(@"your weapon strength is %lu", [self.player getWeaponStrenth]);
     
     return roll;
