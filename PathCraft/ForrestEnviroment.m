@@ -96,11 +96,6 @@
     choices = [NSArray arrayWithObjects:moveForward, moveBackward, gatherWood, nil];
     event8.choices = [NSArray arrayWithArray: choices];
 
-    Event *event9 = [Event new];
-    event9.eventDescription = @"Your foot gets caught in a root trap."; // Was unique event, but changed to regular event because it wouldn't be unusual for this to happen more than once.
-    choices = [NSArray arrayWithObjects: root1, root2, nil];
-    event9.choices = [NSArray arrayWithArray: choices];
-
     Event *event10 = [Event new];
     event10.eventDescription = @"You notice an abandoned wagon. You can see some metal inside.";
     choices = [NSArray arrayWithObjects:moveForward, moveBackward, gatherMetal, nil];
@@ -189,6 +184,14 @@
     uniqueEvent2.eventDescription = @"You find a fruit tree. Fallen fruits litter the ground.";
     uniqueEvent2.choices = choices;
     uniqueEvent2.isUnique = YES;
+    
+    
+    // Unique Event 2
+    Event *event9 = [Event new];
+    event9.eventDescription = @"Your foot gets caught in a root trap."; // Was unique event, but changed to regular event because it wouldn't be unusual for this to happen more than once.
+    choices = [NSArray arrayWithObjects: root1, root2, nil];
+    event9.choices = [NSArray arrayWithArray: choices];
+
 
 //    Event *uniqueEvent3 = [Event new];
 //    uniqueEvent3.eventDescription = @"You notice glowing eyes in a thick bush.";
