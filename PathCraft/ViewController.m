@@ -154,6 +154,8 @@
 
 - (void) populateEventDisplay:(Event *)event {
     
+    NSLog(@"Populate event display: %@", event.description);
+    
     self.descriptionTextField.text = [event eventDescription];
 
     self.currentAvailableChoices = [self currentAvailableChoicesForEvent: event];

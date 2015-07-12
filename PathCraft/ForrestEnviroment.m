@@ -235,16 +235,16 @@
     
     // Initialize the special choice's result event
     Event *glowingChoice1Result1 = [Event new];
-    rootChoice1Result1.eventDescription = @"You reach into the bush and grab a tiny cat. It meows sharply at you and leaps away.";
-    rootChoice1Result1.choices = [NSArray arrayWithObjects: moveForward, moveBackward, nil];
+    glowingChoice1Result1.eventDescription = @"You reach into the bush and grab a tiny cat. It meows sharply at you and leaps away.";
+    glowingChoice1Result1.choices = [NSArray arrayWithObjects: moveForward, moveBackward, nil];
     
     // Initialize the special choice's result event
     Event *glowingChoice1Result2 = [Event new];
-    rootChoice1Result2.eventDescription = @"A black, amorphus figure leaps out at you and you die..";
-    rootChoice1Result2.choices = [NSArray arrayWithObjects: endGame, nil];
+    glowingChoice1Result2.eventDescription = @"A black, amorphus figure leaps out at you and you die..";
+    glowingChoice1Result2.choices = [NSArray arrayWithObjects: endGame, nil];
     
     NSMutableArray *glowingChoice1Results = [NSMutableArray arrayWithObjects: glowingChoice1Result1, glowingChoice1Result2, nil];
-    rootChoice1.resultEvents = glowingChoice1Results;
+    glowingChoice1.resultEvents = glowingChoice1Results;
     
     // Repopulate choices for the unique event. They include the unique choice and the defaults
     choices = [NSArray arrayWithObjects: glowingChoice1, moveForward, moveBackward, nil];
