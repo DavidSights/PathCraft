@@ -26,6 +26,7 @@
 @property NSMutableArray *eventHistory;
 @property Player *player;
 @property Environment *environment;
+@property NSInteger stepCount;
 
 @end
 
@@ -47,6 +48,9 @@
 }
 
 - (void)resetGame {
+    
+    self.stepCount = 0;
+    
     ForrestEnviroment *forrest = [ForrestEnviroment new];
     self.environment = forrest;
     
@@ -96,6 +100,7 @@
 
 - (IBAction)actionButtonPressed:(id)sender {
     if ([self.choiceButton.titleLabel.text isEqualToString:@"Move Forward"]) {
+        self.stepCount += 1;
         [self advance];
     } else if ([self.choiceButton.titleLabel.text isEqualToString: @"Move Backwards"]) {
         [self moveBack];
