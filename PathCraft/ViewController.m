@@ -37,6 +37,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     [self resetGame];
+    self.descriptionTextField.adjustsFontSizeToFitWidth = YES;
 }
 
 -(void)viewWillAppear:(BOOL)animated {
@@ -354,7 +355,7 @@
 
 -(void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
     GameOverViewController *dVC = segue.destinationViewController;
-    dVC.gameOverText = [NSString stringWithFormat:@"Game Over.\nYou performed %li actions.", (long)self.stepCount];
+    dVC.gameOverText = [NSString stringWithFormat:@"Game Over.\nYou survived\n%li steps.", (long)self.stepCount];
 }
 
 @end
