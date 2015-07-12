@@ -254,6 +254,7 @@
     uniqueEvent4.choices = [NSArray arrayWithArray: choices];
     uniqueEvent4.isUnique = YES;
 
+    // Combat Choices
     choices = [NSArray arrayWithObjects: fight, flee, feedEnemy, nil];
 
     Event *combatEvent1 = [Event new];
@@ -273,7 +274,7 @@
     
     // Craft events
     Choice *craftWeapon = [[Choice alloc] initWithChoiceDescription: @"Upgrade Weapon"];
-    [craftWeapon createBasicResultEventWithString:@"You successfully upgraded your weapon"];
+    [craftWeapon createBasicResultEventWithString:@"You successfully upgraded your weapon."];
     choices = [NSArray arrayWithObjects: moveForward, moveBackward, craftWeapon, nil];
     
     Event *craftEvent1 = [Event new];
@@ -281,7 +282,7 @@
     craftEvent1.choices = [NSArray arrayWithArray: choices];
     
     Event *craftEvent2 = [Event new];
-    craftEvent2.eventDescription = @"You find an anvil and hammer.";
+    craftEvent2.eventDescription = @"You find an anvil and a hammer. You can use them to craft or upgrade a weapon.";
     craftEvent2.choices = [NSArray arrayWithArray: choices];
     
 //    Event *craftEvent3 = [Event new];
