@@ -218,8 +218,6 @@
     } while (![self eventIsEligible: newEvent]);
     
     self.currentEvent = newEvent;
-
-    NSLog(@"eventIndex: %lu", index);
     
     self.currentEvent.hasOccurred = YES;
     
@@ -252,8 +250,10 @@
     // Player weapon upgrades help by 10% each
     Event *fightResultEvent;
     NSInteger bonus = [self.player getWeaponStrength];
-    NSLog(@"bonus: %lu", bonus);
-    BOOL victory = [ViewController isRollSuccessfulWithNumberOfDice:1 sides:6 bonus:bonus againstTarget:5];
+    NSInteger enemyStrength = (self.stepCount / 15) + 4;
+    
+    BOOL victory = [ViewController isRollSuccessfulWithNumberOfDice:1 sides:6 bonus: bonus againstTarget: enemyStrength];
+    
     Choice *fightChoice = [[self.currentEvent choices] objectAtIndex: 0];
     
     if (victory) {
@@ -286,6 +286,8 @@
 }
 
 - (void) handleUniqueEvent: (Event *)event withChoiceIndex: (NSInteger)index {
+    
+    event.hasOccurred = YES;
     
     NSArray *choices = [event choices];
     Choice *chosenAction = [choices objectAtIndex: index];
@@ -340,8 +342,6 @@
     NSAssert(sides<10000, @"Die has too many sides.");
     
     NSUInteger roll = arc4random_uniform((u_int32_t)sides)+1;
-    
-    NSLog(@"rolled a %lu", roll);
     
     return roll;
 }
