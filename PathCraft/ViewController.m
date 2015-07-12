@@ -52,10 +52,13 @@
 
     Choice *moveForward = [[Choice alloc] initWithChoiceDescription: @"Move Forward"];
     NSMutableArray *initialChoices = [NSMutableArray arrayWithObjects: moveForward, nil];
+    
     if ([self.environment.environmentDescription isEqualToString:@"Forest"]) {
         Choice *gatherWood = [[Choice alloc] initWithChoiceDescription:@"Gather Wood"];
         [initialChoices addObject: gatherWood];
+        
     } else if ([self.environment.environmentDescription isEqualToString:@"Mountain"]) {
+        
         if ([ViewController rollDieWithSides:6] >= 5) {
             Choice *gatherMetal = [[Choice alloc] initWithChoiceDescription:@"Gather Metal"];
             [initialChoices addObject: gatherMetal];
@@ -79,19 +82,19 @@
 - (IBAction)actionButtonPressed:(id)sender {
     if ([self.choiceButton.titleLabel.text isEqualToString:@"Move Forward"]) {
         [self advance];
-    } else if ([self.choiceButton.titleLabel.text isEqualToString:@"Move Backwards"]) {
+    } else if ([self.choiceButton.titleLabel.text isEqualToString: @"Move Backwards"]) {
         [self moveBack];
-    } else if ([self.choiceButton.titleLabel.text isEqualToString:@"Fight"]) {
+    } else if ([self.choiceButton.titleLabel.text isEqualToString: @"Fight"]) {
         [self fight];
-    } else if ([self.choiceButton.titleLabel.text isEqualToString:@"Flee"]) {
+    } else if ([self.choiceButton.titleLabel.text isEqualToString: @"Flee"]) {
         [self flee];
-    } else if ([self.choiceButton.titleLabel.text isEqualToString:@"Gather Wood"]) {
+    } else if ([self.choiceButton.titleLabel.text isEqualToString: @"Gather Wood"]) {
         [self.player gatherMaterial: @"Wood"];
         [self refreshEvent];
-    } else if ([self.choiceButton.titleLabel.text isEqualToString:@"Gather Metal"]) {
+    } else if ([self.choiceButton.titleLabel.text isEqualToString: @"Gather Metal"]) {
         [self.player gatherMaterial: @"Metal"];
         [self refreshEvent];
-    } else if ([self.choiceButton.titleLabel.text isEqualToString:@"Gather Meat"]) {
+    } else if ([self.choiceButton.titleLabel.text isEqualToString: @"Gather Meat"]) {
         [self.player gatherMaterial: @"Meat"];
         [self refreshEvent];
     } else {
@@ -101,9 +104,11 @@
 
 #pragma mark - Update Views
 
-- (NSArray *) currentAvailableChoicesForEventOrChoice : (id)candidate {
+- (NSArray *) currentAvailableChoicesForEventOrChoice: (id)candidate {
 
     NSMutableArray *currentAvailableChoices = [NSMutableArray new];
+    
+    NSLog(@"%@", [candidate description]);
 
     NSArray *allChoices;
     if ([candidate class] == [Event class]) {
@@ -161,6 +166,7 @@
 
     [self.choiceButton setTitle: self.currentAvailableChoices[0] forState:UIControlStateNormal];
     self.currentChoiceIndex = 0;
+    
 }
 
 #pragma mark - Handle Events
@@ -185,8 +191,11 @@
         NSUInteger index = (NSUInteger) arc4random() % [self.environment.events count];
         newEvent = [self.environment.events objectAtIndex:index];
     } while (![self eventIsEligible:newEvent]);
+    
     self.currentEvent = newEvent;
+    
     self.currentEvent.hasOccurred = YES;
+    
     [self populateEventDisplay: self.currentEvent];
     
     if (!self.currentEvent.isCombatEvent) {
@@ -212,24 +221,26 @@
 
 - (void) fight {
 
-    NSLog(@"%@", self.currentEvent.description);
+    NSLog(@"current event (fight or flight): %@", self.currentEvent.eventDescription);
     // Fifty percent chance of dying ...
+    Event *fightResultEvent;
     BOOL victory = [ViewController isRollSuccessfulWithNumberOfDice:1 sides:2 bonus:0 againstTarget:2];
+    Choice *fightChoice = [[self.currentEvent choices] objectAtIndex: 0];
+    NSLog(@"chosen action from (fight or flight) event: %@", fightChoice.description);
+    
     if (victory) {
         NSLog(@"VICTORY");
-        Event *victoryEvent = [[self.currentEvent choices] objectAtIndex:0];
-        self.currentEvent = victoryEvent;
-//        self.currentEvent.hasOccurred = YES;
-        [self populateEventDisplay: self.currentEvent];
-        [self.eventHistory addObject:self.currentEvent];
+        fightResultEvent = [[fightChoice resultEvents] objectAtIndex: 0];
     } else {
         NSLog(@"DEFEAT");
-        Event *defeatEvent = [[self.currentEvent choices] objectAtIndex:0];
-        self.currentEvent = defeatEvent;
-//        self.currentEvent.hasOccurred = YES;
-        [self populateEventDisplay: self.currentEvent];
-        [self.eventHistory addObject: self.currentEvent];
+        fightResultEvent = [[fightChoice resultEvents] objectAtIndex: 1];
     }
+    NSLog(@"result event from chosen action of fight or flight event: %@", fightResultEvent.description);
+    
+    self.currentEvent = fightResultEvent;
+    
+    [self populateEventDisplay: self.currentEvent];
+    [self.eventHistory addObject: self.currentEvent];
 }
 
 - (void) flee {

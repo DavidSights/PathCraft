@@ -14,6 +14,6 @@
 @property NSMutableArray *resultEvents;
 
 - (instancetype) initWithChoiceDescription: (NSString *)choiceDescription;
-- (void) createBasicResultWithString: (NSString *)resultDescription;
+- (void) createBasicResultEventWithString: (NSString *)resultDescription;
 
 @end

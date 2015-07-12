@@ -19,7 +19,7 @@
     return self;
 }
 
-- (void) createBasicResultWithString:(NSString *)resultDescription {
+- (void) createBasicResultEventWithString:(NSString *)resultDescription {
 
     // A possible event for a unique result.
     Event *event = [Event new];
@@ -29,14 +29,14 @@
     Choice *moveForward = [[Choice alloc] initWithChoiceDescription: @"Move Forward"];
     Choice *moveBackward = [[Choice alloc] initWithChoiceDescription: @"Move Backwards"];
 
-    NSArray *choices = [NSArray arrayWithObjects:moveBackward, moveBackward, nil];
+    NSArray *choices = [NSArray arrayWithObjects:moveForward, moveBackward, nil];
     event.choices = choices;
 
     // Add the created result event to list of possible results.
     if (self.resultEvents) {
         [self.resultEvents addObject: event];
     } else {
-        self.resultEvents = [NSMutableArray arrayWithObjects:moveBackward, moveForward, nil];
+        self.resultEvents = [NSMutableArray arrayWithObjects:event, nil];
     }
 }
 
