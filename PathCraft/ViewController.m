@@ -220,22 +220,17 @@
 }
 
 - (void) fight {
-
-    NSLog(@"current event (fight or flight): %@", self.currentEvent.eventDescription);
+    
     // Fifty percent chance of dying ...
     Event *fightResultEvent;
     BOOL victory = [ViewController isRollSuccessfulWithNumberOfDice:1 sides:2 bonus:0 againstTarget:2];
     Choice *fightChoice = [[self.currentEvent choices] objectAtIndex: 0];
-    NSLog(@"chosen action from (fight or flight) event: %@", fightChoice.description);
     
     if (victory) {
-        NSLog(@"VICTORY");
         fightResultEvent = [[fightChoice resultEvents] objectAtIndex: 0];
     } else {
-        NSLog(@"DEFEAT");
         fightResultEvent = [[fightChoice resultEvents] objectAtIndex: 1];
     }
-    NSLog(@"result event from chosen action of fight or flight event: %@", fightResultEvent.description);
     
     self.currentEvent = fightResultEvent;
     
@@ -244,25 +239,20 @@
 }
 
 - (void) flee {
-    NSLog(@"%@", self.currentEvent.description);
-    // Flee is the same as fight for the moment... change this. :) --MJ
-    BOOL victory = [ViewController isRollSuccessfulWithNumberOfDice:1 sides:2 bonus:0 againstTarget:2];
-    self.currentEvent.hasOccurred = YES;
+
+    Event *fleeResultEvent;
+    BOOL victory = [ViewController isRollSuccessfulWithNumberOfDice:1 sides:3 bonus:0 againstTarget:3];
+    Choice *fleeChoice = [[self.currentEvent choices] objectAtIndex:1];
     if (victory) {
-        NSLog(@"VICTORY");
-        Event *victoryEvent = [[self.currentEvent choices] objectAtIndex:0];
-        self.currentEvent = victoryEvent;
-        self.currentEvent.hasOccurred = YES;
-        [self populateEventDisplay: self.currentEvent];
-        [self.eventHistory addObject:self.currentEvent];
+        fleeResultEvent = [[fleeChoice resultEvents] objectAtIndex:0];
     } else {
-        NSLog(@"DEFEAT");
-        Event *defeatEvent = [[self.currentEvent choices] objectAtIndex:0];
-        self.currentEvent = defeatEvent;
-//        self.currentEvent.hasOccurred = YES;
-        [self populateEventDisplay: self.currentEvent];
-        [self.eventHistory addObject:self.currentEvent];
+        fleeResultEvent = [[fleeChoice resultEvents] objectAtIndex:0];
     }
+    
+    self.currentEvent = fleeResultEvent;
+    
+    [self populateEventDisplay: self.currentEvent];
+    [self.eventHistory addObject:self.currentEvent];
 }
 
 # pragma mark - Utilty
