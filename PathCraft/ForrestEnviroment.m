@@ -40,24 +40,24 @@
     Choice *fight = [[Choice alloc] initWithChoiceDescription:@"Fight"];
     
     Event *victoryEvent = [Event new];
-    victoryEvent.eventDescription = @"You defeated the enemy.";
+    victoryEvent.eventDescription = @"You defeated the enemy!";
     victoryEvent.choices = [NSArray arrayWithObjects: moveForward, gatherMeat, moveBackward, nil];
     
     [fight initializeResultEventsWithEvent: victoryEvent];
     [fight createEndGameResultEventWithString: @"The enemy killed you."];
 
     Choice *flee = [[Choice alloc] initWithChoiceDescription:@"Flee"];
-    [flee createBasicResultEventWithString: @"You got away."];
-    [flee createEndGameResultEventWithString: @"You did not escape. You suffered a quick and painful death."];
+    [flee createBasicResultEventWithString: @"You successfully escaped."];
+    [flee createEndGameResultEventWithString: @"You try to escape. You slip on leaves and get caught. You suffered a quick and painful death."];
 
     Choice *feedEnemy = [[Choice alloc] initWithChoiceDescription:@"Feed Enemy"];
-    [feedEnemy createBasicResultEventWithString:@"You fed the enemy and successfully escaped."];
+    [feedEnemy createBasicResultEventWithString:@"You fed the enemy, and successfully escaped."];
 
     // Passive Events
 
     NSArray *choices;
     Event *event1 = [Event new];
-    event1.eventDescription = @"Trees surround you.";
+    event1.eventDescription = @"Trees surround you all around. Here, there and everywhere. You are in a forrest of trees.";
     choices = [NSArray arrayWithObjects: moveForward, gatherWood, moveBackward,  nil];
     event1.choices = [NSArray arrayWithArray: choices];
 
@@ -77,7 +77,7 @@
     event4.choices = [NSArray arrayWithArray: choices];
 
     Event *event5 = [Event new];
-    event5.eventDescription = @"The smell of nature is thick here.";
+    event5.eventDescription = @"The smell of nature is thick here. Hm.";
     choices = [NSArray arrayWithObjects: moveForward, gatherWood, moveBackward, nil];
     event5.choices = [NSArray arrayWithArray: choices];
 
@@ -87,7 +87,7 @@
     event6.choices = [NSArray arrayWithArray: choices];
 
     Event *event7 = [Event new];
-    event7.eventDescription = @"A bird flies past your face a little too close for comfort.";
+    event7.eventDescription = @"A bird flies past your face. That was a little too close for comfort.";
     choices = [NSArray arrayWithObjects: moveForward, gatherWood, moveBackward, nil];
     event7.choices = [NSArray arrayWithArray: choices];
 
@@ -150,7 +150,7 @@
 
     // Initialize the special choice's result events
     Event *treeChoice1Result1 = [Event new];
-    treeChoice1Result1.eventDescription = @"That was delicious.";
+    treeChoice1Result1.eventDescription = @"That was delicious. Nature's candy.";
     treeChoice1Result1.choices = [NSArray arrayWithObjects: moveForward, moveBackward, nil];
 
     Event *treeChoice1Result2 = [Event new];
@@ -165,7 +165,7 @@
 
     // Initialize the special choice's result events
     Event *treeChoice2Result1 = [Event new];
-    treeChoice2Result1.eventDescription = @"It tastes foul. When you finish eating the fruit, you feel a light buzz.";
+    treeChoice2Result1.eventDescription = @"It tastes foul. When you finish eating the fruit, you feel a light buzz. Nice.";
     treeChoice2Result1.choices = [NSArray arrayWithObjects: moveForward, moveBackward, nil];
 
     Event *treeChoice2Result2 = [Event new];
@@ -191,7 +191,7 @@
     
     // Initialize the special choice's result event
     Event *rootChoice1Result1 = [Event new];
-    rootChoice1Result1.eventDescription = @"You get free.";
+    rootChoice1Result1.eventDescription = @"The roots are snagged off of your foot. You are free.";
     rootChoice1Result1.choices = [NSArray arrayWithObjects: moveForward, gatherWood, moveBackward, nil];
     
     // Initialize the special choice's result event
@@ -207,12 +207,12 @@
     
     // Initialize the special choice's result event
     Event *rootChoice2Result1 = [Event new];
-    rootChoice2Result1.eventDescription = @"You get free.";
+    rootChoice2Result1.eventDescription = @"With a bit of careful effort, the roots fall away from your foot.";
     rootChoice2Result1.choices = [NSArray arrayWithObjects: moveForward, gatherWood, moveBackward, nil];
     
     // Initialize the special choice's result event
     Event *rootChoice2Result2 = [Event new];
-    rootChoice2Result2.eventDescription = @"You're too focused to notice a hungry bear behind you, you are attacked and die.";
+    rootChoice2Result2.eventDescription = @"You're too focused to notice a hungry bear behind you, you are attacked and you die.";
     rootChoice2Result2.choices = [NSArray arrayWithObjects: endGame, nil];
     
     NSMutableArray *rootChoice2Results = [NSMutableArray arrayWithObjects: rootChoice2Result1, rootChoice2Result2, nil];
@@ -234,12 +234,12 @@
     
     // Initialize the special choice's result event
     Event *glowingChoice1Result1 = [Event new];
-    glowingChoice1Result1.eventDescription = @"You reach into the bush and grab a tiny cat. It meows sharply at you and leaps away.";
+    glowingChoice1Result1.eventDescription = @"You reach into the bush and grab a tiny cat. It meows sharply at you, and leaps away.";
     glowingChoice1Result1.choices = [NSArray arrayWithObjects: moveForward, moveBackward, nil];
     
     // Initialize the special choice's result event
     Event *glowingChoice1Result2 = [Event new];
-    glowingChoice1Result2.eventDescription = @"A black, amorphus figure leaps out at you and you die.";
+    glowingChoice1Result2.eventDescription = @"A black, amorphus figure leaps out at you. Your life flashes before your eyes. You die.";
     glowingChoice1Result2.choices = [NSArray arrayWithObjects: endGame, nil];
     
     NSMutableArray *glowingChoice1Results = [NSMutableArray arrayWithObjects: glowingChoice1Result1, glowingChoice1Result2, nil];
@@ -258,23 +258,23 @@
     choices = [NSArray arrayWithObjects: fight, flee, feedEnemy, nil];
 
     Event *combatEvent1 = [Event new];
-    combatEvent1.eventDescription = @"You encounter a giant spider.";
+    combatEvent1.eventDescription = @"A giant, hairy spider leaps out from a hole you didn't notice.";
     combatEvent1.choices = [NSArray arrayWithArray: choices];
     combatEvent1.isCombatEvent = YES;
 
     Event *combatEvent2 = [Event new];
-    combatEvent2.eventDescription = @"A wild and hungry snake appears.";
+    combatEvent2.eventDescription = @"A giant snake appears. It looks fast. And hungry.";
     combatEvent2.choices = [NSArray arrayWithArray: choices];
     combatEvent2.isCombatEvent = YES;
 
     Event *combatEvent3 = [Event new];
-    combatEvent3.eventDescription = @"A giant, rabid wolf appears";
+    combatEvent3.eventDescription = @"A crazed wolf appears. It growls at you. What big teeth it has.";
     combatEvent3.choices = [NSArray arrayWithArray: choices];
     combatEvent3.isCombatEvent = YES;
     
     // Craft events
     Choice *craftWeapon = [[Choice alloc] initWithChoiceDescription: @"Upgrade Weapon"];
-    [craftWeapon createBasicResultEventWithString:@"You successfully upgraded your weapon"];
+    [craftWeapon createBasicResultEventWithString:@"You successfully upgraded your weapon!"];
     choices = [NSArray arrayWithObjects: moveForward, craftWeapon, moveBackward, nil];
     
     Event *craftEvent1 = [Event new];
@@ -282,7 +282,7 @@
     craftEvent1.choices = [NSArray arrayWithArray: choices];
     
     Event *craftEvent2 = [Event new];
-    craftEvent2.eventDescription = @"You find an anvil and a hammer. You can use them to craft or upgrade a weapon.";
+    craftEvent2.eventDescription = @"You find an anvil and a hammer. Use wood and metal to craft or upgrade a weapon.";
     craftEvent2.choices = [NSArray arrayWithArray: choices];
     
 //    Event *craftEvent3 = [Event new];
