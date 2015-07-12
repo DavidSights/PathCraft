@@ -138,10 +138,15 @@
         }
         [self handleUniqueEvent: self.currentEvent withChoiceIndex: self.currentChoiceIndex];
     }
-    //UIAccessibilityAnnouncementNotification(UIAccessibilityAnnouncementNotification,self.descriptionTextField.accessibilityLabel);
+    //UIA(UIAccessibilityAnnouncementNotification,self.descriptionTextField.accessibilityLabel);
+    //UIAccessibilityPostNotification(UIAccessibilityAnnouncementNotification, @"Something something something");
+    /*
+    Might need this -- MJ
+     
     self.announcer = [Announcer new];
     NSNotificationCenter *nc = [NSNotificationCenter defaultCenter];
     [nc addObserver:self.announcer selector:@selector(receiveNotification:) name: UIAccessibilityAnnouncementDidFinishNotification object:nil];
+    */
 }
 
 #pragma mark - Update Views
@@ -191,6 +196,7 @@
     [self.choiceButton setTitle: self.currentAvailableChoices[0] forState:UIControlStateNormal];
     self.currentChoiceIndex = 0;
     [self updateAccessibilityLabels];
+    
 }
 
 #pragma mark - Handle Events
