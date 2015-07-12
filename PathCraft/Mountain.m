@@ -99,14 +99,14 @@
     event7.choices = [NSArray arrayWithArray: choices];
     
     Event *event8 = [Event new];
-    event7.eventDescription = @"The sun is so bright and warm.";
+    event8.eventDescription = @"The sun is so bright and warm.";
     choices = [NSArray arrayWithObjects: moveForward, moveBackward, gatherMetal, nil];
-    event7.choices = [NSArray arrayWithArray: choices];
+    event8.choices = [NSArray arrayWithArray: choices];
     
     Event *event9 = [Event new];
-    event7.eventDescription = @"You slip and fall to your death.";
+    event9.eventDescription = @"You slip and fall to your death.";
     choices = [NSArray arrayWithObjects: endGame, nil];
-    event7.choices = [NSArray arrayWithArray: choices];
+    event9.choices = [NSArray arrayWithArray: choices];
     
     /* Unique */
     
@@ -328,21 +328,21 @@
     combatEvent1.isCombatEvent = YES;
     
     Event *combatEvent2 = [Event new];
-    combatEvent1.eventDescription = @"Suddenly a pack of wolves surrounds you!";
-    combatEvent1.choices = [NSArray arrayWithArray: choices];
-    combatEvent1.isCombatEvent = YES;
+    combatEvent2.eventDescription = @"Suddenly a pack of wolves surrounds you!";
+    combatEvent2.choices = [NSArray arrayWithArray: choices];
+    combatEvent2.isCombatEvent = YES;
     
     Event *combatEvent3 = [Event new];
-    combatEvent1.eventDescription = @"You are attacked by a bear!";
-    combatEvent1.choices = [NSArray arrayWithArray: choices];
-    combatEvent1.isCombatEvent = YES;
+    combatEvent3.eventDescription = @"You are attacked by a bear!";
+    combatEvent3.choices = [NSArray arrayWithArray: choices];
+    combatEvent3.isCombatEvent = YES;
     
     choices = [NSArray arrayWithObjects: fight, flee, nil];
     
     Event *combatEvent4 = [Event new];
-    combatEvent1.eventDescription = @"You encounter a group of bandits.";
-    combatEvent1.choices = [NSArray arrayWithArray: choices];
-    combatEvent1.isCombatEvent = YES;
+    combatEvent4.eventDescription = @"You encounter a group of bandits.";
+    combatEvent4.choices = [NSArray arrayWithArray: choices];
+    combatEvent4.isCombatEvent = YES;
     
     /* Craftables */
     
