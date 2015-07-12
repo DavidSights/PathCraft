@@ -57,7 +57,7 @@
 
     NSArray *choices;
     Event *event1 = [Event new];
-    event1.eventDescription = @"Trees surround you all around. Here, there and everywhere. You are in a forrest of trees.";
+    event1.eventDescription = @"Trees surround you all around. Here, there and everywhere. You are in a forest of trees.";
     choices = [NSArray arrayWithObjects: moveForward, gatherWood, moveBackward,  nil];
     event1.choices = [NSArray arrayWithArray: choices];
 
