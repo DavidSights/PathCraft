@@ -161,8 +161,6 @@
 
 - (void) populateEventDisplay:(Event *)event {
     
-    NSLog(@"Populate event display: %@", event.description);
-    
     self.descriptionTextField.text = [event eventDescription];
 
     self.currentAvailableChoices = [self currentAvailableChoicesForEvent: event];
@@ -189,12 +187,17 @@
 
 - (void) advance {
     Event *newEvent;
+    NSUInteger index;
     do {
-        NSUInteger index = (NSUInteger) arc4random() % [self.environment.events count];
-        newEvent = [self.environment.events objectAtIndex:index];
-    } while (![self eventIsEligible:newEvent]);
+        index = (NSUInteger) arc4random() % [self.environment.events count];
+        newEvent = [self.environment.events objectAtIndex: index];
+    } while (![self eventIsEligible: newEvent]);
     
     self.currentEvent = newEvent;
+    
+    NSLog(@"Newly selected event: %@", newEvent.description);
+    NSLog(@"eventDescription: %@", newEvent.eventDescription);
+    NSLog(@"eventIndex: %lu", index);
     
     self.currentEvent.hasOccurred = YES;
     
