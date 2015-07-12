@@ -61,9 +61,15 @@
     
     self.stepCount = 0;
     
-    ForrestEnviroment *forrest = [ForrestEnviroment new];
-//    Mountain *forrest = [Mountain new];
-    self.environment = forrest;
+    BOOL willPlayMountain = [ViewController isRollSuccessfulWithNumberOfDice:1 sides:6 bonus:0 againstTarget:6];
+    
+    if (willPlayMountain) {
+        Mountain *mountain = [Mountain new];
+        self.environment = mountain;
+    } else {
+        ForrestEnviroment *forest = [ForrestEnviroment new];
+        self.environment = forest;
+    }
     
     self.player = [Player new];
     
@@ -359,6 +365,7 @@
 +(NSInteger)rollValueWithNumberOfDice:(NSUInteger)numberOfDice sides:(NSUInteger)sides bonus:(NSInteger)bonus {
     NSInteger total = 0;
     for (int i=0; i<numberOfDice; i++) {
+        NSLog(@"i=%d", i);
         NSUInteger roll = [self rollDieWithSides:sides];
         total+=roll;
     }
