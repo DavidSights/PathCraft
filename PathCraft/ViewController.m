@@ -32,6 +32,10 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
+    [self resetGame];
+}
+
+- (void)resetGame {
     ForrestEnviroment *forrest = [ForrestEnviroment new];
     self.environment = forrest;
     
@@ -98,7 +102,7 @@
         [self.player gatherMaterial: @"Meat"];
         [self refreshEvent];
     } else {
-        //handle unique events here.
+        [self handleUniqueEvent: self.currentEvent withChoiceIndex: self.currentChoiceIndex];
     }
 }
 
@@ -159,7 +163,7 @@
 
 - (BOOL) eventIsEligible: (Event *) event {
     // Check whether event is eligible to be the next event
-    if ([event isEqual:self.currentEvent]) {
+    if ([event isEqual: self.currentEvent]) {
         return NO;
     } else if (event.isUnique && event.hasOccurred) {
         return NO;
@@ -239,6 +243,24 @@
     
     [self populateEventDisplay: self.currentEvent];
     [self.eventHistory addObject:self.currentEvent];
+}
+
+- (void) handleUniqueEvent: (Event *)event withChoiceIndex: (NSInteger)index {
+    
+    NSArray *choices = [event choices];
+    Choice *chosenAction = [choices objectAtIndex: index];
+    
+    NSArray *possibleResults = [chosenAction resultEvents];
+    
+    NSInteger resultIndex = [ViewController rollDieWithSides: [possibleResults count] - 1];
+    Event *resultEvent = [possibleResults objectAtIndex: resultIndex];
+    
+
+    self.currentEvent = resultEvent;
+    
+    [self populateEventDisplay: self.currentEvent];
+    [self.eventHistory addObject: self.currentEvent];
+    
 }
 
 # pragma mark - Utilty
