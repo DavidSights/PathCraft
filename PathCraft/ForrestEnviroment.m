@@ -271,12 +271,31 @@
     combatEvent3.eventDescription = @"A giant, rabid wolf appears";
     combatEvent3.choices = [NSArray arrayWithArray: choices];
     combatEvent3.isCombatEvent = YES;
+    
+    // Craft events
+    Choice *craftWeapon = [[Choice alloc] initWithChoiceDescription: @"Upgrade Weapon"];
+    [craftWeapon createBasicResultEventWithString:@"You successfully upgraded your weapon"];
+    choices = [NSArray arrayWithObjects: moveForward, moveBackward, craftWeapon, nil];
+    
+    Event *craftEvent1 = [Event new];
+    craftEvent1.eventDescription = @"You find a hut with tools.";
+    craftEvent1.choices = [NSArray arrayWithArray: choices];
+    
+    Event *craftEvent2 = [Event new];
+    craftEvent2.eventDescription = @"You find an anvil and hammer.";
+    craftEvent2.choices = [NSArray arrayWithArray: choices];
+    
+//    Event *craftEvent3 = [Event new];
+//    craftEvent3.eventDescription = @"You find a gray hut with tools";
+//    craftEvent3.choices = [NSArray arrayWithArray: choices];
 
-    // add uniqueEvent3 later
+    // add craftEvent3 later
     NSArray *events = [NSArray arrayWithObjects: event1, event2, event3, event4, event5, event6, event7, event8,
                        event10, event11, event12, event13,
                        uniqueEvent1, uniqueEvent2, uniqueEvent3, uniqueEvent4,
-                       combatEvent1, combatEvent2, combatEvent3, nil];
+                       combatEvent1, combatEvent2, combatEvent3,
+                       craftEvent1, craftEvent2,
+                       nil];
     return events;
 }
 

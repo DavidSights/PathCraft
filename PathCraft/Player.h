@@ -12,13 +12,15 @@
 @interface Player : NSObject
 
 @property (nonatomic, strong) NSMutableDictionary *inventory;
-@property NSInteger *weapon;
+@property NSNumber *weapon;
 
 - (BOOL)hasWood;
 - (BOOL)hasMetal;
 - (BOOL)hasMeat;
 
-- (void)craftWeapon;
+- (void) craftWeapon;
 - (void) gatherMaterial:(NSString *)material;
+- (NSInteger) getWeaponStrength;
+
 
 @end

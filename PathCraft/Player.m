@@ -15,7 +15,7 @@
     self = [super init];
     if (self) {
         [self initializeInventory];
-        self.weapon = 0;
+        self.weapon = [NSNumber numberWithInteger:0];
     }
     return self;
 }
@@ -44,12 +44,18 @@
 
 - (void)craftWeapon {
     NSInteger upgrade = 0;
+    NSInteger tempWeapon = [self.weapon integerValue];
     if ([self hasMetal] && [self hasWood]) {
         upgrade += 1;
         [self.inventory setObject:@NO forKey:@"Wood"];
         [self.inventory setObject:@NO forKey:@"Metal"];
     }
-    self.weapon += upgrade;
+    tempWeapon += upgrade;
+    self.weapon = [NSNumber numberWithInteger:tempWeapon];
+}
+
+- (NSInteger) getWeaponStrength {
+    return [self.weapon integerValue];
 }
 
 @end
