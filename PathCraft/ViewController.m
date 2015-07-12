@@ -106,6 +106,11 @@
     } else if ([self.choiceButton.titleLabel.text isEqualToString: @"End Game"]) {
         // do nothing
     } else {
+        
+        // Feed enemy handles itself, but we must take away the player's meat.
+        if ([self.choiceButton.titleLabel.text isEqualToString: @"Feed Enemy"]) {
+            [self.player.inventory setObject:@NO forKey:@"Meat"];
+        }
         [self handleUniqueEvent: self.currentEvent withChoiceIndex: self.currentChoiceIndex];
     }
 }
@@ -124,7 +129,8 @@
 
         if (([description isEqualToString: @"Gather Wood"] && [self.player hasWood]) ||
             ([description isEqualToString: @"Gather Metal"] && [self.player hasMetal]) ||
-            ([description isEqualToString: @"Gather Meat"] && [self.player hasMeat])) {
+            ([description isEqualToString: @"Gather Meat"] && [self.player hasMeat]) ||
+            ([description isEqualToString: @"Feed Enemy"] && ![self.player hasMeat])) {
             addChoice = NO;
         }
 
