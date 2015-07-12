@@ -104,33 +104,19 @@
 
 #pragma mark - Update Views
 
-- (NSArray *) currentAvailableChoicesForEventOrChoice: (id)candidate {
+- (NSArray *) currentAvailableChoicesForEvent: (Event *)event {
 
     NSMutableArray *currentAvailableChoices = [NSMutableArray new];
-    
-    NSLog(@"%@", [candidate description]);
-
-    NSArray *allChoices;
-    if ([candidate class] == [Event class]) {
-        allChoices = [candidate choices];
-    } else {
-        allChoices = [candidate resultEvents];
-    }
+    NSArray *allChoices = [event choices];
 
     for (int i = 0; i < allChoices.count; i += 1) {
+        Choice *currentChoice = [allChoices objectAtIndex: i];
         BOOL addChoice = YES;
-        NSString *description;
-        id choice = allChoices[i];
-        NSLog(@"%@", [choice class]);
-        if ([choice class] == [Choice class]) {
-            description = [choice choiceDescription];
-        } else {
-            description = [choice eventDescription];
-        }
+        NSString *description = [currentChoice choiceDescription];
 
-        if (([description isEqualToString:@"Gather Wood"] && [self.player hasWood]) ||
-            ([description isEqualToString:@"Gather Metal"] && [self.player hasMetal]) ||
-            ([description isEqualToString:@"Gather Meat"] && [self.player hasMeat])) {
+        if (([description isEqualToString: @"Gather Wood"] && [self.player hasWood]) ||
+            ([description isEqualToString: @"Gather Metal"] && [self.player hasMetal]) ||
+            ([description isEqualToString: @"Gather Meat"] && [self.player hasMeat])) {
             addChoice = NO;
         }
 
@@ -162,7 +148,7 @@
     }
     self.descriptionTextField.text = textFieldText;
 
-    self.currentAvailableChoices = [self currentAvailableChoicesForEventOrChoice: event];
+    self.currentAvailableChoices = [self currentAvailableChoicesForEvent: event];
 
     [self.choiceButton setTitle: self.currentAvailableChoices[0] forState:UIControlStateNormal];
     self.currentChoiceIndex = 0;
