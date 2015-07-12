@@ -9,6 +9,7 @@
 #import "GameOverViewController.h"
 
 @interface GameOverViewController ()
+@property (weak, nonatomic) IBOutlet UIButton *beginNewGameButton;
 
 @end
 
@@ -17,6 +18,11 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
+}
+
+-(void)viewWillAppear:(BOOL)animated {
+    self.beginNewGameButton.clipsToBounds = YES;
+    self.beginNewGameButton.layer.cornerRadius = self.beginNewGameButton.frame.size.height/6;
 }
 
 - (IBAction)newGameButtonPressed:(id)sender {

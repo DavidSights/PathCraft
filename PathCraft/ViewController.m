@@ -33,8 +33,15 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    
     [self resetGame];
+}
+
+-(void)viewWillAppear:(BOOL)animated {
+    // Rounded Corners for Butons
+    self.choiceButton.clipsToBounds = YES;
+    self.actionButton.clipsToBounds = YES;
+    self.choiceButton.layer.cornerRadius = self.choiceButton.frame.size.height/6;
+    self.actionButton.layer.cornerRadius = self.actionButton.frame.size.height/6;
 }
 
 - (void)resetGame {
