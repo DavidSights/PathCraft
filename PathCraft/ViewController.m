@@ -13,6 +13,7 @@
 #import "Choice.h"
 #import "Player.h"
 #import "GameOverViewController.h"
+#import "Announcer.h"
 
 @interface ViewController ()
 
@@ -26,6 +27,7 @@
 @property NSMutableArray *eventHistory;
 @property Player *player;
 @property Environment *environment;
+@property NSInteger stepCount;
 
 @end
 
@@ -47,6 +49,9 @@
 }
 
 - (void)resetGame {
+    
+    self.stepCount = 0;
+    
     ForrestEnviroment *forrest = [ForrestEnviroment new];
     self.environment = forrest;
     
@@ -59,6 +64,14 @@
     
     self.eventHistory = [NSMutableArray new];
     [self.eventHistory addObject: self.currentEvent];
+    UIAccessibilityPostNotification(UIAccessibilityAnnouncementNotification, self.descriptionTextField.accessibilityLabel);
+}
+
+- (void) updateAccessibilityLabels {
+    NSString *buttonTitle = self.currentAvailableChoices[self.currentChoiceIndex];
+    [self.choiceButton setTitle: buttonTitle forState:UIControlStateNormal];
+    NSString *accessibilityLabel = [@"Change action. Current action is " stringByAppendingString:buttonTitle];
+    [self.choiceButton setAccessibilityLabel:accessibilityLabel];
 }
 
 - (Event *)getInitialEvent {
@@ -96,6 +109,7 @@
 
 - (IBAction)actionButtonPressed:(id)sender {
     if ([self.choiceButton.titleLabel.text isEqualToString:@"Move Forward"]) {
+        self.stepCount += 1;
         [self advance];
     } else if ([self.choiceButton.titleLabel.text isEqualToString: @"Move Backwards"]) {
         [self moveBack];
@@ -122,6 +136,11 @@
         }
         [self handleUniqueEvent: self.currentEvent withChoiceIndex: self.currentChoiceIndex];
     }
+    //UIAccessibilityAnnouncementNotification(UIAccessibilityAnnouncementNotification,self.descriptionTextField.accessibilityLabel);
+    Announcer *announcer = [Announcer new];
+    NSNotificationCenter *nc = [NSNotificationCenter defaultCenter];
+    [nc addObserver:announcer selector:@selector(receiveNotification:) name:UIAccessibilityAnnouncementDidFinishNotification object:nil];
+    UIAccessibilityPostNotification(UIAccessibilityAnnouncementNotification, self.descriptionTextField.accessibilityLabel);
 }
 
 #pragma mark - Update Views
@@ -158,12 +177,10 @@
     } else {
         self.currentChoiceIndex++;
     }
-    [self.choiceButton setTitle: self.currentAvailableChoices[self.currentChoiceIndex] forState:UIControlStateNormal];
+    [self updateAccessibilityLabels];
 }
 
 - (void) populateEventDisplay:(Event *)event {
-    
-    NSLog(@"Populate event display: %@", event.description);
     
     self.descriptionTextField.text = [event eventDescription];
 
@@ -171,6 +188,7 @@
 
     [self.choiceButton setTitle: self.currentAvailableChoices[0] forState:UIControlStateNormal];
     self.currentChoiceIndex = 0;
+    [self updateAccessibilityLabels];
 }
 
 #pragma mark - Handle Events
@@ -191,12 +209,17 @@
 
 - (void) advance {
     Event *newEvent;
+    NSUInteger index;
     do {
-        NSUInteger index = (NSUInteger) arc4random() % [self.environment.events count];
-        newEvent = [self.environment.events objectAtIndex:index];
-    } while (![self eventIsEligible:newEvent]);
+        index = (NSUInteger) arc4random() % [self.environment.events count];
+        newEvent = [self.environment.events objectAtIndex: index];
+    } while (![self eventIsEligible: newEvent]);
     
     self.currentEvent = newEvent;
+    
+    NSLog(@"Newly selected event: %@", newEvent.description);
+    NSLog(@"eventDescription: %@", newEvent.eventDescription);
+    NSLog(@"eventIndex: %lu", index);
     
     self.currentEvent.hasOccurred = YES;
     
