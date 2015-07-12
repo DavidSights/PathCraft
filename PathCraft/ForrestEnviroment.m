@@ -44,13 +44,10 @@
 
     Choice *feedEnemy = [[Choice alloc] initWithChoiceDescription:@"Feed Enemy"];
     [feedEnemy createBasicResultEventWithString:@"You fed the enemy and successfully escaped."];
-
-    // Root
-    Choice *root1 = [[Choice alloc] initWithChoiceDescription: @"Rip your foot loose."]; // R: 1. You get free. 2. You injure yourself. Suddenly a bear chases you down and eats you alive."
-    Choice *root2 = [[Choice alloc] initWithChoiceDescription: @"Carefully remove your foot from the root."]; // R: 1. You get free. 2. Too focused to notice a hungry bear behind you, you are attacked and die."
-
-    // Glowing eyes
-    // NSString *eyes1 = @"Check it out."; // R: 1. You reach into the bush and grab a tiny cat. It meows sharply at you and leaps away. 2. A black, amorphus figure leaps out at you and you die.
+    
+    // end game does not have a results array
+    Choice *endGame = [Choice new];
+    endGame.choiceDescription = @"End Game.";
 
 
     // Passive Events
@@ -186,7 +183,24 @@
     uniqueEvent2.isUnique = YES;
     
     
-    // Unique Event 2
+    // Unique Event 3
+    
+    // Initialize a special choice for the event
+    Choice *rootChoice1 = [[Choice alloc] initWithChoiceDescription: @"Rip your foot loose."];
+    
+    // Initialize the special choice's result event
+    Event *rootChoice1Result1 = [Event new];
+    treeChoice1Result1.eventDescription = @"You get free.";
+    treeChoice1Result1.choices = [NSArray arrayWithObjects: moveForward, moveBackward, nil];
+    
+    // Initialize the special choice's result event
+    Event *rootChoice1Result2 = [Event new];
+    treeChoice1Result1.eventDescription = @"You injure yourself. Suddenly a bear chases you down and eats you alive.";
+    treeChoice1Result1.choices = [NSArray arrayWithObjects: moveForward, moveBackward, nil];
+    
+    // Root
+//    Choice *root1 = [[Choice alloc] initWithChoiceDescription: @]; // R: 1. You get free. 2. You injure yourself. Suddenly a bear chases you down and eats you alive."
+    Choice *root2 = [[Choice alloc] initWithChoiceDescription: @"Carefully remove your foot from the root."]; // R: 1. You get free. 2. Too focused to notice a hungry bear behind you, you are attacked and die."
     Event *event9 = [Event new];
     event9.eventDescription = @"Your foot gets caught in a root trap."; // Was unique event, but changed to regular event because it wouldn't be unusual for this to happen more than once.
     choices = [NSArray arrayWithObjects: root1, root2, nil];
@@ -198,6 +212,9 @@
 //    choices = [NSArray arrayWithObjects: eyes1, moveForward, moveBackward, nil];
 //    uniqueEvent3.choices = choices;
 //    uniqueEvent3.isUnique = YES;
+    
+    // Glowing eyes
+    // NSString *eyes1 = @"Check it out."; // R: 1. You reach into the bush and grab a tiny cat. It meows sharply at you and leaps away. 2. A black, amorphus figure leaps out at you and you die.
 
     // Combat Events --- Stretch goal: Strength Levels!
 

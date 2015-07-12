@@ -252,7 +252,12 @@
     
     NSArray *possibleResults = [chosenAction resultEvents];
     
-    NSInteger resultIndex = [ViewController rollDieWithSides: [possibleResults count] - 1];
+    NSInteger resultIndex;
+    if ([possibleResults count] > 1) {
+        resultIndex = [ViewController rollDieWithSides: [possibleResults count] - 1];
+    } else {
+        resultIndex = 0;
+    }
     Event *resultEvent = [possibleResults objectAtIndex: resultIndex];
     
 
