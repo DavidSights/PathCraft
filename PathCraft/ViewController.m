@@ -27,6 +27,7 @@
 @property NSMutableArray *eventHistory;
 @property Player *player;
 @property Environment *environment;
+@property (strong, nonatomic) Announcer* announcer;
 @property NSInteger stepCount;
 
 @end
@@ -137,11 +138,15 @@
         }
         [self handleUniqueEvent: self.currentEvent withChoiceIndex: self.currentChoiceIndex];
     }
-    //UIAccessibilityAnnouncementNotification(UIAccessibilityAnnouncementNotification,self.descriptionTextField.accessibilityLabel);
-    Announcer *announcer = [Announcer new];
+    //UIA(UIAccessibilityAnnouncementNotification,self.descriptionTextField.accessibilityLabel);
+    //UIAccessibilityPostNotification(UIAccessibilityAnnouncementNotification, @"Something something something");
+    /*
+    Might need this -- MJ
+     
+    self.announcer = [Announcer new];
     NSNotificationCenter *nc = [NSNotificationCenter defaultCenter];
-    [nc addObserver:announcer selector:@selector(receiveNotification:) name:UIAccessibilityAnnouncementDidFinishNotification object:nil];
-    UIAccessibilityPostNotification(UIAccessibilityAnnouncementNotification, self.descriptionTextField.accessibilityLabel);
+    [nc addObserver:self.announcer selector:@selector(receiveNotification:) name: UIAccessibilityAnnouncementDidFinishNotification object:nil];
+    */
 }
 
 #pragma mark - Update Views
@@ -191,6 +196,7 @@
     [self.choiceButton setTitle: self.currentAvailableChoices[0] forState:UIControlStateNormal];
     self.currentChoiceIndex = 0;
     [self updateAccessibilityLabels];
+    
 }
 
 #pragma mark - Handle Events

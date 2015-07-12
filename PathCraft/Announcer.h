@@ -9,5 +9,5 @@
 #import <Foundation/Foundation.h>
 
 @interface Announcer : NSObject
-- (void) receiveNotifcation:(NSNotification *) notification;
+- (void) receiveNotification:(NSNotification *) notification;
 @end
