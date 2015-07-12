@@ -28,6 +28,8 @@
 @property Player *player;
 @property Environment *environment;
 @property (strong, nonatomic) Announcer* announcer;
+@property NSInteger stepCount;
+
 @end
 
 @implementation ViewController
