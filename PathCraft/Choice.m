@@ -19,22 +19,25 @@
     return self;
 }
 
-- (void) createResultWithString:(NSString *)resultDescription {
+- (void) createBasicResultWithString:(NSString *)resultDescription {
 
     // A possible event for a unique result.
     Event *event = [Event new];
     event.eventDescription = resultDescription;
 
     // Unique result events only allow moving forward or backwards.
-    Choice *moveForward = [Choice new];
-    moveForward.choiceDescription = @"Move Forward";
-    Choice *moveBackward = [Choice new];
-    moveBackward.choiceDescription = @"Move Backwards";
+    Choice *moveForward = [[Choice alloc] initWithChoiceDescription: @"Move Forward"];
+    Choice *moveBackward = [[Choice alloc] initWithChoiceDescription: @"Move Backwards"];
+
     NSArray *choices = [NSArray arrayWithObjects:moveBackward, moveBackward, nil];
     event.choices = choices;
 
     // Add the created result event to list of possible results.
-    [self.resultEvents addObject:event];
+    if (self.resultEvents) {
+        [self.resultEvents addObject: event];
+    } else {
+        self.resultEvents = [NSMutableArray arrayWithObjects:moveBackward, moveForward, nil];
+    }
 }
 
 - (void) addMoveForwardAndBackwardsOptions {

@@ -35,15 +35,15 @@
 
     // Combat
     Choice *fight = [[Choice alloc] initWithChoiceDescription:@"Fight"];
-    [fight createResultWithString:@"You defeated the enemy."];
-    [fight createResultWithString:@"The enemy killed you."];
+    [fight createBasicResultWithString: @"You defeated the enemy."];
+    [fight createBasicResultWithString: @"The enemy killed you."];
 
     Choice *flee = [[Choice alloc] initWithChoiceDescription:@"Flee"];
-    [flee createResultWithString:@"You got away."];
-    [flee createResultWithString:@"You did not escape. You suffered a quick and painful death."];
+    [flee createBasicResultWithString:@"You got away."];
+    [flee createBasicResultWithString:@"You did not escape. You suffered a quick and painful death."];
 
     Choice *feedEnemy = [[Choice alloc] initWithChoiceDescription:@"Feed Enemy"];
-    [feedEnemy createResultWithString:@"You fed the enemy and successfully escaped."];
+    [feedEnemy createBasicResultWithString:@"You fed the enemy and successfully escaped."];
 
     // Root
     Choice *root1 = [[Choice alloc] initWithChoiceDescription: @"Rip your foot loose."]; // R: 1. You get free. 2. You injure yourself. Suddenly a bear chases you down and eats you alive."

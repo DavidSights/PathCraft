@@ -13,7 +13,7 @@
 @property NSString *choiceDescription;
 @property NSMutableArray *resultEvents;
 
-- (instancetype) initWithChoiceDescription:(NSString *)choiceDescription;
-- (void) createResultWithString:(NSString *)resultDescription;
+- (instancetype) initWithChoiceDescription: (NSString *)choiceDescription;
+- (void) createBasicResultWithString: (NSString *)resultDescription;
 
 @end

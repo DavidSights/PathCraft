@@ -77,7 +77,9 @@
 }
 
 - (IBAction)actionButtonPressed:(id)sender {
-    if ([self.choiceButton.titleLabel.text isEqualToString:@"Move Backwards"]) {
+    if ([self.choiceButton.titleLabel.text isEqualToString:@"Move Forward"]) {
+        [self advance];
+    } else if ([self.choiceButton.titleLabel.text isEqualToString:@"Move Backwards"]) {
         [self moveBack];
     } else if ([self.choiceButton.titleLabel.text isEqualToString:@"Fight"]) {
         [self fight];
@@ -93,24 +95,31 @@
         [self.player gatherMaterial: @"Meat"];
         [self refreshEvent];
     } else {
-        [self advance];
+        //handle unique events here.
     }
 }
 
 #pragma mark - Update Views
 
-- (NSArray *) currentAvailableChoicesForEvent : (Event *) event {
+- (NSArray *) currentAvailableChoicesForEventOrChoice : (id)candidate {
+
     NSMutableArray *currentAvailableChoices = [NSMutableArray new];
-    NSArray *allChoices = event.choices;
+
+    NSArray *allChoices;
+    if ([candidate class] == [Event class]) {
+        allChoices = [candidate choices];
+    } else {
+        allChoices = [candidate resultEvents];
+    }
+
     for (int i = 0; i < allChoices.count; i += 1) {
         BOOL addChoice = YES;
         NSString *description;
         id choice = allChoices[i];
+        NSLog(@"%@", [choice class]);
         if ([choice class] == [Choice class]) {
-            NSLog(@"its a choice!");
             description = [choice choiceDescription];
         } else {
-            NSLog(@"%@", [choice class]);
             description = [choice eventDescription];
         }
 
@@ -119,6 +128,7 @@
             ([description isEqualToString:@"Gather Meat"] && [self.player hasMeat])) {
             addChoice = NO;
         }
+
         if (addChoice) {
             [currentAvailableChoices addObject:description];
         }
@@ -137,9 +147,18 @@
     [self.choiceButton setTitle: self.currentAvailableChoices[self.currentChoiceIndex] forState:UIControlStateNormal];
 }
 
-- (void) populateEventDisplay:(Event *)event {
-    self.descriptionTextField.text = event.eventDescription;
-    self.currentAvailableChoices = [self currentAvailableChoicesForEvent: event];
+- (void) populateEventDisplay:(id)event {
+
+    NSString *textFieldText;
+    if ([event class] == [Event class]) {
+        textFieldText = [event eventDescription];
+    } else {
+        textFieldText = [event choiceDescription];
+    }
+    self.descriptionTextField.text = textFieldText;
+
+    self.currentAvailableChoices = [self currentAvailableChoicesForEventOrChoice: event];
+
     [self.choiceButton setTitle: self.currentAvailableChoices[0] forState:UIControlStateNormal];
     self.currentChoiceIndex = 0;
 }
@@ -239,7 +258,6 @@
                                   bonus:(NSInteger)bonus
                           againstTarget:(NSInteger)target {
     NSInteger value = [self rollValueWithNumberOfDice:numberOfDice sides:sides bonus:bonus];
-    NSLog(@"%lu", value);
     if(value >= target) {
         return YES;
     }
