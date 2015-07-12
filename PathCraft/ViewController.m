@@ -73,6 +73,8 @@
     [self.choiceButton setTitle: buttonTitle forState:UIControlStateNormal];
     NSString *accessibilityLabel = [@"Change action. Current action is " stringByAppendingString:buttonTitle];
     [self.choiceButton setAccessibilityLabel:accessibilityLabel];
+    NSString *performActionAccessibilityLabel = [@"Perform action. Current action is " stringByAppendingString:buttonTitle];
+    [self.actionButton setAccessibilityLabel:performActionAccessibilityLabel];
 }
 
 - (Event *)getInitialEvent {
