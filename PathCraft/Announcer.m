@@ -7,9 +7,13 @@
 //
 
 #import "Announcer.h"
+#import <UIKit/UIKit.h>
 
 @implementation Announcer
--(void)receiveNotifcation:(NSNotification *)notification {
+-(void)receiveNotification:(NSNotification *)notification {
     NSLog(@"Got it");
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
+    UIAccessibilityPostNotification(UIAccessibilityAnnouncementNotification, @"Just work");
+    UIAccessibilityPostNotification(UIAccessibilityAnnouncementNotification, @"This is a test.");
 }
 @end

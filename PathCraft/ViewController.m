@@ -27,7 +27,7 @@
 @property NSMutableArray *eventHistory;
 @property Player *player;
 @property Environment *environment;
-
+@property (strong, nonatomic) Announcer* announcer;
 @end
 
 @implementation ViewController
@@ -132,10 +132,9 @@
         [self handleUniqueEvent: self.currentEvent withChoiceIndex: self.currentChoiceIndex];
     }
     //UIAccessibilityAnnouncementNotification(UIAccessibilityAnnouncementNotification,self.descriptionTextField.accessibilityLabel);
-    Announcer *announcer = [Announcer new];
+    self.announcer = [Announcer new];
     NSNotificationCenter *nc = [NSNotificationCenter defaultCenter];
-    [nc addObserver:announcer selector:@selector(receiveNotification:) name:UIAccessibilityAnnouncementDidFinishNotification object:nil];
-    UIAccessibilityPostNotification(UIAccessibilityAnnouncementNotification, self.descriptionTextField.accessibilityLabel);
+    [nc addObserver:self.announcer selector:@selector(receiveNotification:) name: UIAccessibilityAnnouncementDidFinishNotification object:nil];
 }
 
 #pragma mark - Update Views
