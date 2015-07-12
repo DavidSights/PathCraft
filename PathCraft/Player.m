@@ -7,6 +7,7 @@
 //
 
 #import "Player.h"
+#import <AVFoundation/AVFoundation.h>
 
 @implementation Player
 
@@ -56,5 +57,14 @@
 - (NSInteger) getWeaponStrength {
     return [self.weapon integerValue];
 }
+
+- (void) speakString: (NSString *) theString {
+    AVSpeechUtterance *utterance = [[AVSpeechUtterance alloc] initWithString:@"theString"];
+    AVSpeechSynthesisVoice *voice = [AVSpeechSynthesisVoice voiceWithLanguage:@"en-US"];
+    utterance.voice = voice;
+    AVSpeechSynthesizer *synthesizer = [AVSpeechSynthesizer new];
+    [synthesizer speakUtterance:utterance];
+}
+
 
 @end

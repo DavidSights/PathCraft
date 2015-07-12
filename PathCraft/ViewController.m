@@ -14,6 +14,7 @@
 #import "Player.h"
 #import "GameOverViewController.h"
 #import "Announcer.h"
+#import <AVFoundation/AVFoundation.h>
 
 @interface ViewController ()
 
@@ -40,6 +41,7 @@
     [self resetGame];
     self.descriptionTextField.adjustsFontSizeToFitWidth = YES;
     self.gatheredMaterialLabel.alpha = 0;
+    [self.actionButton setAccessibilityTraits:UIAccessibilityTraitStartsMediaSession];
 }
 
 -(void)viewWillAppear:(BOOL)animated {
@@ -163,6 +165,7 @@
     NSNotificationCenter *nc = [NSNotificationCenter defaultCenter];
     [nc addObserver:self.announcer selector:@selector(receiveNotification:) name: UIAccessibilityAnnouncementDidFinishNotification object:nil];
     */
+    [self speakString:self.descriptionTextField.text];
 }
 
 #pragma mark - Update Views
@@ -371,6 +374,14 @@
 -(void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
     GameOverViewController *dVC = segue.destinationViewController;
     dVC.gameOverText = [NSString stringWithFormat:@"Game Over.\nYou survived\n%li steps.", (long)self.stepCount];
+}
+
+- (void) speakString: (NSString *) theString {
+    AVSpeechUtterance *utterance = [[AVSpeechUtterance alloc] initWithString:theString];
+    AVSpeechSynthesisVoice *voice = [AVSpeechSynthesisVoice voiceWithLanguage:@"en-US"];
+    utterance.voice = voice;
+    AVSpeechSynthesizer *synthesizer = [AVSpeechSynthesizer new];
+    [synthesizer speakUtterance:utterance];
 }
 
 @end
