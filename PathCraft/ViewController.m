@@ -15,6 +15,7 @@
 #import "GameOverViewController.h"
 #import "Announcer.h"
 #import <AVFoundation/AVFoundation.h>
+#import "Mountain.h"
 
 @interface ViewController ()
 
@@ -61,6 +62,7 @@
     self.stepCount = 0;
     
     ForrestEnviroment *forrest = [ForrestEnviroment new];
+//    Mountain *forrest = [Mountain new];
     self.environment = forrest;
     
     self.player = [Player new];
@@ -237,10 +239,13 @@
 - (void) advance {
     Event *newEvent;
     NSUInteger index;
+    
     do {
         index = (NSUInteger) arc4random() % [self.environment.events count];
         newEvent = [self.environment.events objectAtIndex: index];
     } while (![self eventIsEligible: newEvent]);
+    
+    NSLog(@"event index: %lu", index);
     
     self.currentEvent = newEvent;
     
@@ -248,7 +253,7 @@
     
     [self populateEventDisplay: self.currentEvent];
     
-    if (!self.currentEvent.isCombatEvent) {
+    if (!(self.currentEvent.isCombatEvent || self.currentEvent.isUnique)) {
         [self.eventHistory addObject: self.currentEvent];
     }
 }
@@ -367,6 +372,9 @@
     NSAssert(sides<10000, @"Die has too many sides.");
     
     NSUInteger roll = arc4random_uniform((u_int32_t)sides)+1;
+    
+    NSLog(@"you rolled a %lu", roll);
+//    NSlog(@"your weapon strength is %lu", [self.player getWeaponStrenth]);
     
     return roll;
 }
