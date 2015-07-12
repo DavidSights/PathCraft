@@ -29,9 +29,9 @@
     Choice *moveBackward = [[Choice alloc] initWithChoiceDescription: @"Move Backwards"];
 
     // Resources
-    Choice *gatherWood = [[Choice alloc] initWithChoiceDescription:@"Gather Wood"];
-    Choice *gatherMetal = [[Choice alloc] initWithChoiceDescription:@"Gather Metal"];
-    Choice *gatherMeat = [[Choice alloc] initWithChoiceDescription:@"Gather Meat"];
+    Choice *gatherWood = [[Choice alloc] initWithChoiceDescription: @"Gather Wood"];
+    Choice *gatherMetal = [[Choice alloc] initWithChoiceDescription: @"Gather Metal"];
+    Choice *gatherMeat = [[Choice alloc] initWithChoiceDescription: @"Gather Meat"];
     
     // end game does not have a results array
     Choice *endGame = [[Choice alloc] initWithChoiceDescription: @"End Game"];
@@ -47,8 +47,8 @@
     [fight createEndGameResultEventWithString: @"The enemy killed you."];
 
     Choice *flee = [[Choice alloc] initWithChoiceDescription:@"Flee"];
-    [flee createBasicResultEventWithString:@"You got away."];
-    [flee createEndGameResultEventWithString:@"You did not escape. You suffered a quick and painful death."];
+    [flee createBasicResultEventWithString: @"You got away."];
+    [flee createEndGameResultEventWithString: @"You did not escape. You suffered a quick and painful death."];
 
     Choice *feedEnemy = [[Choice alloc] initWithChoiceDescription:@"Feed Enemy"];
     [feedEnemy createBasicResultEventWithString:@"You fed the enemy and successfully escaped."];

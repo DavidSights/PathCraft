@@ -38,7 +38,6 @@
 }
 
 - (void) gatherMaterial:(NSString *)material {
-    NSLog(@"gatherMaterial");
     [self.inventory setValue:@YES forKey:material];
 }
 
