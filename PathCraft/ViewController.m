@@ -12,6 +12,7 @@
 #import "ForrestEnviroment.h"
 #import "Choice.h"
 #import "Player.h"
+#import "GameOverViewController.h"
 
 @interface ViewController ()
 
