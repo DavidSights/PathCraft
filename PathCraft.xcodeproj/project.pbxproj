@@ -221,11 +221,9 @@
 				TargetAttributes = {
 					9A5BA20A1B515A1700F98320 = {
 						CreatedOnToolsVersion = 6.4;
-						DevelopmentTeam = QVTTLF22GX;
 					};
 					9A5BA2231B515A1700F98320 = {
 						CreatedOnToolsVersion = 6.4;
-						DevelopmentTeam = QVTTLF22GX;
 						TestTargetID = 9A5BA20A1B515A1700F98320;
 					};
 				};
