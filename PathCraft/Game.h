@@ -8,9 +8,16 @@
 
 #import <Foundation/Foundation.h>
 
-#import "Environment.h"
+#import "Event.h"
+#import "Choice.h"
 
 @interface Game : NSObject
-@property (strong, nonatomic) Environment *currentEnvironment;
-//@property (strong, nonatomic) Player *player;
+
+- (Event *) getInitialEvent;
+
+// returns nil if game is over
+- (Event *) getResultFromChoice: (Choice *) choice;
+
+- (NSInteger) getScore;
+
 @end

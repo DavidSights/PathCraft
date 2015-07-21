@@ -6,10 +6,9 @@
 //  Copyright (c) 2015 DavidSights. All rights reserved.
 //
 
-#import "Environment.h"
 #import "Event.h"
 
-@interface Choice : Environment
+@interface Choice : NSObject
 
 @property NSString *choiceDescription;
 @property NSMutableArray *resultEvents;

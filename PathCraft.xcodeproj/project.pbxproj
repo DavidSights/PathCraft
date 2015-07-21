@@ -87,7 +87,7 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		6E5089B81B51601F00042209 /* Models */ = {
+		6E5089B81B51601F00042209 /* Game */ = {
 			isa = PBXGroup;
 			children = (
 				9A5BA2371B51C5B700F98320 /* Choice.h */,
@@ -105,7 +105,7 @@
 				6E5089BC1B51620800042209 /* Game.h */,
 				6E5089BD1B51620800042209 /* Game.m */,
 			);
-			name = Models;
+			name = Game;
 			sourceTree = "<group>";
 		};
 		9A5BA2021B515A1700F98320 = {
@@ -135,7 +135,7 @@
 				9A5BA2161B515A1700F98320 /* ViewController.m */,
 				9A5BA23A1B5212DD00F98320 /* GameOverViewController.h */,
 				9A5BA23B1B5212DD00F98320 /* GameOverViewController.m */,
-				6E5089B81B51601F00042209 /* Models */,
+				6E5089B81B51601F00042209 /* Game */,
 				9A5BA2181B515A1700F98320 /* Main.storyboard */,
 				9A5BA21B1B515A1700F98320 /* Images.xcassets */,
 				9A5BA21D1B515A1700F98320 /* LaunchScreen.xib */,
