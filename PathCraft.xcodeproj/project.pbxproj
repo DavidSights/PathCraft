@@ -10,6 +10,7 @@
 		6E5089BB1B5160C600042209 /* Environment.m in Sources */ = {isa = PBXBuildFile; fileRef = 6E5089BA1B5160C600042209 /* Environment.m */; };
 		6E5089BE1B51620800042209 /* Game.m in Sources */ = {isa = PBXBuildFile; fileRef = 6E5089BD1B51620800042209 /* Game.m */; };
 		6E5089C11B5162DB00042209 /* Event.m in Sources */ = {isa = PBXBuildFile; fileRef = 6E5089C01B5162DB00042209 /* Event.m */; };
+		6E93B4FD1B5EF2DC006A6D90 /* Dice.m in Sources */ = {isa = PBXBuildFile; fileRef = 6E93B4FC1B5EF2DC006A6D90 /* Dice.m */; };
 		6E9714EB1B51CF55008AD7B7 /* Player.m in Sources */ = {isa = PBXBuildFile; fileRef = 6E9714EA1B51CF55008AD7B7 /* Player.m */; };
 		6EEC0EB81B518F7E000D0DA1 /* Mountain.m in Sources */ = {isa = PBXBuildFile; fileRef = 6EEC0EB71B518F7E000D0DA1 /* Mountain.m */; };
 		89F96A3B1B52283C00C915A8 /* Announcer.m in Sources */ = {isa = PBXBuildFile; fileRef = 89F96A3A1B52283C00C915A8 /* Announcer.m */; };
@@ -42,6 +43,8 @@
 		6E5089BD1B51620800042209 /* Game.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Game.m; sourceTree = "<group>"; };
 		6E5089BF1B5162DB00042209 /* Event.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Event.h; sourceTree = "<group>"; };
 		6E5089C01B5162DB00042209 /* Event.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Event.m; sourceTree = "<group>"; };
+		6E93B4FB1B5EF2DC006A6D90 /* Dice.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Dice.h; sourceTree = "<group>"; };
+		6E93B4FC1B5EF2DC006A6D90 /* Dice.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Dice.m; sourceTree = "<group>"; };
 		6E9714E91B51CF55008AD7B7 /* Player.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Player.h; sourceTree = "<group>"; };
 		6E9714EA1B51CF55008AD7B7 /* Player.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Player.m; sourceTree = "<group>"; };
 		6EEC0EB61B518F7E000D0DA1 /* Mountain.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Mountain.h; sourceTree = "<group>"; };
@@ -104,6 +107,8 @@
 				6E5089C01B5162DB00042209 /* Event.m */,
 				6E5089BC1B51620800042209 /* Game.h */,
 				6E5089BD1B51620800042209 /* Game.m */,
+				6E93B4FB1B5EF2DC006A6D90 /* Dice.h */,
+				6E93B4FC1B5EF2DC006A6D90 /* Dice.m */,
 			);
 			name = Game;
 			sourceTree = "<group>";
@@ -274,6 +279,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				6E93B4FD1B5EF2DC006A6D90 /* Dice.m in Sources */,
 				9A5BA23C1B5212DD00F98320 /* GameOverViewController.m in Sources */,
 				6E5089C11B5162DB00042209 /* Event.m in Sources */,
 				6E5089BE1B51620800042209 /* Game.m in Sources */,
