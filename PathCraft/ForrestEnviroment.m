@@ -284,18 +284,14 @@
     Event *craftEvent2 = [Event new];
     craftEvent2.eventDescription = @"You find an anvil and a hammer. Use wood and metal to craft or upgrade a weapon.";
     craftEvent2.choices = [NSArray arrayWithArray: choices];
-    
-//    Event *craftEvent3 = [Event new];
-//    craftEvent3.eventDescription = @"You find a gray hut with tools";
-//    craftEvent3.choices = [NSArray arrayWithArray: choices];
 
     // add craftEvent3 later
     NSArray *events = [NSArray arrayWithObjects: event1, event2, event3, event4, event5, event6, event7, event8,
-                       event10, event11, event12, event13,
-                       uniqueEvent1, uniqueEvent2, uniqueEvent3, uniqueEvent4,
-                       combatEvent1, combatEvent2, combatEvent3,
-                       craftEvent1, craftEvent2,
-                       nil];
+                                                 event10, event11, event12, event13,
+                                                 uniqueEvent1, uniqueEvent2, uniqueEvent3, uniqueEvent4,
+                                                 combatEvent1, combatEvent2, combatEvent3,
+                                                 craftEvent1, craftEvent2,
+                                                 nil];
     return events;
 }
 

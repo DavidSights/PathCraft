@@ -178,7 +178,7 @@
     NSNotificationCenter *nc = [NSNotificationCenter defaultCenter];
     [nc addObserver:self.announcer selector:@selector(receiveNotification:) name: UIAccessibilityAnnouncementDidFinishNotification object:nil];
     */
-    [self speakString:self.descriptionTextField.text];
+    [self speakString: self.descriptionTextField.text];
 }
 
 #pragma mark - Update Views

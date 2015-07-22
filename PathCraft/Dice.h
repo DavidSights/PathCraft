@@ -10,9 +10,11 @@
 
 @interface Dice : NSObject
 
-- (BOOL)isRollSuccessfulWithNumberOfDice:(NSUInteger)numberOfDice
-                                   sides:(NSUInteger)sides
-                                   bonus:(NSInteger)bonus
-                           againstTarget:(NSInteger)target;
+- (BOOL)isRollSuccessfulWithNumberOfDice: (NSInteger)numberOfDice
+                                   sides: (NSInteger)sides
+                                   bonus: (NSInteger)bonus
+                           againstTarget: (NSInteger)target;
+
+- (NSInteger)rollDieWithSides: (NSInteger)sides;
 
 @end

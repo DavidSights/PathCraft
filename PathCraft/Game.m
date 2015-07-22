@@ -16,6 +16,7 @@
 @implementation Game {
     NSArray *environments;
     Environment *currentEnvironment;
+    Event *currentEvent;
     Player *player;
     NSMutableArray *fullEventHistory;
     NSMutableArray *eligibleEventHistory; // must always have at least one event!
@@ -28,6 +29,7 @@
     self = [super init];
     if (self) {
         currentEnvironment = [ForrestEnviroment new];
+        currentEvent = nil;
         environments = [NSArray arrayWithObjects: currentEnvironment, [Mountain new], nil];
         player = [Player new];
         fullEventHistory = [NSMutableArray new];
@@ -56,11 +58,15 @@
     initialEvent.eventDescription = eventModel.eventDescription;
     initialEvent.choices = initialChoices;
     
+    currentEvent = initialEvent;
+    [fullEventHistory addObject: initialEvent];
+    [eligibleEventHistory addObject: initialEvent];
+    
     return initialEvent;
 }
 
 - (NSInteger) getScore {
-    return 0;
+    return score;
 }
 
 #pragma MARK - For handling actions
@@ -120,18 +126,58 @@
 }
 
 - (Event *) moveForward {
-    return nil;
+    score += 1;
+    Event *nextEvent;
+    NSInteger index;
+    do {
+        index = [dice rollDieWithSides: [currentEnvironment.events count]] - 1;
+        nextEvent = [currentEnvironment.events objectAtIndex: index];
+    } while (![self eventIsEligible: nextEvent]);
+    return nextEvent;
 }
 
+- (BOOL) eventIsEligible: (Event *)event {
+    BOOL isEligible = YES;
+    if ([event isEqual: currentEvent] || (event.isUnique && event.hasOccurred)) {
+        isEligible = NO;
+    }
+    return isEligible;
+}
+
+//- (void) advance {
+//    Event *newEvent;
+//    NSUInteger index;
+//    
+//    do {
+//        index = (NSUInteger) arc4random() % [self.environment.events count];
+//        newEvent = [self.environment.events objectAtIndex: index];
+//    } while (![self eventIsEligible: newEvent]);
+//    
+//    //    NSLog(@"event index: %lu", index);
+//    
+//    self.currentEvent = newEvent;
+//    
+//    self.currentEvent.hasOccurred = YES;
+//    
+//    [self populateEventDisplay: self.currentEvent];
+//    
+//    if (!(self.currentEvent.isCombatEvent || self.currentEvent.isUnique)) {
+//        [self.eventHistory addObject: self.currentEvent];
+//    }
+//}
+
 - (Event *) moveBackwards {
+    score -= 1;
     return nil;
 }
 
 - (Event *) fight {
+    score += 2;
     return nil;
 }
 
 - (Event *) flee {
+    score += 1;
     return nil;
 }
 
@@ -152,14 +198,17 @@
 }
 
 - (Event *) feedEnemy {
+    score += 1;
     return nil;
 }
 
 - (Event *) craftWeapon {
+    score += 2;
     return nil;
 }
 
 - (Event *) handleUniqueChoice: (Choice *) choice {
+    score += 1;
     return nil;
 }
 
