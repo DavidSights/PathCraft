@@ -139,6 +139,7 @@
 }
 
 - (IBAction)actionButtonPressed:(id)sender {
+    
     self.stepCount += 1;
     if ([self.choiceButton.titleLabel.text isEqualToString: @"Move Forward"]) {
         [self advance];

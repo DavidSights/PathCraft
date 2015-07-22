@@ -34,7 +34,7 @@
         eligibleEventHistory = [NSMutableArray new];
         dice = [Dice new];
         score = 0;
-        selectorsForChoiceDescription = [self initializeSelectorsForChoiceDescription];
+        selectorsForChoiceDescription = [self getSelectorsForChoiceDescription];
     }
     return self;
 }
@@ -75,58 +75,25 @@
         
         SEL selector = [selectorValue pointerValue];
         if ([self respondsToSelector: selector]) {
+            
+            // suppressing warning for potential leak.
+            // i am checking to make sure we respond to the selector.
+            // this would be dangerous if we didn't have 100% control over the selectors available
+            #pragma clang diagnostic push
+            #pragma clang diagnostic ignored "-Warc-performSelector-leaks"
             [self performSelector: selector];
+            #pragma clang diagnostic pop
         }
         
     } else {
         
+        [self handleUniqueChoice: choice];
     }
                         
     return nil;
 }
-//- (IBAction)actionButtonPressed:(id)sender {
-//    self.stepCount += 1;
-//    if ([self.choiceButton.titleLabel.text isEqualToString: @"Move Forward"]) {
-//        [self advance];
-//    } else if ([self.choiceButton.titleLabel.text isEqualToString: @"Move Backwards"]) {
-//        [self moveBack];
-//    } else if ([self.choiceButton.titleLabel.text isEqualToString: @"Fight"]) {
-//        [self fight];
-//    } else if ([self.choiceButton.titleLabel.text isEqualToString: @"Flee"]) {
-//        [self flee];
-//    } else if ([self.choiceButton.titleLabel.text isEqualToString: @"Gather Wood"]) {
-//        [self gatherAndShowNoticeFor:@"Wood"];
-//        [self refreshEvent];
-//    } else if ([self.choiceButton.titleLabel.text isEqualToString: @"Gather Metal"]) {
-//        [self gatherAndShowNoticeFor:@"Metal"];
-//        [self refreshEvent];
-//    } else if ([self.choiceButton.titleLabel.text isEqualToString: @"Gather Meat"]) {
-//        [self gatherAndShowNoticeFor:@"Meat"];
-//        [self refreshEvent];
-//    } else if ([self.choiceButton.titleLabel.text isEqualToString: @"End Game"]) {
-//        [self performSegueWithIdentifier:@"gameOver" sender:self];
-//    } else {
-//        // Feed enemy handles itself, but we must take away the player's meat.
-//        if ([self.choiceButton.titleLabel.text isEqualToString: @"Feed Enemy"]) {
-//            [self.player.inventory setObject:@NO forKey:@"Meat"];
-//        }  else if ([self.choiceButton.titleLabel.text isEqualToString: @"Upgrade Weapon"]) {
-//            [self.player craftWeapon];
-//        }
-//        [self handleUniqueEvent: self.currentEvent withChoiceIndex: self.currentChoiceIndex];
-//    }
-//    //UIA(UIAccessibilityAnnouncementNotification,self.descriptionTextField.accessibilityLabel);
-//    //UIAccessibilityPostNotification(UIAccessibilityAnnouncementNotification, @"Something something something");
-//    /*
-//     Might need this -- MJ
-//
-//     self.announcer = [Announcer new];
-//     NSNotificationCenter *nc = [NSNotificationCenter defaultCenter];
-//     [nc addObserver:self.announcer selector:@selector(receiveNotification:) name: UIAccessibilityAnnouncementDidFinishNotification object:nil];
-//     */
-//    [self speakString:self.descriptionTextField.text];
-//}
 
-- (NSDictionary *) initializeSelectorsForChoiceDescription {
+- (NSDictionary *) getSelectorsForChoiceDescription {
     NSArray *choiceDescriptions = [NSArray arrayWithObjects: @"Move Forward",
                                                              @"Move Backwards",
                                                              @"Fight",
@@ -189,6 +156,10 @@
 }
 
 - (Event *) craftWeapon {
+    return nil;
+}
+
+- (Event *) handleUniqueChoice: (Choice *) choice {
     return nil;
 }
 
