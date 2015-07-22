@@ -69,9 +69,26 @@
     return score;
 }
 
+#pragma MARK - For managing history
+
+- (void) addEventToHistories: (Event *)event {
+    if (event) {
+        [fullEventHistory addObject: event];
+        if ([self eventIsEligibleForHistory: event]) {
+            [eligibleEventHistory addObject: event];
+        }
+    }
+}
+
+- (BOOL) eventIsEligibleForHistory: (Event *)event {
+    return YES;
+}
+
 #pragma MARK - For handling actions
 
 - (Event *) getResultFromChoice:(Choice *)choice {
+    
+    Event *nextEvent = nil;
     
     NSString *choiceDescription = choice.choiceDescription;
     
@@ -81,22 +98,23 @@
         
         SEL selector = [selectorValue pointerValue];
         if ([self respondsToSelector: selector]) {
-            
             // suppressing warning for potential leak.
             // i am checking to make sure we respond to the selector.
             // this would be dangerous if we didn't have 100% control over the selectors available
             #pragma clang diagnostic push
             #pragma clang diagnostic ignored "-Warc-performSelector-leaks"
-            [self performSelector: selector];
+            nextEvent = [self performSelector: selector];
             #pragma clang diagnostic pop
         }
         
     } else {
         
-        [self handleUniqueChoice: choice];
+        nextEvent = [self handleUniqueChoice: choice];
     }
+    
+    [self addEventToHistories: nextEvent];
                         
-    return nil;
+    return nextEvent;
 }
 
 - (NSDictionary *) getSelectorsForChoiceDescription {
@@ -143,28 +161,6 @@
     }
     return isEligible;
 }
-
-//- (void) advance {
-//    Event *newEvent;
-//    NSUInteger index;
-//    
-//    do {
-//        index = (NSUInteger) arc4random() % [self.environment.events count];
-//        newEvent = [self.environment.events objectAtIndex: index];
-//    } while (![self eventIsEligible: newEvent]);
-//    
-//    //    NSLog(@"event index: %lu", index);
-//    
-//    self.currentEvent = newEvent;
-//    
-//    self.currentEvent.hasOccurred = YES;
-//    
-//    [self populateEventDisplay: self.currentEvent];
-//    
-//    if (!(self.currentEvent.isCombatEvent || self.currentEvent.isUnique)) {
-//        [self.eventHistory addObject: self.currentEvent];
-//    }
-//}
 
 - (Event *) moveBackwards {
     score -= 1;
