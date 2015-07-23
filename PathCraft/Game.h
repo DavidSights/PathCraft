@@ -16,7 +16,7 @@
 - (Event *) getInitialEvent;
 
 // returns nil if game is over
-- (Event *) getResultFromChoice: (Choice *) choice;
+- (Event *) getEventFromChoice: (Choice *) choice;
 
 - (NSInteger) getScore;
 

@@ -59,8 +59,7 @@
     initialEvent.choices = initialChoices;
     
     currentEvent = initialEvent;
-    [fullEventHistory addObject: initialEvent];
-    [eligibleEventHistory addObject: initialEvent];
+    [self addEventToHistories: initialEvent];
     
     return initialEvent;
 }
@@ -81,14 +80,18 @@
 }
 
 - (BOOL) eventIsEligibleForHistory: (Event *)event {
-    return YES;
+    BOOL eligibleForHistory = YES;
+    if (event.isCombatEvent || event.isUnique) {
+        eligibleForHistory = NO;
+    }
+    return eligibleForHistory;
 }
 
 #pragma MARK - For handling actions
 
-- (Event *) getResultFromChoice:(Choice *)choice {
+- (Event *) getEventFromChoice:(Choice *)choice {
     
-    Event *nextEvent = nil;
+    Event *nextEventModel = nil;
     
     NSString *choiceDescription = choice.choiceDescription;
     
@@ -103,18 +106,55 @@
             // this would be dangerous if we didn't have 100% control over the selectors available
             #pragma clang diagnostic push
             #pragma clang diagnostic ignored "-Warc-performSelector-leaks"
-            nextEvent = [self performSelector: selector];
+            nextEventModel = [self performSelector: selector];
             #pragma clang diagnostic pop
         }
         
     } else {
         
-        nextEvent = [self handleUniqueChoice: choice];
+        nextEventModel = [self handleUniqueChoice: choice];
     }
     
-    [self addEventToHistories: nextEvent];
-                        
+    Event *nextEvent = nil;
+    if (nextEventModel) {
+        
+        nextEvent = [Event new];
+        nextEvent.eventDescription = [nextEventModel eventDescription];
+        nextEvent.choices = [self getCurrentAvailableChoicesForEvent: nextEventModel];
+        
+        [self addEventToHistories: nextEvent];
+    }
+    
     return nextEvent;
+}
+
+- (NSMutableArray *) getCurrentAvailableChoicesForEvent:(Event *)event {
+    
+    NSMutableArray *availableChoices = [NSMutableArray new];
+    
+    for (int i = 0; i < [event.choices count]; i += 1) {
+        
+        Choice *possibleChoice = [event.choices objectAtIndex:i];
+        
+        NSString *choiceDescription = [possibleChoice choiceDescription];
+        
+        BOOL choiceAvailable = YES;
+        
+        BOOL woodFull = ([choiceDescription isEqualToString: @"Gather Wood"] && [player hasWood]);
+        BOOL metalFull = ([choiceDescription isEqualToString: @"Gather Metal"] && [player hasMetal]);
+        BOOL meatFull = ([choiceDescription isEqualToString: @"Gather Meat"] && [player hasMeat]);
+        BOOL cantFeed = ([choiceDescription isEqualToString: @"Feed Enemy"] && ![player hasMeat]);
+        BOOL cantCraft = ([choiceDescription isEqualToString: @"Craft Weapon"] && !([player hasWood] && [player hasMetal]));
+        
+        if (woodFull || metalFull || meatFull || cantFeed || cantCraft) {
+            choiceAvailable = NO;
+        }
+        
+        if (choiceAvailable) {
+            [availableChoices addObject: possibleChoice];
+        }
+    }
+    return availableChoices;
 }
 
 - (NSDictionary *) getSelectorsForChoiceDescription {
