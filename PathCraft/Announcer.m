@@ -11,7 +11,6 @@
 
 @implementation Announcer
 -(void)receiveNotification:(NSNotification *)notification {
-    NSLog(@"Got it");
     [[NSNotificationCenter defaultCenter] removeObserver:self];
     UIAccessibilityPostNotification(UIAccessibilityAnnouncementNotification, @"Just work");
     UIAccessibilityPostNotification(UIAccessibilityAnnouncementNotification, @"This is a test.");

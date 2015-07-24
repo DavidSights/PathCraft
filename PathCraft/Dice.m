@@ -25,7 +25,6 @@
 - (NSInteger)rollValueWithNumberOfDice: (NSInteger)numberOfDice sides:(NSInteger)sides bonus:(NSInteger)bonus {
     NSInteger total = 0;
     for (int i=0; i<numberOfDice; i++) {
-        NSLog(@"i=%d", i);
         NSInteger roll = [self rollDieWithSides:sides];
         total+=roll;
     }

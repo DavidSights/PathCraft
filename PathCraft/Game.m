@@ -35,7 +35,6 @@
         environments = [NSArray arrayWithObjects: forest, mountain, nil];
         
         currentEnvironment = forest;
-        // currentEventDescription is initialized in 'getInitialEvent'
         
         player = [Player new];
         
@@ -45,6 +44,8 @@
         dice = [Dice new];
         score = 0;
         
+        currentEventDescription = @"";
+        
         [self initializeSelectorsForChoiceDescription];
     }
     return self;
@@ -53,6 +54,8 @@
 #pragma MARK public methods
 
 - (Event *) getInitialEvent {
+    
+    NSLog(@"getInitialEvent called");
     
     Event *initialEvent = [Event new];
     Choice *moveForward = [[Choice alloc] initWithChoiceDescription: @"Move Forward"];
@@ -70,8 +73,9 @@
     initialEvent.eventDescription = eventModel.eventDescription;
     initialEvent.choices = initialChoices;
     
-    currentEventDescription = [initialEvent description];
     [self manageAdditionToHistories: initialEvent];
+    
+    currentEventDescription = [initialEvent eventDescription];
     
     return initialEvent;
 }
@@ -126,6 +130,8 @@
             // it may have different choices from the nextEventModel (illegal choices will be filtered out)
             nextEvent = [Event new];
             nextEvent.eventDescription = [nextEventModel eventDescription];
+            nextEvent.isUnique = [nextEventModel isUnique];
+            nextEvent.isCombatEvent = [nextEventModel isCombatEvent];
             nextEvent.choices = [self getLegalChoicesForEvent: nextEventModel];
         }
     }
@@ -135,7 +141,7 @@
         [self manageAdditionToHistories: nextEvent];
         
         //  currentEventDescription must be set AFTER history is handled.
-        currentEventDescription = [nextEvent description];
+        currentEventDescription = [nextEvent eventDescription];
     } else {
         currentEventDescription = nil;
     }
@@ -196,18 +202,26 @@
 // history
 
 - (void) manageAdditionToHistories: (Event *)event {
+    NSLog(@"Assessing addition to history: %@", event.eventDescription);
     if (event) {
         [fullEventHistory addObject: event];
         if ([self isEligibleForHistory: event]) {
+            NSLog(@"event is elligible. adding...");
             [eventHistory addObject: event];
         }
     }
 }
 
 - (BOOL) isEligibleForHistory: (Event *)event {
+    
+    NSLog(@"Assessing event: %@", event.eventDescription);
+    
     BOOL isCombat = event.isCombatEvent;
     BOOL isUnique = event.isUnique;
     BOOL same = [[event eventDescription] isEqualToString: currentEventDescription];
+    
+    NSLog(@"isCombat: %@, isUnique: %@, isSame: %@", @(isCombat), @(isUnique), @(same));
+    
     
     return (!isCombat && !isUnique && !same);
 }
@@ -261,6 +275,8 @@
 }
 
 - (Event *) moveBackwards {
+    
+    NSLog(@"count: %lu", [eventHistory count]);
     score -= 1;
     if ([eventHistory count] > 1) {
         [eventHistory removeLastObject];

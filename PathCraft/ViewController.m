@@ -37,7 +37,7 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    [self resetGame];
+    
     self.descriptionTextField.adjustsFontSizeToFitWidth = YES;
     self.gatheredMaterialLabel.alpha = 0;
     [self.actionButton setAccessibilityTraits:UIAccessibilityTraitStartsMediaSession];
@@ -86,7 +86,7 @@
     [self updateChoice];
 }
 
-- (void) gatherAndShowNoticeFor:(NSString *)material {
+- (void) gatherAndShowNoticeFor: (NSString *)material {
     self.gatheredMaterialLabel.text = [NSString stringWithFormat:@"Gathered %@!", material];
     self.gatheredMaterialLabel.alpha = 1;
     [UIView animateWithDuration:2.0 animations:^{
@@ -96,7 +96,7 @@
 
 - (IBAction)actionButtonPressed:(id)sender {
     
-    Choice *chosenAction = [self.currentEvent.choices objectAtIndex:self.currentChoiceIndex];
+    Choice *chosenAction = [self.currentEvent.choices objectAtIndex: self.currentChoiceIndex];
     
     self.currentEvent = [self.game getEventFromChoice:chosenAction];
     
