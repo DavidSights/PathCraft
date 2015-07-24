@@ -197,8 +197,7 @@
     return eligibleForHistory;
 }
 
-// filter choices
-
+// filter choices -> returns an NSMutableArray of choices (should really be an immutable type)
 - (NSMutableArray *) getLegalChoicesForEvent:(Event *)event {
     
     NSMutableArray *availableChoices = [NSMutableArray new];
@@ -258,9 +257,45 @@
 
 - (Event *) fight {
     score += 2;
+    
+    // Base sixty percent chance of dying ...
+    // Player weapon upgrades help by 100/6 % each
+    Event *fightResult;
+    
+    NSInteger bonus = [player getWeaponStrength];
+    NSInteger enemyStrength = ([fullEventHistory count] / 15) + 4;
+    
+    BOOL victory = [dice isRollSuccessfulWithNumberOfDice:1 sides:6 bonus:bonus againstTarget:enemyStrength];
+    
+    
     return nil;
 }
-
+//- (void) fight {
+//    
+//    // Base sixty percent chance of dying ...
+//    // Player weapon upgrades help by 10% each
+//    Event *fightResultEvent;
+//    NSInteger bonus = [self.player getWeaponStrength];
+//    NSInteger enemyStrength = (self.stepCount / 15) + 4;
+//    
+//    NSLog(@"bonus: %lu", (long)bonus);
+//    NSLog(@"enemy strength: %lu", (long)enemyStrength);
+//    
+//    BOOL victory = [ViewController isRollSuccessfulWithNumberOfDice:1 sides:6 bonus: bonus againstTarget: enemyStrength];
+//    
+//    Choice *fightChoice = [[self.currentEvent choices] objectAtIndex: 0];
+//    
+//    if (victory) {
+//        fightResultEvent = [[fightChoice resultEvents] objectAtIndex: 0];
+//    } else {
+//        fightResultEvent = [[fightChoice resultEvents] objectAtIndex: 1];
+//    }
+//    
+//    self.currentEvent = fightResultEvent;
+//    
+//    [self populateEventDisplay: self.currentEvent];
+//    [self.eventHistory addObject: self.currentEvent];
+//}
 - (Event *) flee {
     score += 1;
     return nil;
