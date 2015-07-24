@@ -71,7 +71,7 @@
 }
 
 - (void) updateAccessibilityLabels {
-    NSString *buttonTitle = self.currentEvent.choices[self.currentChoiceIndex];
+    NSString *buttonTitle = [self.currentEvent.choices[self.currentChoiceIndex] choiceDescription];
     [self.choiceButton setTitle: buttonTitle forState:UIControlStateNormal];
     NSString *accessibilityLabel = [@"Change action. Current action is " stringByAppendingString:buttonTitle];
     [self.choiceButton setAccessibilityLabel:accessibilityLabel];
@@ -102,6 +102,7 @@
     
     if (!self.currentEvent) {
         // game is over
+        [self performSegueWithIdentifier:@"gameOver" sender:self];
     } else {
         [self populateEventDisplay];
         [self speakString: self.descriptionTextField.text];
