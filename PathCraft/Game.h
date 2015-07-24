@@ -20,4 +20,8 @@
 
 - (NSInteger) getScore;
 
+- (NSInteger) getTotalSteps;
+
+- (NSInteger) getSteps;
+
 @end

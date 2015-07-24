@@ -25,6 +25,8 @@
     NSDictionary *selectorsForChoiceDescription;
 }
 
+#pragma MARK init
+
 - (id) init {
     self = [super init];
     if (self) {
@@ -143,6 +145,14 @@
 
 - (NSInteger) getScore {
     return score;
+}
+
+- (NSInteger) getTotalSteps {
+    return [fullEventHistory count];
+}
+
+- (NSInteger) getSteps {
+    return [eventHistory count];
 }
 
 #pragma MARK private methods
@@ -276,7 +286,6 @@
     
     BOOL victory = [dice isRollSuccessfulWithNumberOfDice:1 sides:6 bonus:bonus againstTarget:enemyStrength];
     if (victory) {
-        
         score += 3;
         
         Choice *moveForward = [[Choice alloc] initWithChoiceDescription: @"Move Forward"];
@@ -375,7 +384,7 @@
 }
 
 - (Event *) handleUniqueChoice: (Choice *) choice {
-    score += 1;
+    score += 3;
     
     NSArray *resultEvents = [choice resultEvents];
     NSInteger numResults = [resultEvents count];
