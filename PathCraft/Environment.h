@@ -16,5 +16,7 @@
 - (NSString *) getFightDefeatEventString;
 - (NSString *) getFleeSuccessEventString;
 - (NSString *) getFleeFailEventString;
+- (NSString *) getFeedResultEventString;
+- (NSString *) getCraftResultEventString;
 
 @end

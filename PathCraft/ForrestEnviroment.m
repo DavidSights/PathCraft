@@ -37,6 +37,10 @@
     return @"You try to escape. You slip on leaves and get caught. You suffered a quick and painful death.";
 }
 
+- (NSString *) getFeedResultEventString {
+    return @"You fed the enemy, and successfully escaped.";
+}
+
 - (NSArray *) generateEvents {
 
     // Choices
@@ -290,7 +294,7 @@
     
     // Craft events
     Choice *craftWeapon = [[Choice alloc] initWithChoiceDescription: @"Upgrade Weapon"];
-    [craftWeapon createBasicResultEventWithString:@"You successfully upgraded your weapon!"];
+    [craftWeapon createBasicResultEventWithString: @"You successfully upgraded your weapon!"];
     choices = [NSArray arrayWithObjects: moveForward, craftWeapon, moveBackward, nil];
     
     Event *craftEvent1 = [Event new];

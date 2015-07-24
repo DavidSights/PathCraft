@@ -25,6 +25,14 @@
     return nil;
 }
 
+- (NSString *) getFeedResultEventString {
+    return nil;
+}
+
+- (NSString *) getCraftResultEventString {
+    return @"You successfully crafted a new weapon!";
+}
+
 - (Event *) generateCombatEventWithEventDescription:(NSString *) eventDescription withChoices:(NSArray *)choices {
 
     Event *combatEvent = [Event new];

@@ -117,8 +117,11 @@
         }
         
         if (nextEventModel) {
+            // mark the model as having had occured (only matters for uniques)
+            nextEventModel.hasOccurred = YES;
+            
             // create the nextEvent based upon the one returned by the selector
-            // it may have different choices (illegal choices will be filtered out)
+            // it may have different choices from the nextEventModel (illegal choices will be filtered out)
             nextEvent = [Event new];
             nextEvent.eventDescription = [nextEventModel eventDescription];
             nextEvent.choices = [self getLegalChoicesForEvent: nextEventModel];
@@ -128,6 +131,8 @@
     // finally, handle history and let the currentEventDescription reflect the nextEvent
     if (nextEvent) {
         [self manageAdditionToHistories: nextEvent];
+        
+        //  currentEventDescription must be set AFTER history is handled.
         currentEventDescription = [nextEvent description];
     } else {
         currentEventDescription = nil;
@@ -191,7 +196,11 @@
 
 - (BOOL) isEligibleForHistory: (Event *)event {
     BOOL eligibleForHistory = YES;
-    if (event.isCombatEvent || event.isUnique) {
+    
+    BOOL combat = event.isCombatEvent;
+    BOOL unique = event.isUnique;
+    BOOL repeat = [[event eventDescription] isEqualToString: currentEventDescription];
+    if (combat || unique || repeat) {
         eligibleForHistory = NO;
     }
     return eligibleForHistory;
@@ -229,7 +238,7 @@
 
 - (BOOL) isEligibleForRandomSelection: (Event *)event {
     BOOL isEligible = YES;
-    if ([[event description] isEqualToString: currentEventDescription] || (event.isUnique && event.hasOccurred)) {
+    if ([[event eventDescription] isEqualToString: currentEventDescription] || (event.isUnique && event.hasOccurred)) {
         isEligible = NO;
     }
     return isEligible;
@@ -311,16 +320,23 @@
     return fleeResult;
 }
 
+// the following three methods return the very last event - even if it was unique
 - (Event *) gatherWood {
-    return nil;
+    score += 1;
+    [player gatherMaterial: @"Wood"];
+    return [fullEventHistory lastObject];
 }
 
 - (Event *) gatherMetal {
-    return nil;
+    score += 1;
+    [player gatherMaterial: @"Metal"];
+    return [fullEventHistory lastObject];
 }
 
 - (Event *) gatherMeat {
-    return nil;
+    score += 1;
+    [player gatherMaterial: @"Meat"];
+    return [fullEventHistory lastObject];
 }
 
 - (Event *) endGame {
@@ -329,17 +345,50 @@
 
 - (Event *) feedEnemy {
     score += 1;
+    
+    [player.inventory setObject:@NO forKey:@"Meat"];
+    
+    Event *feedResult = [Event new];
+    
+    Choice *moveForward = [[Choice alloc] initWithChoiceDescription: @"Move Forward"];
+    Choice *moveBackward = [[Choice alloc] initWithChoiceDescription: @"Move Backwards"];
+    
+    feedResult.eventDescription = [currentEnvironment getFeedResultEventString];
+    feedResult.choices = [NSArray arrayWithObjects: moveForward, moveBackward, nil];
+    
     return nil;
 }
 
 - (Event *) craftWeapon {
     score += 2;
-    return nil;
+    [player craftWeapon];
+    
+    Event *craftResult = [Event new];
+    
+    Choice *moveForward = [[Choice alloc] initWithChoiceDescription: @"Move Forward"];
+    Choice *moveBackward = [[Choice alloc] initWithChoiceDescription: @"Move Backwards"];
+    
+    craftResult.eventDescription = [currentEnvironment getCraftResultEventString];
+    craftResult.choices = [NSArray arrayWithObjects: moveForward, moveBackward, nil];
+    
+    return craftResult;
 }
 
 - (Event *) handleUniqueChoice: (Choice *) choice {
     score += 1;
-    return nil;
+    
+    NSArray *resultEvents = [choice resultEvents];
+    NSInteger numResults = [resultEvents count];
+    
+    NSAssert(numResults > 0, @"No possible results from choice: %@", [choice choiceDescription]);
+    
+    NSInteger index;
+    if (numResults > 1) {
+        index = [dice rollDieWithSides: numResults] - 1;
+    } else {
+        index = 0;
+    }
+    return [resultEvents objectAtIndex:index];
 }
 
 @end
