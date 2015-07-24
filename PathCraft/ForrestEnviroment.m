@@ -21,6 +21,22 @@
     return self;
 }
 
+- (NSString *) getFightVictoryEventString {
+    return @"You defeated the enemy!";
+}
+
+- (NSString *) getFightDefeatEventString {
+    return @"The enemy killed you.";
+}
+
+- (NSString *) getFleeSuccessEventString {
+    return @"You successfully escaped.";
+}
+
+- (NSString *) getFleeFailEventString {
+    return @"You try to escape. You slip on leaves and get caught. You suffered a quick and painful death.";
+}
+
 - (NSArray *) generateEvents {
 
     // Choices

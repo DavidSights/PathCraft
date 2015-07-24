@@ -11,6 +11,20 @@
 
 @implementation Environment
 
+
+- (NSString *) getFightVictoryEventString {
+    return nil;
+}
+- (NSString *) getFightDefeatEventString {
+    return nil;
+}
+- (NSString *) getFleeSuccessEventString {
+    return nil;
+}
+- (NSString *) getFleeFailEventString {
+    return nil;
+}
+
 - (Event *) generateCombatEventWithEventDescription:(NSString *) eventDescription withChoices:(NSArray *)choices {
 
     Event *combatEvent = [Event new];

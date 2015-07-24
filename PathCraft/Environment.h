@@ -11,4 +11,10 @@
 @interface Environment : NSObject
 @property NSString *environmentDescription;
 @property NSArray *events;
+
+- (NSString *) getFightVictoryEventString;
+- (NSString *) getFightDefeatEventString;
+- (NSString *) getFleeSuccessEventString;
+- (NSString *) getFleeFailEventString;
+
 @end

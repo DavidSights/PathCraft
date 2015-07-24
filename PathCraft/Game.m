@@ -78,7 +78,7 @@
 // it makes use of the selectorsForChoiceDescription dictionary which is
 // initialized in the method 'initializeSelectorsForChoiceDescription.
 // the selectorsForChoiceDescription dictionary matches choice descriptions to methods
-- (Event *) getEventFromChoice:(Choice *)choice {
+- (Event *) getEventFromChoice: (Choice *)choice {
     
     // will be populated (or not!) by some method
     Event *nextEventModel = nil;
@@ -154,15 +154,15 @@
 // unwrap the selector (with some safety checks) and perform it.
 - (void) initializeSelectorsForChoiceDescription {
     NSArray *choiceDescriptions = [NSArray arrayWithObjects: @"Move Forward",
-                                   @"Move Backwards",
-                                   @"Fight",
-                                   @"Flee",
-                                   @"Gather Wood",
-                                   @"Gather Metal",
-                                   @"Gather Meat",
-                                   @"End Game",
-                                   @"Feed Enemy",
-                                   @"Craft Weapon", nil];
+                                                             @"Move Backwards",
+                                                             @"Fight",
+                                                             @"Flee",
+                                                             @"Gather Wood",
+                                                             @"Gather Metal",
+                                                             @"Gather Meat",
+                                                             @"End Game",
+                                                             @"Feed Enemy",
+                                                             @"Craft Weapon", nil];
     
     NSArray *selectors = [NSArray arrayWithObjects: [NSValue valueWithPointer: @selector(moveForward)],
                                                     [NSValue valueWithPointer: @selector(moveBackwards)],
@@ -260,45 +260,55 @@
     
     // Base sixty percent chance of dying ...
     // Player weapon upgrades help by 100/6 % each
-    Event *fightResult;
+    Event *fightResult = [Event new];
     
     NSInteger bonus = [player getWeaponStrength];
     NSInteger enemyStrength = ([fullEventHistory count] / 15) + 4;
     
     BOOL victory = [dice isRollSuccessfulWithNumberOfDice:1 sides:6 bonus:bonus againstTarget:enemyStrength];
-    
-    
-    return nil;
+    if (victory) {
+        
+        score += 3;
+        
+        Choice *moveForward = [[Choice alloc] initWithChoiceDescription: @"Move Forward"];
+        Choice *moveBackward = [[Choice alloc] initWithChoiceDescription: @"Move Backwards"];
+        Choice *gatherMeat = [[Choice alloc] initWithChoiceDescription: @"Gather Meat"];
+        
+        fightResult.eventDescription = [currentEnvironment getFightVictoryEventString];
+        fightResult.choices = [NSArray arrayWithObjects: moveForward, gatherMeat, moveBackward, nil];
+        
+    } else {
+        
+        Choice *endGame = [[Choice alloc] initWithChoiceDescription: @"End Game"];
+        
+        fightResult.eventDescription = [currentEnvironment getFightDefeatEventString];
+        fightResult.choices = [NSArray arrayWithObjects: endGame, nil];
+    }
+    return fightResult;
 }
-//- (void) fight {
-//    
-//    // Base sixty percent chance of dying ...
-//    // Player weapon upgrades help by 10% each
-//    Event *fightResultEvent;
-//    NSInteger bonus = [self.player getWeaponStrength];
-//    NSInteger enemyStrength = (self.stepCount / 15) + 4;
-//    
-//    NSLog(@"bonus: %lu", (long)bonus);
-//    NSLog(@"enemy strength: %lu", (long)enemyStrength);
-//    
-//    BOOL victory = [ViewController isRollSuccessfulWithNumberOfDice:1 sides:6 bonus: bonus againstTarget: enemyStrength];
-//    
-//    Choice *fightChoice = [[self.currentEvent choices] objectAtIndex: 0];
-//    
-//    if (victory) {
-//        fightResultEvent = [[fightChoice resultEvents] objectAtIndex: 0];
-//    } else {
-//        fightResultEvent = [[fightChoice resultEvents] objectAtIndex: 1];
-//    }
-//    
-//    self.currentEvent = fightResultEvent;
-//    
-//    [self populateEventDisplay: self.currentEvent];
-//    [self.eventHistory addObject: self.currentEvent];
-//}
+
 - (Event *) flee {
     score += 1;
-    return nil;
+    
+    Event *fleeResult = [Event new];
+    
+    BOOL success = ([dice rollDieWithSides:6] > 3);
+    if (success) {
+        
+        Choice *moveForward = [[Choice alloc] initWithChoiceDescription: @"Move Forward"];
+        Choice *moveBackward = [[Choice alloc] initWithChoiceDescription: @"Move Backwards"];
+        
+        fleeResult.eventDescription = [currentEnvironment getFleeSuccessEventString];
+        fleeResult.choices = [NSArray arrayWithObjects: moveForward, moveBackward, nil];
+        
+    } else {
+        
+        Choice *endGame = [[Choice alloc] initWithChoiceDescription: @"End Game"];
+        
+        fleeResult.eventDescription = [currentEnvironment getFleeFailEventString];
+        fleeResult.choices = [NSArray arrayWithObjects: endGame, nil];
+    }
+    return fleeResult;
 }
 
 - (Event *) gatherWood {
