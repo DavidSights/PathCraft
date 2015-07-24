@@ -293,7 +293,7 @@
     combatEvent3.isCombatEvent = YES;
     
     // Craft events
-    Choice *craftWeapon = [[Choice alloc] initWithChoiceDescription: @"Upgrade Weapon"];
+    Choice *craftWeapon = [[Choice alloc] initWithChoiceDescription: @"Craft Weapon"];
     [craftWeapon createBasicResultEventWithString: @"You successfully upgraded your weapon!"];
     choices = [NSArray arrayWithObjects: moveForward, craftWeapon, moveBackward, nil];
     

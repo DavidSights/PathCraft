@@ -164,7 +164,7 @@
         // Feed enemy handles itself, but we must take away the player's meat.
         if ([self.choiceButton.titleLabel.text isEqualToString: @"Feed Enemy"]) {
             [self.player.inventory setObject:@NO forKey:@"Meat"];
-        }  else if ([self.choiceButton.titleLabel.text isEqualToString: @"Upgrade Weapon"]) {
+        }  else if ([self.choiceButton.titleLabel.text isEqualToString: @"Craft Weapon"]) {
             [self.player craftWeapon];
         }
         [self handleUniqueEvent: self.currentEvent withChoiceIndex: self.currentChoiceIndex];
@@ -199,7 +199,7 @@
             ([description isEqualToString: @"Gather Metal"] && [self.player hasMetal]) ||
             ([description isEqualToString: @"Gather Meat"] && [self.player hasMeat]) ||
             ([description isEqualToString: @"Feed Enemy"] && ![self.player hasMeat]) ||
-            ([description isEqualToString: @"Upgrade Weapon"] && !([self.player hasMetal] && [self.player hasWood]))) {
+            ([description isEqualToString: @"Craft Weapon"] && !([self.player hasMetal] && [self.player hasWood]))) {
             addChoice = NO;
         }
 

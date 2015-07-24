@@ -346,7 +346,7 @@
 - (Event *) feedEnemy {
     score += 1;
     
-    [player.inventory setObject:@NO forKey:@"Meat"];
+    [player.inventory setObject:@NO forKey: @"Meat"];
     
     Event *feedResult = [Event new];
     
@@ -380,7 +380,7 @@
     NSArray *resultEvents = [choice resultEvents];
     NSInteger numResults = [resultEvents count];
     
-    NSAssert(numResults > 0, @"No possible results from choice: %@", [choice choiceDescription]);
+    NSAssert(numResults > 0, @"No possible results from unique choice: %@", [choice choiceDescription]);
     
     NSInteger index;
     if (numResults > 1) {
