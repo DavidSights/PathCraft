@@ -205,15 +205,11 @@
 }
 
 - (BOOL) isEligibleForHistory: (Event *)event {
-    BOOL eligibleForHistory = YES;
+    BOOL isCombat = event.isCombatEvent;
+    BOOL isUnique = event.isUnique;
+    BOOL same = [[event eventDescription] isEqualToString: currentEventDescription];
     
-    BOOL combat = event.isCombatEvent;
-    BOOL unique = event.isUnique;
-    BOOL repeat = [[event eventDescription] isEqualToString: currentEventDescription];
-    if (combat || unique || repeat) {
-        eligibleForHistory = NO;
-    }
-    return eligibleForHistory;
+    return (!isCombat && !isUnique && !same);
 }
 
 // filter choices -> returns an NSMutableArray of choices (should really be an immutable type)
@@ -247,22 +243,21 @@
 }
 
 - (BOOL) isEligibleForRandomSelection: (Event *)event {
-    BOOL isEligible = YES;
-    if ([[event eventDescription] isEqualToString: currentEventDescription] || (event.isUnique && event.hasOccurred)) {
-        isEligible = NO;
-    }
-    return isEligible;
+    BOOL same = [[event eventDescription] isEqualToString: currentEventDescription];
+    BOOL usedUp = (event.isUnique && event.hasOccurred);
+    return (!same && !usedUp);
 }
 
 - (Event *) moveForward {
     score += 1;
-    Event *nextEvent;
+    
+    Event *next;
     NSInteger index;
     do {
         index = [dice rollDieWithSides: [currentEnvironment.events count]] - 1;
-        nextEvent = [currentEnvironment.events objectAtIndex: index];
-    } while (![self isEligibleForRandomSelection: nextEvent]);
-    return nextEvent;
+        next = [currentEnvironment.events objectAtIndex: index];
+    } while (![self isEligibleForRandomSelection: next]);
+    return next;
 }
 
 - (Event *) moveBackwards {
@@ -277,8 +272,6 @@
 - (Event *) fight {
     score += 2;
     
-    // Base sixty percent chance of dying ...
-    // Player weapon upgrades help by 100/6 % each
     Event *fightResult = [Event new];
     
     NSInteger bonus = [player getWeaponStrength];
@@ -333,18 +326,21 @@
 - (Event *) gatherWood {
     score += 1;
     [player gatherMaterial: @"Wood"];
+    
     return [fullEventHistory lastObject];
 }
 
 - (Event *) gatherMetal {
     score += 1;
     [player gatherMaterial: @"Metal"];
+    
     return [fullEventHistory lastObject];
 }
 
 - (Event *) gatherMeat {
     score += 1;
     [player gatherMaterial: @"Meat"];
+    
     return [fullEventHistory lastObject];
 }
 
@@ -354,7 +350,6 @@
 
 - (Event *) feedEnemy {
     score += 1;
-    
     [player.inventory setObject:@NO forKey: @"Meat"];
     
     Event *feedResult = [Event new];
