@@ -19,8 +19,8 @@
     NSString *currentEventDescription;
     Player *player;
     NSMutableArray *fullEventHistory; // always has at least one event (starting with getInitialEvent). all events get added.
-    NSMutableArray *eventHistory; // must always have at least one event (starting with getInitialEvent). combat and unique events do not get added!
-    Dice *dice;
+    NSMutableArray *eventHistory;     // must always have at least one event (starting with getInitialEvent)...
+    Dice *dice;                       //                                            combat and unique events do not get added!
     NSInteger score;
     NSDictionary *selectorsForChoiceDescription;
 }
