@@ -16,6 +16,7 @@
 
 @property (weak) id <GameDelegate> delegate;
 
+// should be called first.
 - (Event *) getInitialEvent;
 
 // returns nil if game is over

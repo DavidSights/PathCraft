@@ -14,12 +14,12 @@
 #import "Dice.h"
 
 @implementation Game {
+    Dice *dice;
     NSArray *environments;
     Environment *currentEnvironment;
     Player *player;
     NSMutableArray *fullEventHistory;
     NSMutableArray *eventHistory;
-    Dice *dice;
     NSInteger score;
     NSDictionary *selectorsForChoiceDescription;
 }
@@ -56,11 +56,19 @@
 
 #pragma MARK public methods
 
+- (Event *) getInitialEvent {
+    Choice *initialChoice = [[Choice alloc] initWithChoiceDescription: @"Get Initial"];
+    return [self getEventFromChoice: initialChoice];
+}
+
 // this method is the heard and soul of this class.
 // it returns an event based upon the choice passed to it.
 // it makes use of the selectorsForChoiceDescription dictionary which is
 // initialized in the method 'initializeSelectorsForChoiceDescription.
 // the selectorsForChoiceDescription dictionary matches choice descriptions to methods.
+// each of the action selectors returns a model of an event. those models are then
+// filtered in this method to only contain the choices appropriate for the game situation
+// the filtered event is returned to the VC
 - (Event *) getEventFromChoice: (Choice *)choice {
     
     // will be populated (or not!) by some method
@@ -69,9 +77,9 @@
     // we will eventually return nextEvent
     Event *nextEvent = nil;
     
-    if (choice && [choice isKindOfClass:[Choice class]]) {
+    if (choice && [choice isKindOfClass: [Choice class]]) {
         // the choice description will determine what method to use to handle the event
-        NSString *choiceDescription = choice.choiceDescription;
+        NSString *choiceDescription = [choice choiceDescription];
         
         // check to see if we have a designated handler for that choice description
         NSValue *selectorValue = [selectorsForChoiceDescription objectForKey: choiceDescription];
@@ -113,17 +121,11 @@
         }
     }
     
-    // finally, handle history and let the currentEventDescription reflect the nextEvent
+    // finally, handle history
     if (nextEvent && nextEventModel) {
         [self manageHistory: nextEventModel];
     }
-    
     return nextEvent;
-}
-
-- (Event *) getInitialEvent {
-    Choice *initialChoice = [[Choice alloc] initWithChoiceDescription: @"Get Initial"];
-    return [self getEventFromChoice: initialChoice];
 }
 
 - (NSInteger) getScore {
@@ -139,109 +141,30 @@
 }
 
 #pragma MARK private methods
-// this dictionary is at the heart of this class.
-// instead of relying on an obscene if/else chain or less
-// than ideal switch statement, we can have O(1) complexity of steps
-// (instead of 0(n) in the case of the switch). i mean, it's not the biggest
-// deal in the world, but I think it's fun to do it this way.
-// The way this dictionary works is:
-// When we want to add a special function for a choiceDescription, we add the method
-// to this class, and pair it with the choiceDescription in this dictionary.
-// The way we store the method is by isolating its selector (SEL) in an NSValue pointer.
-// We can store that NSValue in the dictionary. Later, in getEventFromChoice we
-// unwrap the selector (with some safety checks) and perform it.
-- (void) initializeSelectorsForChoiceDescription {
-    NSArray *choiceDescriptions = [NSArray arrayWithObjects: @"Get Initial",
-                                                             @"Move Forward",
-                                                             @"Move Backwards",
-                                                             @"Fight",
-                                                             @"Flee",
-                                                             @"Gather Wood",
-                                                             @"Gather Metal",
-                                                             @"Gather Meat",
-                                                             @"End Game",
-                                                             @"Feed Enemy",
-                                                             @"Craft Weapon", nil];
-    
-    NSArray *selectors = [NSArray arrayWithObjects: [NSValue valueWithPointer: @selector(initialEvent)],
-                                                    [NSValue valueWithPointer: @selector(moveForward)],
-                                                    [NSValue valueWithPointer: @selector(moveBackwards)],
-                                                    [NSValue valueWithPointer: @selector(fight)],
-                                                    [NSValue valueWithPointer: @selector(flee)],
-                                                    [NSValue valueWithPointer: @selector(gatherWood)],
-                                                    [NSValue valueWithPointer: @selector(gatherMetal)],
-                                                    [NSValue valueWithPointer: @selector(gatherMeat)],
-                                                    [NSValue valueWithPointer: @selector(endGame)],
-                                                    [NSValue valueWithPointer: @selector(feedEnemy)],
-                                                    [NSValue valueWithPointer: @selector(craftWeapon)], nil];
-    
-    selectorsForChoiceDescription = [NSDictionary dictionaryWithObjects: selectors forKeys: choiceDescriptions];
-}
 
-- (void) manageHistory: (Event *)nextEventModel {
-    if (nextEventModel) {
-        [fullEventHistory addObject: nextEventModel];
-        if ([self shouldAddEventToHistory: nextEventModel]) {
-            [eventHistory addObject: nextEventModel];
-        }
-    }
-}
+/* ACTION SELECTORS START */
 
-- (BOOL) shouldAddEventToHistory: (Event *) event {
-    
-    BOOL isCombat = [event isCombatEvent];
-    BOOL isUnique = [event isUnique];
-    BOOL isSpecialResult = [event specialResult];
-    
-    BOOL isSame = NO;
-    Event *lastEvent = [eventHistory lastObject];
-    if (lastEvent) {
-        isSame = [[event eventDescription] isEqualToString: [lastEvent eventDescription]];
-    }
-    
-    return (!isCombat && !isUnique && !isSpecialResult && !isSame);
-}
-
-// filter choices -> returns an NSMutableArray of choices (should really be an immutable type)
-- (NSMutableArray *) getLegalChoicesForEvent:(Event *)event {
-    
-    NSMutableArray *availableChoices = [NSMutableArray new];
-    
-    for (int i = 0; i < [event.choices count]; i += 1) {
-        
-        Choice *possibleChoice = [event.choices objectAtIndex:i];
-        
-        NSString *choiceDescription = [possibleChoice choiceDescription];
-        
-        BOOL choiceAvailable = YES;
-        
-        BOOL cantBackUp = ([choiceDescription isEqualToString: @"Move Backwards"] && ([eventHistory count] < 1));
-        BOOL woodFull = ([choiceDescription isEqualToString: @"Gather Wood"] && [player hasWood]);
-        BOOL metalFull = ([choiceDescription isEqualToString: @"Gather Metal"] && [player hasMetal]);
-        BOOL meatFull = ([choiceDescription isEqualToString: @"Gather Meat"] && [player hasMeat]);
-        BOOL cantFeed = ([choiceDescription isEqualToString: @"Feed Enemy"] && ![player hasMeat]);
-        BOOL cantCraft = ([choiceDescription isEqualToString: @"Craft Weapon"] && !([player hasWood] && [player hasMetal]));
-        
-        if (cantBackUp || woodFull || metalFull || meatFull || cantFeed || cantCraft) {
-            choiceAvailable = NO;
-        }
-        
-        if (choiceAvailable) {
-            [availableChoices addObject: possibleChoice];
-        }
-    }
-    return availableChoices;
-}
-
-- (BOOL) isEligibleForRandomSelection: (Event *)event {
-    Event *lastEvent = [fullEventHistory lastObject];
-    BOOL same = [[event eventDescription] isEqualToString: [lastEvent eventDescription]];
-    BOOL usedUp = (event.isUnique && event.hasOccurred);
-    return (!same && !usedUp);
-}
-            
 - (Event *) initialEvent {
-    return [currentEnvironment events][0];
+    
+    Event *model = [currentEnvironment events][0];
+    
+    NSMutableArray *availableChoices = [NSMutableArray arrayWithArray: model.choices];
+    NSInteger indexOfMoveBackwards = -1;
+    for (int i = 0; i < [availableChoices count]; i += 1) {
+        NSString *choiceDescription = [[availableChoices objectAtIndex: i] choiceDescription];
+        if ([choiceDescription isEqualToString: @"Move Backwards"]) {
+            indexOfMoveBackwards = i;
+        }
+    }
+    if (indexOfMoveBackwards > -1) {
+        [availableChoices removeObjectAtIndex: indexOfMoveBackwards];
+    }
+    
+    Event *initialEvent = [Event new];
+    initialEvent.eventDescription = [model eventDescription];
+    initialEvent.choices = availableChoices;
+    
+    return initialEvent;
 }
 
 - (Event *) moveForward {
@@ -253,6 +176,14 @@
         next = [currentEnvironment.events objectAtIndex: index];
     } while (![self isEligibleForRandomSelection: next]);
     return next;
+}
+
+// helper for moveForward
+- (BOOL) isEligibleForRandomSelection: (Event *)event {
+    Event *lastEvent = [fullEventHistory lastObject];
+    BOOL same = [[event eventDescription] isEqualToString: [lastEvent eventDescription]];
+    BOOL usedUp = (event.isUnique && event.hasOccurred);
+    return (!same && !usedUp);
 }
 
 - (Event *) moveBackwards {
@@ -316,7 +247,6 @@
     return fleeResult;
 }
 
-// the following three methods return the very last event - even if it was unique
 - (Event *) gatherWood {
     return [self gatherMaterial: @"Wood"];
 }
@@ -329,6 +259,7 @@
     return [self gatherMaterial: @"Meat"];
 }
 
+// helper for gatherWood, gatherMetal, gatherMeat
 - (Event *) gatherMaterial: (NSString *) material {
     score += 1;
     
@@ -390,5 +321,101 @@
     }
     return [resultEvents objectAtIndex:index];
 }
+
+/* ACTION SELECTORS END */
+
+/* HELPER METHODS START */
+
+// instead of relying on an obscene if/else chain or a less
+// than ideal switch statement, we can have O(1) complexity of steps for the main action in the game
+// (instead of 0(n) in the case of the switch). i mean, it's not the biggest
+// deal in the world, but I think it's fun to do it this way, and it is more efficient.
+// The way this dictionary works is:
+// When we want to add a special function for a choiceDescription, we add the method
+// to this class, and pair it with the choiceDescription in this dictionary.
+// The way we store the method is by isolating its selector (SEL) in an NSValue pointer.
+// We can store that NSValue in the dictionary. Later, in getEventFromChoice we
+// unwrap the selector (with some safety checks) and perform it.
+- (void) initializeSelectorsForChoiceDescription {
+    NSArray *choiceDescriptions = [NSArray arrayWithObjects: @"Get Initial",
+                                   @"Move Forward",
+                                   @"Move Backwards",
+                                   @"Fight",
+                                   @"Flee",
+                                   @"Gather Wood",
+                                   @"Gather Metal",
+                                   @"Gather Meat",
+                                   @"End Game",
+                                   @"Feed Enemy",
+                                   @"Craft Weapon", nil];
+    
+    NSArray *selectors = [NSArray arrayWithObjects: [NSValue valueWithPointer: @selector(initialEvent)],
+                          [NSValue valueWithPointer: @selector(moveForward)],
+                          [NSValue valueWithPointer: @selector(moveBackwards)],
+                          [NSValue valueWithPointer: @selector(fight)],
+                          [NSValue valueWithPointer: @selector(flee)],
+                          [NSValue valueWithPointer: @selector(gatherWood)],
+                          [NSValue valueWithPointer: @selector(gatherMetal)],
+                          [NSValue valueWithPointer: @selector(gatherMeat)],
+                          [NSValue valueWithPointer: @selector(endGame)],
+                          [NSValue valueWithPointer: @selector(feedEnemy)],
+                          [NSValue valueWithPointer: @selector(craftWeapon)], nil];
+    
+    selectorsForChoiceDescription = [NSDictionary dictionaryWithObjects: selectors forKeys: choiceDescriptions];
+}
+
+// history arrays consist of the full events (without filtered choices array)
+- (void) manageHistory: (Event *)event {
+    [fullEventHistory addObject: event];
+    if ([self shouldAddEventToHistory: event]) {
+        [eventHistory addObject: event];
+    }
+}
+
+// helper for manageHistory
+- (BOOL) shouldAddEventToHistory: (Event *) event {
+    BOOL isCombat = [event isCombatEvent];
+    BOOL isUnique = [event isUnique];
+    BOOL isSpecialResult = [event specialResult];
+    BOOL isSame = NO;
+    Event *lastEvent = [eventHistory lastObject];
+    if (lastEvent) {
+        isSame = [[event eventDescription] isEqualToString: [lastEvent eventDescription]];
+    }
+    return (!isCombat && !isUnique && !isSpecialResult && !isSame);
+}
+
+// returns array of legal choices for an event given the current state of the game
+- (NSMutableArray *) getLegalChoicesForEvent:(Event *)event {
+    
+    NSMutableArray *availableChoices = [NSMutableArray new];
+    
+    for (int i = 0; i < [event.choices count]; i += 1) {
+        
+        Choice *possibleChoice = [event.choices objectAtIndex:i];
+        
+        NSString *choiceDescription = [possibleChoice choiceDescription];
+        
+        BOOL choiceAvailable = YES;
+        
+        BOOL cantBackUp = ([choiceDescription isEqualToString: @"Move Backwards"] && ([eventHistory count] < 1));
+        BOOL woodFull = ([choiceDescription isEqualToString: @"Gather Wood"] && [player hasWood]);
+        BOOL metalFull = ([choiceDescription isEqualToString: @"Gather Metal"] && [player hasMetal]);
+        BOOL meatFull = ([choiceDescription isEqualToString: @"Gather Meat"] && [player hasMeat]);
+        BOOL cantFeed = ([choiceDescription isEqualToString: @"Feed Enemy"] && ![player hasMeat]);
+        BOOL cantCraft = ([choiceDescription isEqualToString: @"Craft Weapon"] && !([player hasWood] && [player hasMetal]));
+        
+        if (cantBackUp || woodFull || metalFull || meatFull || cantFeed || cantCraft) {
+            choiceAvailable = NO;
+        }
+        
+        if (choiceAvailable) {
+            [availableChoices addObject: possibleChoice];
+        }
+    }
+    return availableChoices;
+}
+
+/* HELPER METHODS END */
 
 @end
