@@ -319,22 +319,22 @@
 
 // the following three methods return the very last event - even if it was unique
 - (Event *) gatherWood {
-    score += 1;
-    [player gatherMaterial: @"Wood"];
-    
-    return [fullEventHistory lastObject];
+    return [self gatherMaterial: @"Wood"];
 }
 
 - (Event *) gatherMetal {
-    score += 1;
-    [player gatherMaterial: @"Metal"];
-    
-    return [fullEventHistory lastObject];
+   return [self gatherMaterial: @"Metal"];
 }
 
 - (Event *) gatherMeat {
+    return [self gatherMaterial: @"Meat"];
+}
+
+- (Event *) gatherMaterial: (NSString *) material {
     score += 1;
-    [player gatherMaterial: @"Meat"];
+    
+    [player gatherMaterial: material];
+    [self.delegate playerDidGatherMaterial: material];
     
     return [fullEventHistory lastObject];
 }

@@ -17,7 +17,7 @@
 
 #import <AVFoundation/AVFoundation.h>
 
-@interface ViewController ()
+@interface ViewController()
 
 @property (weak, nonatomic) IBOutlet UIButton *choiceButton;
 @property (weak, nonatomic) IBOutlet UIButton *actionButton;
@@ -133,6 +133,12 @@
     self.currentChoiceIndex = 0;
     
     [self updateAccessibilityLabels];
+    
+}
+
+#pragma mark game delegate protocol method
+
+- (void) playerDidGatherMaterial: (NSString *) material {
     
 }
 

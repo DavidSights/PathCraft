@@ -47,6 +47,7 @@
 		6E93B4FC1B5EF2DC006A6D90 /* Dice.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Dice.m; sourceTree = "<group>"; };
 		6E9714E91B51CF55008AD7B7 /* Player.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Player.h; sourceTree = "<group>"; };
 		6E9714EA1B51CF55008AD7B7 /* Player.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Player.m; sourceTree = "<group>"; };
+		6EC46B821B647F11004D4967 /* GameDelegateProtocol.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GameDelegateProtocol.h; sourceTree = "<group>"; };
 		6EEC0EB61B518F7E000D0DA1 /* Mountain.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Mountain.h; sourceTree = "<group>"; };
 		6EEC0EB71B518F7E000D0DA1 /* Mountain.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Mountain.m; sourceTree = "<group>"; };
 		89F96A391B52283C00C915A8 /* Announcer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Announcer.h; sourceTree = "<group>"; };
@@ -113,6 +114,14 @@
 			name = Game;
 			sourceTree = "<group>";
 		};
+		6EC46B7F1B647A14004D4967 /* Protocols */ = {
+			isa = PBXGroup;
+			children = (
+				6EC46B821B647F11004D4967 /* GameDelegateProtocol.h */,
+			);
+			name = Protocols;
+			sourceTree = "<group>";
+		};
 		9A5BA2021B515A1700F98320 = {
 			isa = PBXGroup;
 			children = (
@@ -141,6 +150,7 @@
 				9A5BA23A1B5212DD00F98320 /* GameOverViewController.h */,
 				9A5BA23B1B5212DD00F98320 /* GameOverViewController.m */,
 				6E5089B81B51601F00042209 /* Game */,
+				6EC46B7F1B647A14004D4967 /* Protocols */,
 				9A5BA2181B515A1700F98320 /* Main.storyboard */,
 				9A5BA21B1B515A1700F98320 /* Images.xcassets */,
 				9A5BA21D1B515A1700F98320 /* LaunchScreen.xib */,

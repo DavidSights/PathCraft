@@ -10,8 +10,11 @@
 
 #import "Event.h"
 #import "Choice.h"
+#import "GameDelegateProtocol.h"
 
 @interface Game : NSObject
+
+@property (weak) id <GameDelegate> delegate;
 
 - (Event *) getInitialEvent;
 
