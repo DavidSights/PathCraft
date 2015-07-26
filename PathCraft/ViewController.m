@@ -40,6 +40,7 @@
     
     self.descriptionTextField.adjustsFontSizeToFitWidth = YES;
     self.gatheredMaterialLabel.alpha = 0;
+    
     [self.actionButton setAccessibilityTraits:UIAccessibilityTraitStartsMediaSession];
 }
 
@@ -62,6 +63,7 @@
 - (void)resetGame {
     
     self.game = [[Game alloc] init];
+    self.game.delegate = self;
     
     self.currentEvent = [self.game getInitialEvent];
 
@@ -71,6 +73,7 @@
 }
 
 - (void) updateAccessibilityLabels {
+    
     NSString *buttonTitle = [self.currentEvent.choices[self.currentChoiceIndex] choiceDescription];
     [self.choiceButton setTitle: buttonTitle forState:UIControlStateNormal];
     NSString *accessibilityLabel = [@"Change action. Current action is " stringByAppendingString:buttonTitle];
@@ -86,14 +89,6 @@
     [self updateChoice];
 }
 
-- (void) gatherAndShowNoticeFor: (NSString *)material {
-    self.gatheredMaterialLabel.text = [NSString stringWithFormat:@"Gathered %@!", material];
-    self.gatheredMaterialLabel.alpha = 1;
-    [UIView animateWithDuration:2.0 animations:^{
-        self.gatheredMaterialLabel.alpha = 0;
-    }];
-}
-
 - (IBAction)actionButtonPressed:(id)sender {
     
     Choice *chosenAction = [self.currentEvent.choices objectAtIndex: self.currentChoiceIndex];
@@ -105,7 +100,6 @@
         [self performSegueWithIdentifier:@"gameOver" sender:self];
     } else {
         [self populateEventDisplay];
-        [self speakString: self.descriptionTextField.text];
     }
 }
 
@@ -127,6 +121,8 @@
 - (void) populateEventDisplay {
     
     self.descriptionTextField.text = [self.currentEvent eventDescription];
+    
+    [self speakString: self.descriptionTextField.text];
 
     [self.choiceButton setTitle: self.currentEvent.choices[0] forState:UIControlStateNormal];
     
@@ -136,10 +132,16 @@
     
 }
 
-#pragma mark game delegate protocol method
+#pragma mark GameDelegate protocol method
 
 - (void) playerDidGatherMaterial: (NSString *) material {
+    self.gatheredMaterialLabel.text = [NSString stringWithFormat:@"Gathered %@!", material];
+    self.gatheredMaterialLabel.alpha = 1;
+    [UIView animateWithDuration:2.0 animations:^{
+        self.gatheredMaterialLabel.alpha = 0;
+    }];
     
+    [self speakString:[@"You gathered the " stringByAppendingString:material]];
 }
 
 #pragma mark segue

@@ -40,7 +40,6 @@
 
 - (void) gatherMaterial:(NSString *)material {
     [self.inventory setValue:@YES forKey:material];
-    [self speakString:[@"You gathered the " stringByAppendingString:material]];
 }
 
 - (void)craftWeapon {
@@ -59,13 +58,7 @@
     return [self.weapon integerValue];
 }
 
-- (void) speakString: (NSString *) theString {
-    AVSpeechUtterance *utterance = [[AVSpeechUtterance alloc] initWithString:theString];
-    AVSpeechSynthesisVoice *voice = [AVSpeechSynthesisVoice voiceWithLanguage:@"en-US"];
-    utterance.voice = voice;
-    AVSpeechSynthesizer *synthesizer = [AVSpeechSynthesizer new];
-    [synthesizer speakUtterance:utterance];
-}
+
 
 
 @end

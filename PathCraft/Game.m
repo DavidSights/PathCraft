@@ -16,7 +16,6 @@
 @implementation Game {
     NSArray *environments;
     Environment *currentEnvironment;
-    Event *currentEvent;
     Player *player;
     NSMutableArray *fullEventHistory;
     NSMutableArray *eventHistory;
@@ -34,11 +33,10 @@
         Environment *forest = [ForrestEnviroment new];
         Environment *mountain = [Mountain new];
         environments = [NSArray arrayWithObjects: forest, mountain, nil];
-        currentEnvironment = forest;
+        currentEnvironment = mountain;
         
         player = [Player new];
-        
-        currentEvent = nil;
+
         eventHistory = [NSMutableArray new];
         fullEventHistory = [NSMutableArray new];
         
@@ -110,13 +108,8 @@
     }
     
     // finally, handle history and let the currentEventDescription reflect the nextEvent
-    if (nextEvent) {
-        currentEvent = nextEvent;
-        [self manageHistory];
-        
-    } else {
-        
-        currentEvent = nil;
+    if (nextEvent && nextEventModel) {
+        [self manageHistory: nextEventModel];
     }
     
     return nextEvent;
@@ -179,25 +172,25 @@
     selectorsForChoiceDescription = [NSDictionary dictionaryWithObjects: selectors forKeys: choiceDescriptions];
 }
 
-- (void) manageHistory {
-    if (currentEvent) {
-        [fullEventHistory addObject: currentEvent];
-        if ([self shouldAddCurrentEventToHistory]) {
-            [eventHistory addObject: currentEvent];
+- (void) manageHistory: (Event *)nextEventModel {
+    if (nextEventModel) {
+        [fullEventHistory addObject: nextEventModel];
+        if ([self shouldAddEventToHistory: nextEventModel]) {
+            [eventHistory addObject: nextEventModel];
         }
     }
 }
 
-- (BOOL) shouldAddCurrentEventToHistory {
+- (BOOL) shouldAddEventToHistory: (Event *) event {
     
-    BOOL isCombat = [currentEvent isCombatEvent];
-    BOOL isUnique = [currentEvent isUnique];
-    BOOL isSpecialResult = [currentEvent specialResult];
+    BOOL isCombat = [event isCombatEvent];
+    BOOL isUnique = [event isUnique];
+    BOOL isSpecialResult = [event specialResult];
     
     BOOL isSame = NO;
     Event *lastEvent = [eventHistory lastObject];
     if (lastEvent) {
-        isSame = [[currentEvent eventDescription] isEqualToString: [lastEvent eventDescription]];
+        isSame = [[event eventDescription] isEqualToString: [lastEvent eventDescription]];
     }
     
     return (!isCombat && !isUnique && !isSpecialResult && !isSame);
@@ -235,13 +228,13 @@
 }
 
 - (BOOL) isEligibleForRandomSelection: (Event *)event {
-    BOOL same = [[event eventDescription] isEqualToString: [currentEvent eventDescription]];
+    Event *lastEvent = [fullEventHistory lastObject];
+    BOOL same = [[event eventDescription] isEqualToString: [lastEvent eventDescription]];
     BOOL usedUp = (event.isUnique && event.hasOccurred);
     return (!same && !usedUp);
 }
             
 - (Event *) initialEvent {
-    
     return [currentEnvironment events][0];
 }
 

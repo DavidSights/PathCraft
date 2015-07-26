@@ -22,6 +22,23 @@
     return self;
 }
 
+- (NSString *) getFightVictoryEventString {
+    return @"You killed the foe!";
+}
+- (NSString *) getFightDefeatEventString {
+    return @"You have been slain.";
+}
+- (NSString *) getFleeSuccessEventString {
+    return @"You escape by the skin of your teeth.";
+}
+- (NSString *) getFleeFailEventString {
+    return @"You slip and fall to your death as you try to escape.";
+}
+
+- (NSString *) getFeedResultEventString {
+    return @"You appease the enemy with an offering of meat.";
+}
+
 - (NSArray *)generateEvents {
     
     /* Standard choices */

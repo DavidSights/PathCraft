@@ -38,7 +38,7 @@
 }
 
 - (NSString *) getFeedResultEventString {
-    return @"You fed the enemy, and successfully escaped.";
+    return @"You fed the enemy and successfully escaped.";
 }
 
 - (NSArray *) generateEvents {

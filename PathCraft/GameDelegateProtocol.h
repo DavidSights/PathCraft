@@ -8,6 +8,6 @@
 
 @protocol GameDelegate <NSObject>
 
-- (void) playerDidGatherMaterial: (NSString *) material;
+- (void) playerDidGatherMaterial: (NSString *)material;
 
 @end
