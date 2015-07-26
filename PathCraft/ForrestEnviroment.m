@@ -60,6 +60,7 @@
     Choice *fight = [[Choice alloc] initWithChoiceDescription:@"Fight"];
     
     Event *victoryEvent = [Event new];
+    victoryEvent.specialResult = YES;
     victoryEvent.eventDescription = @"You defeated the enemy!";
     victoryEvent.choices = [NSArray arrayWithObjects: moveForward, gatherMeat, moveBackward, nil];
     
@@ -145,10 +146,12 @@
 
     // Initialize the choice's result events
     Event *bangingChoice1Result1 = [Event new];
+    bangingChoice1Result1.specialResult = YES;
     bangingChoice1Result1.eventDescription = @"As you move towards the sound, it suddenly stops and something runs away.";
     bangingChoice1Result1.choices = [NSArray arrayWithObjects: moveForward, moveBackward, nil];
 
     Event *bangingChoice1Result2 = [Event new];
+    bangingChoice1Result2.specialResult = YES;
     bangingChoice1Result2.eventDescription = @"The banging stops, then you hear a banging on your head and you die.";
     bangingChoice1Result2.choices = [NSArray arrayWithObjects: endGame, nil];
     NSMutableArray *bangingChoice1Results = [NSMutableArray arrayWithObjects: bangingChoice1Result1, bangingChoice1Result2, nil];
@@ -170,10 +173,12 @@
 
     // Initialize the special choice's result events
     Event *treeChoice1Result1 = [Event new];
+    treeChoice1Result1.specialResult = YES;
     treeChoice1Result1.eventDescription = @"That was delicious. Nature's candy.";
     treeChoice1Result1.choices = [NSArray arrayWithObjects: moveForward, moveBackward, nil];
 
     Event *treeChoice1Result2 = [Event new];
+    treeChoice1Result2.specialResult = YES;
     treeChoice1Result2.eventDescription = @"You choke with no one around to help and die.";
     treeChoice1Result2.choices = [NSArray arrayWithObjects: endGame, nil];
 
@@ -185,10 +190,12 @@
 
     // Initialize the special choice's result events
     Event *treeChoice2Result1 = [Event new];
+    treeChoice2Result1.specialResult = YES;
     treeChoice2Result1.eventDescription = @"It tastes foul. When you finish eating the fruit, you feel a light buzz. Nice.";
     treeChoice2Result1.choices = [NSArray arrayWithObjects: moveForward, moveBackward, nil];
 
     Event *treeChoice2Result2 = [Event new];
+    treeChoice2Result2.specialResult = YES;
     treeChoice2Result2.eventDescription = @"Your tummy aches so badly after eating the fruit that you curl up and lay on the ground. Eventually you fall asleep and never wake up again.";
     treeChoice2Result2.choices = [NSArray arrayWithObjects: endGame, nil];
 
@@ -211,11 +218,13 @@
     
     // Initialize the special choice's result event
     Event *rootChoice1Result1 = [Event new];
+    rootChoice1Result1.specialResult = YES;
     rootChoice1Result1.eventDescription = @"The roots are snagged off of your foot. You are free.";
     rootChoice1Result1.choices = [NSArray arrayWithObjects: moveForward, gatherWood, moveBackward, nil];
     
     // Initialize the special choice's result event
     Event *rootChoice1Result2 = [Event new];
+    rootChoice1Result2.specialResult = YES;
     rootChoice1Result2.eventDescription = @"You injure yourself. Suddenly a bear chases you down and eats you alive.";
     rootChoice1Result2.choices = [NSArray arrayWithObjects: endGame, nil];
     
@@ -227,11 +236,13 @@
     
     // Initialize the special choice's result event
     Event *rootChoice2Result1 = [Event new];
+    rootChoice2Result1.specialResult = YES;
     rootChoice2Result1.eventDescription = @"With a bit of careful effort, the roots fall away from your foot.";
     rootChoice2Result1.choices = [NSArray arrayWithObjects: moveForward, gatherWood, moveBackward, nil];
     
     // Initialize the special choice's result event
     Event *rootChoice2Result2 = [Event new];
+    rootChoice2Result2.specialResult = YES;
     rootChoice2Result2.eventDescription = @"You're too focused to notice a hungry bear behind you, you are attacked and you die.";
     rootChoice2Result2.choices = [NSArray arrayWithObjects: endGame, nil];
     
@@ -254,11 +265,13 @@
     
     // Initialize the special choice's result event
     Event *glowingChoice1Result1 = [Event new];
+    glowingChoice1Result1.specialResult = YES;
     glowingChoice1Result1.eventDescription = @"You reach into the bush and grab a tiny cat. It meows sharply at you, and leaps away.";
     glowingChoice1Result1.choices = [NSArray arrayWithObjects: moveForward, moveBackward, nil];
     
     // Initialize the special choice's result event
     Event *glowingChoice1Result2 = [Event new];
+    glowingChoice1Result2.specialResult = YES;
     glowingChoice1Result2.eventDescription = @"A black, amorphus figure leaps out at you. Your life flashes before your eyes. You die.";
     glowingChoice1Result2.choices = [NSArray arrayWithObjects: endGame, nil];
     

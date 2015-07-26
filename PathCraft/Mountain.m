@@ -44,7 +44,7 @@
     victoryEvent.eventDescription = @"You killed the enemy!";
     victoryEvent.choices = [NSArray arrayWithObjects: moveForward, moveBackward, gatherMeat, nil];
 
-    [fight initializeResultEventsWithEvent:victoryEvent];
+    [fight initializeResultEventsWithEvent: victoryEvent];
     [fight createEndGameResultEventWithString: @"You have been slain."];
 
     Choice *flee = [[Choice alloc] initWithChoiceDescription:@"Flee"];
@@ -117,10 +117,12 @@
 
     // Initialize the choice's result events
     Event *caveChoice1Result1 = [Event new];
+    caveChoice1Result1.specialResult = YES;
     caveChoice1Result1.eventDescription = @"It's an empty meditation chamber. You sit down and feel centered.";
     caveChoice1Result1.choices = [NSArray arrayWithObjects: moveForward, moveBackward, nil];
 
     Event *caveChoice1Result2 = [Event new];
+    caveChoice1Result2.specialResult = YES;
     caveChoice1Result2.eventDescription = @"It's a lion's den. You are killed by a mother lion.";
     caveChoice1Result2.choices = [NSArray arrayWithObjects: endGame, nil];
 
@@ -143,6 +145,7 @@
 
     // Initialize the special choice's result events
     Event *processionChoice1Result = [Event new];
+    processionChoice1Result.specialResult = YES;
     processionChoice1Result.eventDescription = @"They ignore you.";
     processionChoice1Result.choices = [NSArray arrayWithObjects: moveForward, moveBackward, nil];
 
@@ -154,10 +157,12 @@
 
     // Initialize the special choice's result events
     Event *processionChoice2Result1 = [Event new];
+    processionChoice2Result1.specialResult = YES;
     processionChoice2Result1.eventDescription = @"You are ignored.";
     processionChoice2Result1.choices = [NSArray arrayWithObjects: moveForward, moveBackward, nil];
 
     Event *processionChoice2Result2 = [Event new];
+    processionChoice2Result2.specialResult = YES;
     processionChoice2Result2.eventDescription = @"You are met with hostile gestures. You'd better stay away.";
     processionChoice2Result2.choices = [NSArray arrayWithObjects: moveForward, moveBackward, nil];
 
@@ -180,6 +185,7 @@
 
     // Initialize the special choice's result event
     Event *cliffChoice1Result1 = [Event new];
+    cliffChoice1Result1.specialResult = YES;
     cliffChoice1Result1.eventDescription = @"You are rewarded with an incredible breeze and view. You can see the forest from here.";
     cliffChoice1Result1.choices = [NSArray arrayWithObjects: moveForward, gatherMetal, moveBackward, nil];
 
@@ -196,6 +202,7 @@
 
     // Initialize the special choice's result event
     Event *cliffChoice2Result1 = [Event new];
+    cliffChoice2Result1.specialResult = YES;
     cliffChoice2Result1.eventDescription = @"A mysterious wind catches you and places you safely on solid ground.";
     cliffChoice2Result1.choices = [NSArray arrayWithObjects: moveForward, moveBackward, gatherMetal, nil];
 
@@ -223,11 +230,13 @@
 
     // Initialize the special choice's result event
     Event *summitChoice1Result1 = [Event new];
+    summitChoice1Result1.specialResult = YES;
     summitChoice1Result1.eventDescription = @"You scream at the top of your lungs. This is the most free you've ever felt!";
     summitChoice1Result1.choices = [NSArray arrayWithObjects: moveForward, moveBackward, nil];
 
     // Initialize the special choice's result event
     Event *summitChoice1Result2 = [Event new];
+    summitChoice1Result2.specialResult = YES;
     summitChoice1Result2.eventDescription = @"You are left speechless. What can be said about such a sensation.";
     summitChoice1Result2.choices = [NSArray arrayWithObjects: moveForward, moveBackward, nil];
 
@@ -239,11 +248,13 @@
 
     // Initialize the special choice's result event
     Event *summitChoice2Result1 = [Event new];
+    summitChoice2Result1.specialResult = YES;
     summitChoice2Result1.eventDescription = @"You trip and nearly fall. You barely notice the view as you scramble away.";
     summitChoice2Result1.choices = [NSArray arrayWithObjects: moveForward, moveBackward, nil];
 
     // Initialize the special choice's result event
     Event *summitChoice2Result2 = [Event new];
+    summitChoice2Result2.specialResult = YES;
     summitChoice2Result2.eventDescription = @"What a view and sensation!";
     summitChoice2Result2.choices = [NSArray arrayWithObjects: moveForward, moveBackward, nil];
 
@@ -266,11 +277,13 @@
 
     // Initialize the special choice's result event
     Event *mysticalChoice1Result1 = [Event new];
+    mysticalChoice1Result1.specialResult = YES;
     mysticalChoice1Result1.eventDescription = @"The god rewards you with goods";
     mysticalChoice1Result1.choices = [NSArray arrayWithObjects: moveForward, gatherMetal, gatherWood, craftWeapon, moveBackward, nil];
 
     // Initialize the special choice's result event
     Event *mysticalChoice1Result2 = [Event new];
+    mysticalChoice1Result2.specialResult = YES;
     mysticalChoice1Result2.eventDescription = @"The god is offended and kills you.";
     mysticalChoice1Result2.choices = [NSArray arrayWithObjects: endGame, nil];
 
@@ -282,11 +295,13 @@
     
     // Initialize the special choice's result event
     Event *mysticalChoice2Result1 = [Event new];
+    mysticalChoice2Result1.specialResult = YES;
     mysticalChoice2Result1.eventDescription = @"The god ignores you.";
     mysticalChoice2Result1.choices = [NSArray arrayWithObjects: moveForward, moveBackward, nil];
     
     // Initialize the special choice's result event
     Event *mysticalChoice2Result2 = [Event new];
+    mysticalChoice2Result2.specialResult = YES;
     mysticalChoice2Result2.eventDescription = @"The god is offended and kills you.";
     mysticalChoice2Result2.choices = [NSArray arrayWithObjects: endGame, nil];
     
@@ -298,11 +313,13 @@
     
     // Initialize the special choice's result event
     Event *mysticalChoice3Result1 = [Event new];
+    mysticalChoice3Result1.specialResult = YES;
     mysticalChoice3Result1.eventDescription = @"The god is pleased. It rewards you.";
     mysticalChoice3Result1.choices = [NSArray arrayWithObjects: moveForward, gatherMetal, gatherWood, craftWeapon, moveBackward, nil];
     
     // Initialize the special choice's result event
     Event *mysticalChoice3Result2 = [Event new];
+    mysticalChoice3Result2.specialResult = YES;
     mysticalChoice3Result2.eventDescription = @"The god acknowledges you and moves on.";
     mysticalChoice3Result2.choices = [NSArray arrayWithObjects: endGame, nil];
     

@@ -18,9 +18,9 @@
     Environment *currentEnvironment;
     Event *currentEvent;
     Player *player;
-    NSMutableArray *fullEventHistory; // always has at least one event (starting with getInitialEvent). all events get added.
-    NSMutableArray *eventHistory;     // must always have at least one event (starting with getInitialEvent)...
-    Dice *dice;                       //                                            combat and unique events do not get added!
+    NSMutableArray *fullEventHistory;
+    NSMutableArray *eventHistory;
+    Dice *dice;
     NSInteger score;
     NSDictionary *selectorsForChoiceDescription;
 }
@@ -52,15 +52,11 @@
 
 #pragma MARK public methods
 
-- (Event *) getInitialEvent {
-    Choice *initialChoice = [[Choice alloc] initWithChoiceDescription: @"Get Initial"];
-    return [self getEventFromChoice: initialChoice];
-}
-
 // this method is the heard and soul of this class.
+// it returns an event based upon the choice passed to it.
 // it makes use of the selectorsForChoiceDescription dictionary which is
 // initialized in the method 'initializeSelectorsForChoiceDescription.
-// the selectorsForChoiceDescription dictionary matches choice descriptions to methods
+// the selectorsForChoiceDescription dictionary matches choice descriptions to methods.
 - (Event *) getEventFromChoice: (Choice *)choice {
     
     // will be populated (or not!) by some method
@@ -84,7 +80,7 @@
             // make sure the selector is real just to be safe
             if ([self respondsToSelector: selector]) {
                 
-                // and perform that selector!
+                // perform that selector!
                 // suppressing warning for potential leak.
                 // i am checking to make sure we respond to the selector.
                 // this would be dangerous if we didn't have 100% control over the selectors available
@@ -115,9 +111,7 @@
     
     // finally, handle history and let the currentEventDescription reflect the nextEvent
     if (nextEvent) {
-        
         currentEvent = nextEvent;
-        
         [self manageHistory];
         
     } else {
@@ -126,6 +120,11 @@
     }
     
     return nextEvent;
+}
+
+- (Event *) getInitialEvent {
+    Choice *initialChoice = [[Choice alloc] initWithChoiceDescription: @"Get Initial"];
+    return [self getEventFromChoice: initialChoice];
 }
 
 - (NSInteger) getScore {
@@ -181,7 +180,6 @@
 }
 
 - (void) manageHistory {
-    
     if (currentEvent) {
         [fullEventHistory addObject: currentEvent];
         if ([self shouldAddCurrentEventToHistory]) {
@@ -192,8 +190,9 @@
 
 - (BOOL) shouldAddCurrentEventToHistory {
     
-    BOOL isCombat = [currentEvent eventDescription];
+    BOOL isCombat = [currentEvent isCombatEvent];
     BOOL isUnique = [currentEvent isUnique];
+    BOOL isSpecialResult = [currentEvent specialResult];
     
     BOOL isSame = NO;
     Event *lastEvent = [eventHistory lastObject];
@@ -201,7 +200,7 @@
         isSame = [[currentEvent eventDescription] isEqualToString: [lastEvent eventDescription]];
     }
     
-    return (!isCombat && !isUnique && !isSame);
+    return (!isCombat && !isUnique && !isSpecialResult && !isSame);
 }
 
 // filter choices -> returns an NSMutableArray of choices (should really be an immutable type)
@@ -217,13 +216,14 @@
         
         BOOL choiceAvailable = YES;
         
+        BOOL cantBackUp = ([choiceDescription isEqualToString: @"Move Backwards"] && ([eventHistory count] < 1));
         BOOL woodFull = ([choiceDescription isEqualToString: @"Gather Wood"] && [player hasWood]);
         BOOL metalFull = ([choiceDescription isEqualToString: @"Gather Metal"] && [player hasMetal]);
         BOOL meatFull = ([choiceDescription isEqualToString: @"Gather Meat"] && [player hasMeat]);
         BOOL cantFeed = ([choiceDescription isEqualToString: @"Feed Enemy"] && ![player hasMeat]);
         BOOL cantCraft = ([choiceDescription isEqualToString: @"Craft Weapon"] && !([player hasWood] && [player hasMetal]));
         
-        if (woodFull || metalFull || meatFull || cantFeed || cantCraft) {
+        if (cantBackUp || woodFull || metalFull || meatFull || cantFeed || cantCraft) {
             choiceAvailable = NO;
         }
         
@@ -242,46 +242,26 @@
             
 - (Event *) initialEvent {
     
-    Event *initialEvent = [Event new];
-    Choice *moveForward = [[Choice alloc] initWithChoiceDescription: @"Move Forward"];
-    NSMutableArray *initialChoices = [NSMutableArray arrayWithObjects:moveForward, nil];
-    if ([currentEnvironment isKindOfClass: [ForrestEnviroment class]]) {
-        Choice *gatherWood = [[Choice alloc] initWithChoiceDescription: @"Gather Wood"];
-        [initialChoices addObject: gatherWood];
-    } else if ([currentEnvironment isKindOfClass: [Mountain class]]) {
-        if ([dice isRollSuccessfulWithNumberOfDice:1 sides:6 bonus:0 againstTarget:4]) {
-            Choice *gatherMetal = [[Choice alloc] initWithChoiceDescription:@"Gather Metal"];
-            [initialChoices addObject:gatherMetal];
-        }
-    }
-    Event *eventModel = currentEnvironment.events[0];
-    initialEvent.eventDescription = eventModel.eventDescription;
-    initialEvent.choices = initialChoices;
-    
-    return initialEvent;
+    return [currentEnvironment events][0];
 }
 
 - (Event *) moveForward {
     score += 1;
     
     Event *next;
-    NSInteger index;
     do {
-        index = [dice rollDieWithSides: [currentEnvironment.events count]] - 1;
+        NSInteger index = [dice rollDieWithSides: [currentEnvironment.events count]] - 1;
         next = [currentEnvironment.events objectAtIndex: index];
     } while (![self isEligibleForRandomSelection: next]);
     return next;
 }
 
 - (Event *) moveBackwards {
-    
-    NSLog(@"count: %lu", [eventHistory count]);
     score -= 1;
     if ([eventHistory count] > 1) {
         [eventHistory removeLastObject];
     }
-    Event *lastEvent = [eventHistory lastObject];
-    return lastEvent;
+    return [eventHistory lastObject];
 }
 
 - (Event *) fight {
@@ -368,6 +348,7 @@
     [player.inventory setObject:@NO forKey: @"Meat"];
     
     Event *feedResult = [Event new];
+    feedResult.specialResult = YES;
     
     Choice *moveForward = [[Choice alloc] initWithChoiceDescription: @"Move Forward"];
     Choice *moveBackward = [[Choice alloc] initWithChoiceDescription: @"Move Backwards"];
@@ -383,6 +364,7 @@
     [player craftWeapon];
     
     Event *craftResult = [Event new];
+    craftResult.specialResult = YES;
     
     Choice *moveForward = [[Choice alloc] initWithChoiceDescription: @"Move Forward"];
     Choice *moveBackward = [[Choice alloc] initWithChoiceDescription: @"Move Backwards"];

@@ -18,6 +18,7 @@
         _isUnique = NO;
         _hasOccurred = NO;
         _isCombatEvent = NO;
+        _specialResult = NO;
     }
     return self;
 }

@@ -31,6 +31,7 @@
 
     // A possible event for a unique result.
     Event *event = [Event new];
+    event.specialResult = YES;
     event.eventDescription = resultDescription;
 
     // Unique result events only allow moving forward or backwards.
