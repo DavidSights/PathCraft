@@ -30,17 +30,23 @@
     self = [super init];
     if (self) {
         
+        dice = [Dice new];
+        
         Environment *forest = [ForrestEnviroment new];
         Environment *mountain = [Mountain new];
         environments = [NSArray arrayWithObjects: forest, mountain, nil];
-        currentEnvironment = forest;
+        
+        if ([dice rollDieWithSides:6] >= 5) {
+            currentEnvironment = mountain;
+        } else {
+            currentEnvironment = forest;
+        }
         
         player = [Player new];
 
         eventHistory = [NSMutableArray new];
         fullEventHistory = [NSMutableArray new];
         
-        dice = [Dice new];
         score = 0;
         
         [self initializeSelectorsForChoiceDescription];
