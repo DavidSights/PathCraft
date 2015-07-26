@@ -33,7 +33,7 @@
         Environment *forest = [ForrestEnviroment new];
         Environment *mountain = [Mountain new];
         environments = [NSArray arrayWithObjects: forest, mountain, nil];
-        currentEnvironment = mountain;
+        currentEnvironment = forest;
         
         player = [Player new];
 
@@ -349,7 +349,7 @@
     feedResult.eventDescription = [currentEnvironment getFeedResultEventString];
     feedResult.choices = [NSArray arrayWithObjects: moveForward, moveBackward, nil];
     
-    return nil;
+    return feedResult;
 }
 
 - (Event *) craftWeapon {
