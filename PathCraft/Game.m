@@ -16,7 +16,7 @@
 @implementation Game {
     NSArray *environments;
     Environment *currentEnvironment;
-    NSString *currentEventDescription;
+    Event *currentEvent;
     Player *player;
     NSMutableArray *fullEventHistory; // always has at least one event (starting with getInitialEvent). all events get added.
     NSMutableArray *eventHistory;     // must always have at least one event (starting with getInitialEvent)...
@@ -30,21 +30,20 @@
 - (id) init {
     self = [super init];
     if (self) {
+        
         Environment *forest = [ForrestEnviroment new];
         Environment *mountain = [Mountain new];
         environments = [NSArray arrayWithObjects: forest, mountain, nil];
-        
         currentEnvironment = forest;
         
         player = [Player new];
         
+        currentEvent = nil;
         eventHistory = [NSMutableArray new];
         fullEventHistory = [NSMutableArray new];
         
         dice = [Dice new];
         score = 0;
-        
-        currentEventDescription = @"";
         
         [self initializeSelectorsForChoiceDescription];
     }
@@ -54,30 +53,8 @@
 #pragma MARK public methods
 
 - (Event *) getInitialEvent {
-    
-    NSLog(@"getInitialEvent called");
-    
-    Event *initialEvent = [Event new];
-    Choice *moveForward = [[Choice alloc] initWithChoiceDescription: @"Move Forward"];
-    NSMutableArray *initialChoices = [NSMutableArray arrayWithObjects:moveForward, nil];
-    if ([currentEnvironment isKindOfClass: [ForrestEnviroment class]]) {
-        Choice *gatherWood = [[Choice alloc] initWithChoiceDescription: @"Gather Wood"];
-        [initialChoices addObject: gatherWood];
-    } else if ([currentEnvironment isKindOfClass: [Mountain class]]) {
-        if ([dice isRollSuccessfulWithNumberOfDice:1 sides:6 bonus:0 againstTarget:4]) {
-            Choice *gatherMetal = [[Choice alloc] initWithChoiceDescription:@"Gather Metal"];
-            [initialChoices addObject:gatherMetal];
-        }
-    }
-    Event *eventModel = currentEnvironment.events[0];
-    initialEvent.eventDescription = eventModel.eventDescription;
-    initialEvent.choices = initialChoices;
-    
-    [self manageAdditionToHistories: initialEvent];
-    
-    currentEventDescription = [initialEvent eventDescription];
-    
-    return initialEvent;
+    Choice *initialChoice = [[Choice alloc] initWithChoiceDescription: @"Get Initial"];
+    return [self getEventFromChoice: initialChoice];
 }
 
 // this method is the heard and soul of this class.
@@ -123,9 +100,6 @@
         }
         
         if (nextEventModel) {
-            // mark the model as having had occured (only matters for uniques)
-            nextEventModel.hasOccurred = YES;
-            
             // create the nextEvent based upon the one returned by the selector
             // it may have different choices from the nextEventModel (illegal choices will be filtered out)
             nextEvent = [Event new];
@@ -133,17 +107,22 @@
             nextEvent.isUnique = [nextEventModel isUnique];
             nextEvent.isCombatEvent = [nextEventModel isCombatEvent];
             nextEvent.choices = [self getLegalChoicesForEvent: nextEventModel];
+            
+            // mark the model as having had occured (only matters for uniques)
+            nextEventModel.hasOccurred = YES;
         }
     }
     
     // finally, handle history and let the currentEventDescription reflect the nextEvent
     if (nextEvent) {
-        [self manageAdditionToHistories: nextEvent];
         
-        //  currentEventDescription must be set AFTER history is handled.
-        currentEventDescription = [nextEvent eventDescription];
+        currentEvent = nextEvent;
+        
+        [self manageHistory];
+        
     } else {
-        currentEventDescription = nil;
+        
+        currentEvent = nil;
     }
     
     return nextEvent;
@@ -174,7 +153,8 @@
 // We can store that NSValue in the dictionary. Later, in getEventFromChoice we
 // unwrap the selector (with some safety checks) and perform it.
 - (void) initializeSelectorsForChoiceDescription {
-    NSArray *choiceDescriptions = [NSArray arrayWithObjects: @"Move Forward",
+    NSArray *choiceDescriptions = [NSArray arrayWithObjects: @"Get Initial",
+                                                             @"Move Forward",
                                                              @"Move Backwards",
                                                              @"Fight",
                                                              @"Flee",
@@ -185,7 +165,8 @@
                                                              @"Feed Enemy",
                                                              @"Craft Weapon", nil];
     
-    NSArray *selectors = [NSArray arrayWithObjects: [NSValue valueWithPointer: @selector(moveForward)],
+    NSArray *selectors = [NSArray arrayWithObjects: [NSValue valueWithPointer: @selector(initialEvent)],
+                                                    [NSValue valueWithPointer: @selector(moveForward)],
                                                     [NSValue valueWithPointer: @selector(moveBackwards)],
                                                     [NSValue valueWithPointer: @selector(fight)],
                                                     [NSValue valueWithPointer: @selector(flee)],
@@ -199,31 +180,28 @@
     selectorsForChoiceDescription = [NSDictionary dictionaryWithObjects: selectors forKeys: choiceDescriptions];
 }
 
-// history
-
-- (void) manageAdditionToHistories: (Event *)event {
-    NSLog(@"Assessing addition to history: %@", event.eventDescription);
-    if (event) {
-        [fullEventHistory addObject: event];
-        if ([self isEligibleForHistory: event]) {
-            NSLog(@"event is elligible. adding...");
-            [eventHistory addObject: event];
+- (void) manageHistory {
+    
+    if (currentEvent) {
+        [fullEventHistory addObject: currentEvent];
+        if ([self shouldAddCurrentEventToHistory]) {
+            [eventHistory addObject: currentEvent];
         }
     }
 }
 
-- (BOOL) isEligibleForHistory: (Event *)event {
+- (BOOL) shouldAddCurrentEventToHistory {
     
-    NSLog(@"Assessing event: %@", event.eventDescription);
+    BOOL isCombat = [currentEvent eventDescription];
+    BOOL isUnique = [currentEvent isUnique];
     
-    BOOL isCombat = event.isCombatEvent;
-    BOOL isUnique = event.isUnique;
-    BOOL same = [[event eventDescription] isEqualToString: currentEventDescription];
+    BOOL isSame = NO;
+    Event *lastEvent = [eventHistory lastObject];
+    if (lastEvent) {
+        isSame = [[currentEvent eventDescription] isEqualToString: [lastEvent eventDescription]];
+    }
     
-    NSLog(@"isCombat: %@, isUnique: %@, isSame: %@", @(isCombat), @(isUnique), @(same));
-    
-    
-    return (!isCombat && !isUnique && !same);
+    return (!isCombat && !isUnique && !isSame);
 }
 
 // filter choices -> returns an NSMutableArray of choices (should really be an immutable type)
@@ -257,9 +235,30 @@
 }
 
 - (BOOL) isEligibleForRandomSelection: (Event *)event {
-    BOOL same = [[event eventDescription] isEqualToString: currentEventDescription];
+    BOOL same = [[event eventDescription] isEqualToString: [currentEvent eventDescription]];
     BOOL usedUp = (event.isUnique && event.hasOccurred);
     return (!same && !usedUp);
+}
+            
+- (Event *) initialEvent {
+    
+    Event *initialEvent = [Event new];
+    Choice *moveForward = [[Choice alloc] initWithChoiceDescription: @"Move Forward"];
+    NSMutableArray *initialChoices = [NSMutableArray arrayWithObjects:moveForward, nil];
+    if ([currentEnvironment isKindOfClass: [ForrestEnviroment class]]) {
+        Choice *gatherWood = [[Choice alloc] initWithChoiceDescription: @"Gather Wood"];
+        [initialChoices addObject: gatherWood];
+    } else if ([currentEnvironment isKindOfClass: [Mountain class]]) {
+        if ([dice isRollSuccessfulWithNumberOfDice:1 sides:6 bonus:0 againstTarget:4]) {
+            Choice *gatherMetal = [[Choice alloc] initWithChoiceDescription:@"Gather Metal"];
+            [initialChoices addObject:gatherMetal];
+        }
+    }
+    Event *eventModel = currentEnvironment.events[0];
+    initialEvent.eventDescription = eventModel.eventDescription;
+    initialEvent.choices = initialChoices;
+    
+    return initialEvent;
 }
 
 - (Event *) moveForward {
