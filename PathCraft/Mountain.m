@@ -81,7 +81,7 @@
     /* Regular */
     
     Event *event1 = [Event new];
-    event1.eventDescription = @"The air is crisp here.";
+    event1.eventDescription = @"The air is crisp here on the mountain.";
     choices = [NSArray arrayWithObjects: moveForward, moveBackward, gatherMetal, nil];
     event1.choices = [NSArray arrayWithArray: choices];
 
@@ -91,37 +91,37 @@
     event2.choices = [NSArray arrayWithArray: choices];
     
     Event *event3 = [Event new];
-    event3.eventDescription = @"You notice a small shrine.";
+    event3.eventDescription = @"You notice a small shrine along the path. Who built it? And for what purpose?";
     choices = [NSArray arrayWithObjects: moveForward, moveBackward, gatherMetal, nil];
     event3.choices = [NSArray arrayWithArray: choices];
 
     Event *event4 = [Event new];
-    event4.eventDescription = @"A condor flys in the distance.";
+    event4.eventDescription = @"You notice a condor soaring in a distant valley.";
     choices = [NSArray arrayWithObjects: moveForward, moveBackward, gatherMetal, nil];
     event4.choices = [NSArray arrayWithArray: choices];
 
     Event *event5 = [Event new];
-    event5.eventDescription = @"You are overcome with awe in the sublime environment.";
+    event5.eventDescription = @"You are overcome with awe and vertigo as you look up to the peak. You take a moment to compose yourself.";
     choices = [NSArray arrayWithObjects: moveForward, moveBackward, gatherMetal, nil];
     event5.choices = [NSArray arrayWithArray: choices];
     
     Event *event6 = [Event new];
-    event6.eventDescription = @"The trail is dangerous. Watch your footing.";
+    event6.eventDescription = @"The trail is dangerous. Any misstep and you'll surely fall to your death.";
     choices = [NSArray arrayWithObjects: moveForward, moveBackward, gatherMetal, nil];
     event6.choices = [NSArray arrayWithArray: choices];
     
     Event *event7 = [Event new];
-    event7.eventDescription = @"It's a false summit.";
+    event7.eventDescription = @"You thought for a moment you had reached the peak, but it's a false summit.";
     choices = [NSArray arrayWithObjects: moveForward, moveBackward, gatherMetal, nil];
     event7.choices = [NSArray arrayWithArray: choices];
     
     Event *event8 = [Event new];
-    event8.eventDescription = @"The sun is so bright and warm.";
+    event8.eventDescription = @"The sun is so bright and warm at this altitude.";
     choices = [NSArray arrayWithObjects: moveForward, moveBackward, gatherMetal, nil];
     event8.choices = [NSArray arrayWithArray: choices];
     
     Event *event9 = [Event new];
-    event9.eventDescription = @"You slip and fall to your death.";
+    event9.eventDescription = @"You lose focus for a moment, stumble, then fall to your death.";
     choices = [NSArray arrayWithObjects: endGame, nil];
     event9.choices = [NSArray arrayWithArray: choices];
     
@@ -248,7 +248,7 @@
     // Initialize the special choice's result event
     Event *summitChoice1Result1 = [Event new];
     summitChoice1Result1.specialResult = YES;
-    summitChoice1Result1.eventDescription = @"You scream at the top of your lungs. This is the most free you've ever felt!";
+    summitChoice1Result1.eventDescription = @"You are overcome with joy. You exclaim at the top of your lungs! Your voice must carry for miles.";
     summitChoice1Result1.choices = [NSArray arrayWithObjects: moveForward, moveBackward, nil];
 
     // Initialize the special choice's result event
@@ -272,7 +272,7 @@
     // Initialize the special choice's result event
     Event *summitChoice2Result2 = [Event new];
     summitChoice2Result2.specialResult = YES;
-    summitChoice2Result2.eventDescription = @"What a view and sensation!";
+    summitChoice2Result2.eventDescription = @"You are left speechless. What can be said about such a sensation.";
     summitChoice2Result2.choices = [NSArray arrayWithObjects: moveForward, moveBackward, nil];
 
     NSMutableArray *summitChoice2Results = [NSMutableArray arrayWithObjects: summitChoice2Result1, summitChoice2Result2, nil];
@@ -338,7 +338,7 @@
     Event *mysticalChoice3Result2 = [Event new];
     mysticalChoice3Result2.specialResult = YES;
     mysticalChoice3Result2.eventDescription = @"The god acknowledges you and moves on.";
-    mysticalChoice3Result2.choices = [NSArray arrayWithObjects: endGame, nil];
+    mysticalChoice3Result2.choices = [NSArray arrayWithObjects: moveForward, moveBackward, nil];
     
     NSMutableArray *mysticalChoice3Results = [NSMutableArray arrayWithObjects: mysticalChoice3Result1, mysticalChoice3Result2, nil];
     mysticalChoice3.resultEvents = mysticalChoice3Results;
@@ -383,11 +383,11 @@
     choices = [NSArray arrayWithObjects: moveForward, craftWeapon, moveBackward, nil];
     
     Event *craftEvent1 = [Event new];
-    craftEvent1.eventDescription = @"You find a cabin with tools inside. Maybe you should upgrade your weapon.";
+    craftEvent1.eventDescription = @"You find a cabin with tools inside. Maybe you should craft a new weapon.";
     craftEvent1.choices = [NSArray arrayWithArray: choices];
     
     Event *craftEvent2 = [Event new];
-    craftEvent2.eventDescription = @"You find a magical stone. Use it to upgrade your weapon.";
+    craftEvent2.eventDescription = @"You find a magical stone. Use it to craft a new weapon.";
     craftEvent2.choices = [NSArray arrayWithArray: choices];
 
     NSArray *events = [NSArray arrayWithObjects: event1, event2, event3, event4, event5, event6, event7, event8, event9,

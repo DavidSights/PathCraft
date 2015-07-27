@@ -129,10 +129,9 @@
     self.currentChoiceIndex = 0;
     
     [self updateAccessibilityLabels];
-    
 }
 
-#pragma mark GameDelegate protocol method
+#pragma mark GameDelegate protocol methods
 
 - (void) playerDidGatherMaterial: (NSString *) material {
     self.gatheredMaterialLabel.text = [NSString stringWithFormat:@"Gathered %@!", material];
